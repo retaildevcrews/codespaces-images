@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-RUN apt update && apt install -y apt-transport-https gnupg2 curl zsh git ca-certificates lsb-release build-essential
+RUN apt update && apt install -y apt-transport-https gnupg2 curl zsh git ca-certificates lsb-release build-essential httpie
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
