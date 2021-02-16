@@ -1,0 +1,1 @@
+akdc-kind
