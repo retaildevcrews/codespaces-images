@@ -1,5 +1,5 @@
 {
-	"name": "Daskhub",
+	"name": "akdc",
 
 	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
 	"dockerComposeFile": "docker-compose.yml",
@@ -22,17 +22,4 @@
 		"ms-azuretools.vscode-docker",
 		"ms-kubernetes-tools.vscode-kubernetes-tools"
 	],
-
-	"remoteEnv": {
-		"HOST_PROJECT_PATH": "${localWorkspaceFolder}"
-	},
-
-	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
-	// "shutdownAction": "none",
-
-	// Uncomment the next line to use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
-
-	// Comment out connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode"
 }
