@@ -22,4 +22,12 @@
 		"ms-azuretools.vscode-docker",
 		"ms-kubernetes-tools.vscode-kubernetes-tools"
 	],
+
+	"forwardPorts": [
+		30000,
+		30080,
+		30081,
+		30088,
+		32000,
+	],
 }
