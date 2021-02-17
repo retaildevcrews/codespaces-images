@@ -1,9 +1,10 @@
 #!/bin/sh
+
+mkdir -p ~/.local
+cp .devcontainer/kubectl_completion ~/.local/kubectl_completion
+
 cd ~
 git clone https://github.com/retaildevcrews/ngsa
-
-mkdir -p .local
-cp .devcontainer/kubectl_completion .local/kubectl_completion
 
 sudo mkdir -p /prometheus
 sudo chown -R 65534:65534 /prometheus
@@ -11,6 +12,10 @@ sudo chown -R 65534:65534 /prometheus
 sudo mkdir -p /grafana
 sudo  cp ngsa/IaC/DevCluster/grafanadata/grafana.db /grafana
 sudo  chown -R 472:472 /grafana
+
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/bin/kind
 
 # update .bashrc
 echo "" >> .bashrc
