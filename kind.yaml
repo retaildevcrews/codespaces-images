@@ -23,3 +23,10 @@ nodes:
     hostPort: 30000
     listenAddress: "127.0.0.1"
     protocol: TCP
+  extraMounts:
+  - hostPath: /prometheus
+    containerPath: /prometheus
+    propagation: HostToContainer
+  - hostPath: /grafana
+    containerPath: /grafana
+    propagation: HostToContainer
