@@ -1,6 +1,6 @@
 {
   "name": "akdc-kind",
-  "image": "ghcr.io/retaildevcrews/kind:latest",
+  // "image": "ghcr.io/retaildevcrews/kind:latest",
   // Using upstream image by default, uncomment build field below to use local Dockerfile instead
   // Build based on local Dockerfile
   // "build": {
