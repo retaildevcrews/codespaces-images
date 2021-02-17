@@ -18,5 +18,5 @@
     ],
 
     // Run Bash script in .devcontainer directory
-    "postCreateCommand": "/bin/bash ./.remote-devcontainer/post-install.sh"
+    "postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
   }
