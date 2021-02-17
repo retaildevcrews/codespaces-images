@@ -8,8 +8,7 @@ curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/
 mkdir k9s
 tar xvzf k9s.tar.gz -C ./k9s
 mv ./k9s/k9s .local/bin/k9s
-llrm ./k9s.tar.gz
-rm -rf k9s
+rm -rf k9s.tar.gz k9s
 
 echo "kind" >> status
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
