@@ -8,7 +8,7 @@ curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/
 mkdir k9s
 tar xvzf k9s.tar.gz -C ./k9s
 #mv ./k9s/k9s /usr/bin/k9s
-#rm ./k9s.tar.gz
+llrm ./k9s.tar.gz
 #rm -rf k9s
 
 echo "kind" >> status
@@ -21,6 +21,8 @@ git clone https://github.com/retaildevcrews/ngsa
 
 # update .bashrc
 echo "" >> .bashrc
+echo "export PATH=$PATH:$HOME/.local/bin" >> .bashrc
+
 echo "alias k='kubectl'" >> .bashrc
 echo "alias kga='kubectl get all'" >> .bashrc
 echo "alias kgaa='kubectl get all --all-namespaces'" >> .bashrc
@@ -36,5 +38,7 @@ echo 'export PIP=$(ipconfig | tail -n 1)' >> .bashrc
 echo 'source /usr/share/bash-completion/bash_completion' >> .bashrc
 echo 'source <(kubectl completion bash)' >> .bashrc
 echo 'complete -F __start_kubectl k' >> .bashrc
+
+export PATH=$PATH:$HOME/.local/bin
 
 echo "done" >> status
