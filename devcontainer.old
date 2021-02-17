@@ -1,5 +1,5 @@
 {
-	"name": "helium-csharp",
+	"name": "kind-cluster",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
