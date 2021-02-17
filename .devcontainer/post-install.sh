@@ -1,16 +1,16 @@
 #!/bin/sh
-mkdir -p ~/.local
-cp .devcontainer/kubectl_completion ~/.local/kubectl_completion
+cd ~
+git clone https://github.com/retaildevcrews/ngsa
+
+mkdir -p .local
+cp .devcontainer/kubectl_completion .local/kubectl_completion
 
 sudo mkdir -p /prometheus
 sudo chown -R 65534:65534 /prometheus
 
 sudo mkdir -p /grafana
-sudo  cp ~/ngsa/IaC/DevCluster/grafanadata/grafana.db /grafana
+sudo  cp ngsa/IaC/DevCluster/grafanadata/grafana.db /grafana
 sudo  chown -R 472:472 /grafana
-
-cd ~
-git clone https://github.com/retaildevcrews/ngsa
 
 # update .bashrc
 echo "" >> .bashrc
