@@ -35,9 +35,14 @@ echo "alias kcgc='kubectl config get-contexts'" >> .bashrc
 echo "export GO111MODULE=on" >> .bashrc
 echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> .bashrc
 echo 'export PIP=$(ipconfig | tail -n 1)' >> .bashrc
-echo 'source /usr/share/bash-completion/bash_completion' >> .bashrc
+echo 'source /usr/share/bash-completion/completions' >> .bashrc
 echo 'source <(kubectl completion bash)' >> .bashrc
 echo 'complete -F __start_kubectl k' >> .bashrc
+
+kubectl completion bash > /etc/bash_completion.d/kubectl
+source /usr/share/bash-completion/bash_completion
+source <(kubectl completion bash)
+complete -F __start_kubectl k
 
 export PATH=$PATH:$HOME/.local/bin
 
