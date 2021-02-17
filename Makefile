@@ -19,8 +19,11 @@ set-kind : pre-kind
 deploy :
 	kubectl apply -f ~/ngsa/IaC/DevCluster/ngsa-memory
 	kubectl apply -f ~/ngsa/IaC/DevCluster/prometheus
+	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
 	kubectl apply -f ~/ngsa/IaC/DevCluster/loderunner/loderunner.yaml
+	kubectl wait pod -n monitoring --for condition=ready --all --timeout=30s
 	kubectl apply -f ~/ngsa/IaC/DevCluster/grafana
+	kubectl wait pod -n monitoring --for condition=ready --all --timeout=30s
 
 clean :
 	kind delete clusters akdc
