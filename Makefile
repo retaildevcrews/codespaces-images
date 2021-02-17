@@ -12,7 +12,7 @@ pre-kind :
 	sudo cp -R ~/ngsa/IaC/DevCluster/grafanadata/grafana.db /grafana
 	sudo chown -R 472:472 /grafana
 
-set-kind : pre-kind
+set-kind :
 	kind create cluster --name akdc --config kind.yaml
 	kubectl wait node --for condition=ready --all --timeout=60s
 
