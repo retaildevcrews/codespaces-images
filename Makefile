@@ -8,4 +8,4 @@ set-kind :
 	kind create cluster --name akdc --config kind.yaml
 
 clean :
-	kind delete clusters adkc
+	kind delete clusters akdc
