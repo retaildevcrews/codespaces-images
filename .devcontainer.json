@@ -1,22 +1,22 @@
 {
-    "name": "helium-csharp",
+	"name": "helium-csharp",
 
-    // Set *default* container specific settings.json values on container create.
-    "settings": {
-      "terminal.integrated.shell.linux": "/bin/bash"
-    },
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
 
-    "remoteUser": "vscode",
+	"remoteUser": "vscode",
 
-    "forwardPorts": [30000, 32000, 30080, 30088],
+	"forwardPorts": [30000, 32000, 30080, 30088],
 
-    // Install extensions
-    "extensions": [
-      "davidanson.vscode-markdownlint",
-      "gruntfuggly.todo-tree",
-      "ms-azuretools.vscode-docker"
-    ],
+	// Install extensions
+	"extensions": [
+		"davidanson.vscode-markdownlint",
+		"gruntfuggly.todo-tree",
+		"ms-azuretools.vscode-docker"
+	],
 
-    // Run Bash script in .devcontainer directory
-    "postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
-  }
+	// Run Bash script in .devcontainer directory
+	"postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
+}
