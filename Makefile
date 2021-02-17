@@ -1,4 +1,4 @@
-.PHONY: clone pre-kind set-kind deploy clean all
+.PHONY: clone pre-kind set-kind post-kind deploy clean all
 
 clone :
 	git clone https://github.com/retaildevcrews/ngsa ~/ngsa
