@@ -1,0 +1,41 @@
+{
+  "name": "akdc-kind",
+  "image": "ghcr.io/retaildevcrews/kind:latest",
+  // Using upstream image by default, uncomment build field below to use local Dockerfile instead
+  // Build based on local Dockerfile
+  // "build": {
+  //   "dockerfile": "Dockerfile",
+  //   "context": "..",
+  //   "args": {
+  //     "VARIANT": "3.1",
+  //     "INSTALL_NODE": "false",
+  //     "NODE_VERSION": "lts/*",
+  //     "INSTALL_AZURE_CLI": "true",
+  //     "INSTALL_DOCKER": "true"
+  //   }
+  // },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+
+  // Set *default* container specific settings.json values on container create.
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+//    "terminal.integrated.shell.linux": "/bin/zsh"
+  },
+
+  "remoteUser": "vscode",
+
+  // Open port 4120 by default
+  "forwardPorts": [30000, 32000, 30080, 30088 ],
+
+  // Install extensions
+  "extensions": [
+    "davidanson.vscode-markdownlint",
+    "gruntfuggly.todo-tree",
+    "ms-azuretools.vscode-docker"
+  ],
+
+  // Run Bash script in .devcontainer directory
+  "postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
+}
