@@ -1,16 +1,42 @@
-# akdc-kind
+# Kind Dev Cluster on Codespaces
 
-Post setup
+This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespaces`
 
-```bash
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-export KIND_ID=$(docker ps | grep kindest/node | cut -f 1 -d ' ')
+## Setup
 
-docker exec $KIND_ID mkdir -p /prometheus
-docker exec $KIND_ID chown -R 65534:65534 /prometheus
+### Open with Codespaces
 
-docker exec $KIND_ID mkdir -p /grafana
-docker cp grafana.db ${KIND_ID}:/grafana
-docker exec $KIND_ID chown -R 472:472 /grafana
+- Click the `Code` button on this repo
+- Click `Open with Codespaces`
+- Click `New Codespace`
 
-```
+![Create Codespace](./images/OpenWithCodespaces.jpg)
+
+### Build and Deploy Cluster
+
+- From the Codespaces terminal
+  - `make all`
+
+![Running Codespace](./images/RunningCodespace.jpg)
+
+### View Grafana Dashboard
+
+- Once `make all` completes successfully
+  - Click on the `ports` tab of the terminal window
+  - Click on the `world icon` on the Grafana port (32000)
+
+![Codespace Ports](./images/CodespacePorts.jpg)
+
+### Login to Grafana
+
+- This will open a separate browser window with the Grafana dashboard
+  - admin
+  - Ngsa512
+
+- Click on `Home` at the top of the page
+- From the dashboards page, click on `NGSA`
+
+![Grafana](./images/Grafana.jpg)
+
