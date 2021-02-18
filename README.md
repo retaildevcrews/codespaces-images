@@ -39,4 +39,3 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 - From the dashboards page, click on `NGSA`
 
 ![Grafana](./images/Grafana.jpg)
-
