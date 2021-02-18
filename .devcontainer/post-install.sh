@@ -17,6 +17,12 @@ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
 chmod +x ./kind
 sudo mv ./kind /usr/bin/kind
 
+curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/k9s_Linux_x86_64.tar.gz
+mkdir k9s
+tar xvzf k9s.tar.gz -C ./k9s
+sudo mv ./k9s/k9s /usr/bin/k9s
+rm -rf k9s.tar.gz k9s
+
 # update .bashrc
 echo "" >> .bashrc
 echo "export PATH=$PATH:$HOME/.local/bin" >> .bashrc
