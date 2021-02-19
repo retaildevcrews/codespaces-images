@@ -1,10 +1,14 @@
 #!/bin/sh
 
+# install httpie
+sudo apt-get update
+sudo apt-get install -y httpie
+
 # add kubectl completion
 mkdir -p ~/.local
 cp .devcontainer/kubectl_completion ~/.local/kubectl_completion
 
-cp .devcontainer/workspace ../workspace.code-workspace
+cp .devcontainer/workspace ../akdc.code-workspace
 
 # clone repos
 pushd ..
@@ -38,16 +42,16 @@ cp -R loderunner/ loderunner-local
 sed -i s/Always/Never/g loderunner-local/loderunner.yaml
 sed -i s@ghcr.io/retaildevcrews/ngsa-lr:beta@ngsa-lr:local@g loderunner-local/loderunner.yaml
 
-cd ~
-
 # create prometheus directory
 sudo mkdir -p /prometheus
 sudo chown -R 65534:65534 /prometheus
 
 # copy grafana.db to /grafana
 sudo mkdir -p /grafana
-sudo  cp ngsa/IaC/DevCluster/grafanadata/grafana.db /grafana
+sudo  cp grafanadata/grafana.db /grafana
 sudo  chown -R 472:472 /grafana
+
+cd ~
 
 # install kind
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
