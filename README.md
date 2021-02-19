@@ -46,3 +46,49 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 - From the dashboards page, click on `NGSA`
 
 ![Grafana](./images/Grafana.jpg)
+
+### Build and deploy a local version of LodeRunner
+
+- Leave the Grafan tab open
+- Switch back to your Codespaces tab
+
+```bash
+
+# from Codespaces terminal
+
+# check the current verion of LodeRunner
+curl localhost:30088/version
+
+# make and deploy a local version of LodeRunner to k8s
+make loderunner
+
+# wait for loderunner to start
+kubectl get po
+
+# check the new verion of LodeRunner
+curl localhost:30088/version
+
+```
+
+### Run a local test
+
+```bash
+# from Codespaces terminal
+
+# change to the loderunner repo
+cd ../loderunner
+
+# run a baseline test
+# this test will generate errors in the grafana dashboard by design
+
+dotnet run -- -s http://localhost:30080 -f baseline.json
+
+```
+
+- Switch to the Grafana brower tab
+- The test will generate 400 / 404 results
+- The requests metric will go from green to yellow to red as load increases
+  - It may skip yellow
+- As the test completes
+  - The metric will go back to green (1.0)
+  - The request graph will return to normal
