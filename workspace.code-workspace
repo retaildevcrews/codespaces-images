@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../ngsa"
+		},
+		{
+			"path": "../loderunner"
 		}
 	],
 	"settings": {}
