@@ -4,6 +4,8 @@
 mkdir -p ~/.local
 cp .devcontainer/kubectl_completion ~/.local/kubectl_completion
 
+cp .devcontainer/workspace ../workspace.code-workspace
+
 # clone repos
 pushd ..
 git clone https://github.com/retaildevcrews/ngsa
