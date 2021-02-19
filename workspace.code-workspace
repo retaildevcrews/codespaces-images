@@ -5,17 +5,9 @@
 			"path": "."
 		},
 		{
-			"name": "ngsa",
-			"path": "../ngsa"
-		},
-		{
-			"name": "ngsa-app",
-			"path": "../ngsa-app"
-		},
-		{
 			"name": "loderunner",
 			"path": "../loderunner"
-		},
+		}
 	],
 	"settings": {}
 }
