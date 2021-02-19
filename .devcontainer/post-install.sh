@@ -14,12 +14,16 @@ popd
 mkdir -p deploy
 cd deploy
 cp -R ../../ngsa/IaC/DevCluster/. .
-rm cheatsheet.txt
-rm README.md
+mv loderunner/loderunner.yaml .
+rm -rf loderunner
+mkdir -p loderunner
+mv loderunner.yaml loderunner
 rm -rf dashboards
 rm -rf fluentbit
 rm -rf kube-state-metrics
 rm -rf ngsa-cosmos
+rm cheatsheet.txt
+rm README.md
 cd ~
 
 # create prometheus directory
