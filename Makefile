@@ -31,6 +31,6 @@ clean :
 	kubectl delete ns monitoring
 
 delete :
-	kind delete clusters kind
+	kind delete cluster
 
 all : delete create deploy
