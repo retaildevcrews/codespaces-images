@@ -5,10 +5,22 @@ mkdir -p ~/.local
 cp .devcontainer/kubectl_completion ~/.local/kubectl_completion
 
 # clone repos
-cd ..
+pushd ..
 git clone https://github.com/retaildevcrews/ngsa
 git clone https://github.com/retaildevcrews/ngsa-app
 git clone https://github.com/retaildevcrews/loderunner
+
+popd
+mkdir -p deploy
+cd deploy
+cp -R ../../ngsa/IaC/DevCluster/. .
+rm cheatsheet.txt
+rm README.md
+rm -rf dashboards
+rm -rf fluentbit
+rm -rf kube-state-metrics
+rm -rf ngsa-cosmos
+cd ~
 
 # create prometheus directory
 sudo mkdir -p /prometheus
@@ -31,7 +43,6 @@ tar xvzf k9s.tar.gz -C ./k9s
 sudo mv ./k9s/k9s /usr/bin/k9s
 rm -rf k9s.tar.gz k9s
 
-cd ~
 # update .bashrc
 echo "" >> .bashrc
 echo "export PATH=$PATH:$HOME/.local/bin" >> .bashrc
