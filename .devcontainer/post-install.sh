@@ -31,6 +31,7 @@ tar xvzf k9s.tar.gz -C ./k9s
 sudo mv ./k9s/k9s /usr/bin/k9s
 rm -rf k9s.tar.gz k9s
 
+cd ~
 # update .bashrc
 echo "" >> .bashrc
 echo "export PATH=$PATH:$HOME/.local/bin" >> .bashrc
