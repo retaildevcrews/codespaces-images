@@ -26,6 +26,7 @@ rm -rf kube-state-metrics
 rm -rf ngsa-cosmos
 rm cheatsheet.txt
 rm README.md
+rm -rf ../ngsa
 cd ~
 
 # create prometheus directory
