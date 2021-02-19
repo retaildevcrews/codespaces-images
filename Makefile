@@ -34,4 +34,15 @@ clean :
 delete :
 	kind delete cluster
 
+loderunner :
+	docker build ../loderunner -t ngsa-lr:local
+	kind load docker-image ngsa-lr:local
+	kubectl delete -f deploy/loderunner-local/loderunner.yaml
+
+app :
+	docker build ../ngsa-app -t ngsa-app:local
+	kind load docker-image ngsa-app:local
+	kubectl delete -f deploy/ngsa-local/ngsa-memory.yaml
+	kubectl apply -f deploy/ngsa-local/ngsa-memory.yaml
+
 all : delete create deploy
