@@ -3,14 +3,6 @@
 		{
 			"name": "akdc-kind",
 			"path": "."
-		},
-		{
-			"name": "ngsa-app",
-			"path": "../ngsa-app"
-		},
-		{
-			"name": "loderunner",
-			"path": "../loderunner"
 		}
 	],
 	"settings": {}
