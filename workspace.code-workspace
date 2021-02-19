@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../ngsa"
+		},
+		{
+			"path": "../ngsa-app"
+		},
+		{
+			"path": "../loderunner"
+		}
+	],
+	"settings": {}
+}
