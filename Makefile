@@ -8,7 +8,7 @@ reset-prometheus :
 reset-grafana :
 	sudo rm -rf /grafana
 	sudo mkdir -p /grafana
-	sudo cp -R ~/ngsa/IaC/DevCluster/grafanadata/grafana.db /grafana
+	sudo cp -R deploy/grafanadata/grafana.db /grafana
 	sudo chown -R 472:472 /grafana
 
 create :
@@ -23,11 +23,13 @@ deploy :
 	kubectl apply -f deploy/loderunner
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 	kubectl wait pod -n monitoring --for condition=ready --all --timeout=30s
+	kubectl get po -A | grep "default\|monitoring"
 
 clean :
 	kubectl delete -f deploy/ngsa-memory
 	kubectl delete -f deploy/loderunner
 	kubectl delete ns monitoring
+	kubectl get po -A
 
 delete :
 	kind delete cluster
