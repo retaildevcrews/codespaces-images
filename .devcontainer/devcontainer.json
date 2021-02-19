@@ -3,9 +3,7 @@
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash",
-		"files.hotExit": "onExitAndWindowClose",
-		"window.restoreWindows": "folders"
+		"terminal.integrated.shell.linux": "/bin/bash"
 	},
 
 	"remoteUser": "codespace",
