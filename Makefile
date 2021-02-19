@@ -1,4 +1,4 @@
-.PHONY: set-kind deploy clean reset-prometheus reset-grafana all
+.PHONY: create delete deploy clean reset-prometheus reset-grafana all
 
 reset-prometheus :
 	sudo rm -rf /prometheus
@@ -11,7 +11,7 @@ reset-grafana :
 	sudo cp -R ~/ngsa/IaC/DevCluster/grafanadata/grafana.db /grafana
 	sudo chown -R 472:472 /grafana
 
-set-kind :
+create :
 	kind create cluster --config .devcontainer/kind.yaml
 	kubectl wait node --for condition=ready --all --timeout=60s
 
@@ -26,6 +26,11 @@ deploy :
 	kubectl wait pod -n monitoring --for condition=ready --all --timeout=30s
 
 clean :
+	kubectl delete -f ../ngsa/IaC/DevCluster/ngsa-memory
+	kubectl delete -f ../ngsa/IaC/DevCluster/loderunner/loderunner.yaml
+	kubectl delete ns monitoring
+
+delete :
 	kind delete clusters kind
 
-all : clean set-kind deploy
+all : delete create deploy
