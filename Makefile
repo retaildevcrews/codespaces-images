@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy clean reset-prometheus reset-grafana
+.PHONY: help all create delete deploy clean app loderunner reset-prometheus reset-grafana
 
 help :
 	@echo "Usage:"
