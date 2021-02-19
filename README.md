@@ -57,7 +57,7 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 # from Codespaces terminal
 
 # check the current verion of LodeRunner
-curl localhost:30088/version
+http localhost:30088/version
 
 # make and deploy a local version of LodeRunner to k8s
 make loderunner
@@ -66,7 +66,7 @@ make loderunner
 kubectl get po
 
 # check the new verion of LodeRunner
-curl localhost:30088/version
+http localhost:30088/version
 
 ```
 
@@ -100,41 +100,41 @@ dotnet run -- -s http://localhost:30080 -f baseline.json
 ```bash
 
 # Prometheus
-curl localhost:30000
+http localhost:30000
 
 # Grafana
-curl localhost:32000
+http localhost:32000
 
 # LodeRunner
 # note the / url will fail by design
-curl localhost:30088/version
-curl localhost:30088/metrics
+http localhost:30088/version
+http localhost:30088/metrics
 
 # NGSA-App
 
 # swagger
-curl localhost:30080
+http localhost:30080
 
 # version, metrics health
-curl localhost:30080/version
-curl localhost:30080/metrics
-curl localhost:30080/healthz
-curl localhost:30080/healthz/ietf
+http localhost:30080/version
+http localhost:30080/metrics
+http localhost:30080/healthz
+http localhost:30080/healthz/ietf
 
 # actors API
-curl localhost:30080/api/actors
-curl localhost:30080/api/actors/nm0000206
-curl localhost:30080/api/actors?q=keanu
+http localhost:30080/api/actors
+http localhost:30080/api/actors/nm0000206
+http localhost:30080/api/actors?q=keanu
 
 # genres api
-curl localhost:30080/api/genres
+http localhost:30080/api/genres
 
 # movies api
-curl localhost:30080/api/movies
-curl localhost:30080/api/movies/tt0133093
-curl localhost:30080/api/movies?q=matrix
-curl localhost:30080/api/movies?genre=action
-curl localhost:30080/api/movies?year=1999
-curl localhost:30080/api/movies?rating=8.0
+http localhost:30080/api/movies
+http localhost:30080/api/movies/tt0133093
+http localhost:30080/api/movies?q=matrix
+http localhost:30080/api/movies?genre=action
+http localhost:30080/api/movies?year=1999
+http localhost:30080/api/movies?rating=8.0
 
 ```
