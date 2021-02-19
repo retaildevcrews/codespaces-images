@@ -3,7 +3,9 @@
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash"
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"files.hotExit": "onExitAndWindowClose",
+		"window.restoreWindows": "folders"
 	},
 
 	"remoteUser": "codespace",
@@ -14,8 +16,7 @@
 	"extensions": [
 		"davidanson.vscode-markdownlint",
 		"gruntfuggly.todo-tree",
-		"ms-azuretools.vscode-docker",
-		"hai.alwaysopenworkspace"
+		"ms-azuretools.vscode-docker"
 	],
 
 	// Run Bash script in .devcontainer directory
