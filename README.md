@@ -92,3 +92,49 @@ dotnet run -- -s http://localhost:30080 -f baseline.json
 - As the test completes
   - The metric will go back to green (1.0)
   - The request graph will return to normal
+
+### Service endpoints
+
+> All endpoints are usable locally via clicking on the `Ports (4)` tab
+
+```bash
+
+# Prometheus
+curl localhost:30000
+
+# Grafana
+curl localhost:32000
+
+# LodeRunner
+# note the / url will fail by design
+curl localhost:30088/version
+curl localhost:30088/metrics
+
+# NGSA-App
+
+# swagger
+curl localhost:30080
+
+# version, metrics health
+curl localhost:30080/version
+curl localhost:30080/metrics
+curl localhost:30080/healthz
+curl localhost:30080/healthz/ietf
+
+# actors API
+curl localhost:30080/api/actors
+curl localhost:30080/api/actors/nm0000206
+curl localhost:30080/api/actors?q=keanu
+
+# genres api
+curl localhost:30080/api/genres
+
+# movies api
+curl localhost:30080/api/movies
+curl localhost:30080/api/movies/tt0133093
+curl localhost:30080/api/movies?q=matrix
+curl localhost:30080/api/movies?genre=action
+curl localhost:30080/api/movies?year=1999
+curl localhost:30080/api/movies?rating=8.0
+
+```
