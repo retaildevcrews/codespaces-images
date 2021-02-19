@@ -95,7 +95,7 @@ dotnet run -- -s http://localhost:30080 -f baseline.json
 
 ### Service endpoints
 
-> All endpoints are usable locally via clicking on the `Ports (4)` tab
+> All endpoints are usable in your browser via clicking on the `Ports (4)` tab
 
 ```bash
 
