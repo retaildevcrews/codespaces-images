@@ -1,22 +1,30 @@
 #!/bin/sh
 
+# add kubectl completion
 mkdir -p ~/.local
 cp .devcontainer/kubectl_completion ~/.local/kubectl_completion
 
-cd ~
+# clone repos
+cd ..
 git clone https://github.com/retaildevcrews/ngsa
+git clone https://github.com/retaildevcrews/ngsa-app
+git clone https://github.com/retaildevcrews/loderunner
 
+# create prometheus directory
 sudo mkdir -p /prometheus
 sudo chown -R 65534:65534 /prometheus
 
+# copy grafana.db to /grafana
 sudo mkdir -p /grafana
 sudo  cp ngsa/IaC/DevCluster/grafanadata/grafana.db /grafana
 sudo  chown -R 472:472 /grafana
 
+# install kind
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
 chmod +x ./kind
 sudo mv ./kind /usr/bin/kind
 
+# install k9s
 curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/k9s_Linux_x86_64.tar.gz
 mkdir k9s
 tar xvzf k9s.tar.gz -C ./k9s
