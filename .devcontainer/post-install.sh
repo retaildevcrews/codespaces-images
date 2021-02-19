@@ -24,9 +24,20 @@ rm -rf dashboards
 rm -rf fluentbit
 rm -rf kube-state-metrics
 rm -rf ngsa-cosmos
+rm ngsa-memory/README.md
 rm cheatsheet.txt
 rm README.md
 rm -rf ../ngsa
+
+# create local yaml files
+cp -R ngsa-memory/ ngsa-local
+sed -i s/Always/Never/g ngsa-local/ngsa-memory.yaml
+sed -i s@ghcr.io/retaildevcrews/ngsa-app:beta@ngsa-app:local@g ngsa-local/ngsa-memory.yaml
+
+cp -R loderunner/ loderunner-local
+sed -i s/Always/Never/g loderunner-local/loderunner.yaml
+sed -i s@ghcr.io/retaildevcrews/ngsa-lr:beta@ngsa-lr:local@g loderunner-local/loderunner.yaml
+
 cd ~
 
 # create prometheus directory
