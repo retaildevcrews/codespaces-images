@@ -26,8 +26,8 @@ deploy :
 	kubectl get po -A | grep "default\|monitoring"
 
 clean :
-	kubectl delete -f deploy/ngsa-memory
 	kubectl delete -f deploy/loderunner
+	kubectl delete -f deploy/ngsa-memory
 	kubectl delete ns monitoring
 	kubectl get po -A
 
@@ -38,11 +38,14 @@ loderunner :
 	docker build ../loderunner -t ngsa-lr:local
 	kind load docker-image ngsa-lr:local
 	kubectl delete -f deploy/loderunner-local/loderunner.yaml
+	kubectl apply -f deploy/loderunner-local/loderunner.yaml
+	kubectl get po
 
 app :
 	docker build ../ngsa-app -t ngsa-app:local
 	kind load docker-image ngsa-app:local
 	kubectl delete -f deploy/ngsa-local/ngsa-memory.yaml
 	kubectl apply -f deploy/ngsa-local/ngsa-memory.yaml
+	kubectl get po
 
 all : delete create deploy
