@@ -4,7 +4,7 @@
 mkdir -p ~/.local
 cp .devcontainer/kubectl_completion ~/.local/kubectl_completion
 
-cp .devcontainer/workspace ../workspace.code-workspace
+cp .devcontainer/workspace ../akdc.code-workspace
 
 # clone repos
 pushd ..
