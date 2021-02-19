@@ -23,15 +23,22 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ### View Grafana Dashboard
 
+> Some popup blockers block the new browser tab
+>
+> If you get a gateway error, just hit refresh - it will clear once the port-forward is ready
+>
+> You will need the information in the next section to login / use Grafana
+
 - Once `make all` completes successfully
   - Click on the `ports` tab of the terminal window
   - Click on the `world icon` on the Grafana port (32000)
+  - This will open Grafana in a new browser tab
 
 ![Codespace Ports](./images/CodespacePorts.jpg)
 
 ### Login to Grafana
 
-- This will open a separate browser window with the Grafana dashboard
+- From the Grafana dashboard
   - admin
   - Ngsa512
 

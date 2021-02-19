@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "akdc-kind",
+			"path": "../"
+		},
+		{
+			"name": "loderunner",
+			"path": "../../loderunner"
+		},
+		{
+			"name": "ngsa-app",
+			"path": "../../ngsa-app"
+		}
+	],
+	"settings": {}
+}
