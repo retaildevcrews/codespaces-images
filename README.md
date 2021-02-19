@@ -25,6 +25,8 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 > Some popup blockers block the new browser tab
 >
+> If you get a gateway error, just hit refresh - it will clear once the port-forward is ready
+>
 > You will need the information in the next section to login / use Grafana
 
 - Once `make all` completes successfully
