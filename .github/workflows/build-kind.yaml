@@ -2,8 +2,8 @@ name: Build Codespace Container
 
 on:
   schedule:
-    # Run weekly (Sundays) at 3:00 AM
-    - cron: "0 3 * * 0"
+    # Run daily at 6:00 AM UTC
+    - cron: "0 6 * * *"
 
   push:
     branches:
