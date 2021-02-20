@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# install httpie
-sudo apt-get update
-sudo apt-get install -y httpie
-
 # add kubectl completion
 mkdir -p ~/.local
 cp .devcontainer/kubectl_completion ~/.local/kubectl_completion
@@ -51,21 +47,8 @@ sudo mkdir -p /grafana
 sudo  cp grafanadata/grafana.db /grafana
 sudo  chown -R 472:472 /grafana
 
-cd ~
-
-# install kind
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
-chmod +x ./kind
-sudo mv ./kind /usr/bin/kind
-
-# install k9s
-curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/k9s_Linux_x86_64.tar.gz
-mkdir k9s
-tar xvzf k9s.tar.gz -C ./k9s
-sudo mv ./k9s/k9s /usr/bin/k9s
-rm -rf k9s.tar.gz k9s
-
 # update .bashrc
+cd ~
 echo "" >> .bashrc
 echo "export PATH=$PATH:$HOME/.local/bin" >> .bashrc
 

@@ -1,5 +1,6 @@
 {
 	"name": "kind-cluster",
+	"image": "ghcr.io/retaildevcrews/kind",
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {

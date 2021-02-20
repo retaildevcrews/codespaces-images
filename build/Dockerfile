@@ -31,6 +31,18 @@ VOLUME [ "/var/lib/docker" ]
 ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
 CMD [ "sleep", "infinity" ]
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get -y install --no-install-recommends httpie
+
+# install kind
+RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
+    chmod +x ./kind && \
+    mv ./kind /usr/bin/kind
+
+# install k9s
+RUN curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/k9s_Linux_x86_64.tar.gz && \
+    mkdir k9s && \
+    tar xvzf k9s.tar.gz -C ./k9s && \
+    mv ./k9s/k9s /usr/bin/k9s && \
+    rm -rf k9s.tar.gz k9s
