@@ -12,12 +12,23 @@ ARG USE_MOBY="false"
 
 # Install needed packages and setup non-root user. Use a separate RUN statement to add your
 # own dependencies. A user of "automatic" attempts to reuse an user ID if one already exists.
-ARG USERNAME=codespace
+ARG USERNAME=automatic
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get upgrade -y
+
+RUN apt-get -y install --no-install-recommends apt-utils dialog
+RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificates
+RUN apt-get -y install --no-install-recommends curl git
+RUN apt-get -y install --no-install-recommends software-properties-common make
+RUN apt-get -y install --no-install-recommends httpie
+
 COPY library-scripts/*.sh /tmp/library-scripts/
-RUN apt-get update \
-    && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
+
+RUN /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
     # Use Docker script from script library to set things up
     && /bin/bash /tmp/library-scripts/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}" "${USE_MOBY}" \
     # Clean up
@@ -31,17 +42,6 @@ VOLUME [ "/var/lib/docker" ]
 ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
 CMD [ "sleep", "infinity" ]
 
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get -y install --no-install-recommends apt-utils dialog
-
-RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificates
-
-RUN apt-get -y install --no-install-recommends curl git
-
-RUN apt-get -y install --no-install-recommends software-properties-common make
-
-RUN apt-get -y install --no-install-recommends httpie
-
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
     curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.asc.gpg && \
@@ -54,8 +54,7 @@ RUN apt-get -y install --no-install-recommends containerd.io kubelet kubernetes-
 
 RUN apt-get -y install --no-install-recommends kubectl kubeadm
 
-RUN apt-get upgrade -y && \
-    apt-get autoremove -y && \
+RUN apt-get autoremove -y && \
     apt-get clean -y
 
 # install kind
