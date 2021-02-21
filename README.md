@@ -140,3 +140,14 @@ dotnet run -- -s http://localhost:30080 -f baseline.json
 - As the test completes
   - The metric will go back to green (1.0)
   - The request graph will return to normal
+
+### View Prometheus Dashboard
+
+- Click on the `ports` tab of the terminal window
+- Click on the `world icon` on the Prometheus port (30000)
+- This will open Prometheus in a new browser tab
+
+- From the Prometheus tab
+  - Begin typing NgsaAppDuration_bucket in the `Expression` search
+  - Click `Execute`
+  - This will display the `histogram` that Grafana uses for the charts
