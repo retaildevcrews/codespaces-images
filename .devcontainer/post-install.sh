@@ -20,14 +20,10 @@ mv loderunner/loderunner.yaml .
 rm -rf loderunner
 mkdir -p loderunner
 mv loderunner.yaml loderunner
-rm -rf dashboards
-rm -rf fluentbit
 rm -rf kube-state-metrics
-rm -rf ngsa-cosmos
 rm ngsa-memory/README.md
 rm cheatsheet.txt
 rm README.md
-rm -rf ../ngsa
 
 # create local yaml files
 cp -R ngsa-memory/ ngsa-local

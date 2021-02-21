@@ -25,10 +25,19 @@ deploy :
 	kubectl apply -f deploy/ngsa-memory
 	kubectl apply -f deploy/prometheus
 	kubectl apply -f deploy/grafana
-	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
+
+	kubectl create secret generic log-secrets --from-literal=WorkspaceId=dev --from-literal=SharedKey=dev
+	kubectl apply -f deploy/fluentbit/account.yaml
+	kubectl apply -f deploy/fluentbit/log.yaml
+	kubectl apply -f deploy/fluentbit/stdout-config.yaml
+	kubectl apply -f deploy/fluentbit/fluentbit-pod.yaml
+
 	kubectl apply -f deploy/loderunner
-	kubectl wait pod loderunner --for condition=ready --timeout=30s
+
 	kubectl wait pod -n monitoring --for condition=ready --all --timeout=30s
+	kubectl wait pod fluentb --for condition=ready --timeout=30s
+	kubectl wait pod loderunner --for condition=ready --timeout=30s
+
 	kubectl get po -A | grep "default\|monitoring"
 
 clean :
