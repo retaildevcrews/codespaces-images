@@ -21,12 +21,48 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ![Running Codespace](./images/RunningCodespace.jpg)
 
+### Validate Deployment
+
+Once `make all` completes, validate the pods are running
+
+```bash
+
+# from the Codespace terminal
+
+kubectl get pods -A
+
+```
+
+Output should resemble this
+
+```text
+
+NAMESPACE     NAME                                     READY   STATUS
+default       loderunner                               1/1     Running
+default       ngsa-memory                              1/1     Running
+
+
+kube-system   coredns-74ff55c5b-m6s9x                  1/1     Running
+kube-system   coredns-74ff55c5b-qwkb5                  1/1     Running
+kube-system   etcd-k8s                                 1/1     Running
+kube-system   kube-apiserver-k8s                       1/1     Running
+kube-system   kube-controller-manager-k8s              1/1     Running
+kube-system   kube-flannel-ds-47bll                    1/1     Running
+kube-system   kube-proxy-6lvfk                         1/1     Running
+kube-system   kube-scheduler-k8s                       1/1     Running
+
+
+monitoring    grafana-64f7dbcf96-w966p                 1/1     Running
+monitoring    prometheus-deployment-67cbf97f84-zhkm9   1/1     Running
+
+```
+
 ### Service endpoints
 
-- Once `make all` completes successfully
-  - All endpoints are usable in your browser via clicking on the `Ports (4)` tab and selecting the port
-  - Some popup blockers block the new browser tab
-  - If you get a gateway error, just hit refresh - it will clear once the port-forward is ready
+- All endpoints are usable in your browser via clicking on the `Ports (4)` tab
+  - Select the `open in browser icon` on the far right
+- Some popup blockers block the new browser tab
+- If you get a gateway error, just hit refresh - it will clear once the port-forward is ready
 
 ```bash
 
@@ -76,7 +112,7 @@ http localhost:32000
 
 - Once `make all` completes successfully
   - Click on the `ports` tab of the terminal window
-  - Click on the `world icon` on the Grafana port (32000)
+  - Click on the `open in browser icon` on the Grafana port (32000)
   - This will open Grafana in a new browser tab
 
 ![Codespace Ports](./images/CodespacePorts.jpg)
@@ -144,7 +180,7 @@ dotnet run -- -s http://localhost:30080 -f baseline.json
 ### View Prometheus Dashboard
 
 - Click on the `ports` tab of the terminal window
-- Click on the `world icon` on the Prometheus port (30000)
+- Click on the `open in browser icon` on the Prometheus port (30000)
 - This will open Prometheus in a new browser tab
 
 - From the Prometheus tab
