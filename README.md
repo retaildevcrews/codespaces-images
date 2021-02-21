@@ -14,6 +14,14 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ![Create Codespace](./images/OpenWithCodespaces.jpg)
 
+### Open Workspace
+
+- Click on the `hamburger` menu in upper left
+- Choose `File`
+- Choose `Open workspace`
+- Click on `..` in selector
+- Click on `akdc.code-workspace`
+
 ### Build and Deploy Cluster
 
 - From the Codespaces terminal
@@ -23,37 +31,15 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ### Validate Deployment
 
-Once `make all` completes, validate the pods are running
-
-```bash
-
-# from the Codespace terminal
-
-kubectl get pods -A
-
-```
-
-Output should resemble this
+Output from `make all` should resemble this
 
 ```text
 
-NAMESPACE     NAME                                     READY   STATUS
-default       loderunner                               1/1     Running
-default       ngsa-memory                              1/1     Running
-
-
-kube-system   coredns-74ff55c5b-m6s9x                  1/1     Running
-kube-system   coredns-74ff55c5b-qwkb5                  1/1     Running
-kube-system   etcd-k8s                                 1/1     Running
-kube-system   kube-apiserver-k8s                       1/1     Running
-kube-system   kube-controller-manager-k8s              1/1     Running
-kube-system   kube-flannel-ds-47bll                    1/1     Running
-kube-system   kube-proxy-6lvfk                         1/1     Running
-kube-system   kube-scheduler-k8s                       1/1     Running
-
-
-monitoring    grafana-64f7dbcf96-w966p                 1/1     Running
-monitoring    prometheus-deployment-67cbf97f84-zhkm9   1/1     Running
+default              fluentb                                      1/1     Running   0          31s
+default              loderunner                                   1/1     Running   0          31s
+default              ngsa-memory                                  1/1     Running   0          33s
+monitoring           grafana-64f7dbcf96-cfmtd                     1/1     Running   0          32s
+monitoring           prometheus-deployment-67cbf97f84-tjxm7       1/1     Running   0          32s
 
 ```
 
@@ -62,7 +48,11 @@ monitoring    prometheus-deployment-67cbf97f84-zhkm9   1/1     Running
 - From the Codespace terminal window, start `k9s`
   - Type `k9s` and press enter
 
-> TODO - k9s instructions / screen shot
+> TODO - add k9s instructions
+
+- Press `0` to select all namespaces
+
+![k9s](./images/k9s.jpg)
 
 ### Service endpoints
 
@@ -135,28 +125,6 @@ http localhost:32000
 
 ![Grafana](./images/Grafana.jpg)
 
-### Build and deploy a local version of LodeRunner
-
-- Switch back to your Codespaces tab
-
-```bash
-
-# from Codespaces terminal
-
-# check the current verion of LodeRunner
-http localhost:30088/version
-
-# make and deploy a local version of LodeRunner to k8s
-make loderunner
-
-# wait for loderunner to start
-kubectl get po
-
-# check the new verion of LodeRunner
-http localhost:30088/version
-
-```
-
 ### Run a local test
 
 ```bash
@@ -194,3 +162,54 @@ dotnet run -- -s http://localhost:30080 -f baseline.json
   - Begin typing NgsaAppDuration_bucket in the `Expression` search
   - Click `Execute`
   - This will display the `histogram` that Grafana uses for the charts
+
+### View Fluent Bit Logs
+
+- Start `k9s` from the Codespace terminal
+- Select `fluentb` and press `enter`
+- Press `enter` again to see the logs
+- Press `s` to Toggle AutoScroll
+- Press `w` to Toggle Wrap
+- Review logs that will be sent to Log Analytics when configured
+
+### Build and deploy a local version of LodeRunner
+
+- Switch back to your Codespaces tab
+
+```bash
+
+# from Codespaces terminal
+
+# check the current verion of LodeRunner
+http localhost:30088/version
+
+# make and deploy a local version of LodeRunner to k8s
+make loderunner
+
+# check the new verion of LodeRunner
+http localhost:30088/version
+
+```
+
+### Build and deploy a local version of ngsa-memory
+
+- Switch back to your Codespaces tab
+
+```bash
+
+# from Codespaces terminal
+
+# check the current verion of ngsa-memory
+http localhost:30080/version
+
+# make and deploy a local version of ngsa-memory to k8s
+make app
+
+# check the new verion of ngsa-memory
+http localhost:30080/version
+
+```
+
+## Next Steps
+
+> `Makefile` is a good place to start exporing
