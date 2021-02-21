@@ -21,12 +21,57 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ![Running Codespace](./images/RunningCodespace.jpg)
 
+### Service endpoints
+
+- Once `make all` completes successfully
+  - All endpoints are usable in your browser via clicking on the `Ports (4)` tab and selecting the port
+  - Some popup blockers block the new browser tab
+  - If you get a gateway error, just hit refresh - it will clear once the port-forward is ready
+
+```bash
+
+# NGSA-App
+
+# swagger
+http localhost:30080
+
+# version, metrics health
+http localhost:30080/version
+http localhost:30080/metrics
+http localhost:30080/healthz
+http localhost:30080/healthz/ietf
+
+# actors API
+http localhost:30080/api/actors
+http localhost:30080/api/actors/nm0000206
+http localhost:30080/api/actors?q=keanu
+
+# genres api
+http localhost:30080/api/genres
+
+# movies api
+http localhost:30080/api/movies
+http localhost:30080/api/movies/tt0133093
+http localhost:30080/api/movies?q=matrix
+http localhost:30080/api/movies?genre=action
+http localhost:30080/api/movies?year=1999
+http localhost:30080/api/movies?rating=8.0
+
+# LodeRunner
+# note the / url will fail by design
+http localhost:30088/version
+http localhost:30088/metrics
+
+# Prometheus
+http localhost:30000
+
+# Grafana
+http localhost:32000
+
+```
+
 ### View Grafana Dashboard
 
-> Some popup blockers block the new browser tab
->
-> If you get a gateway error, just hit refresh - it will clear once the port-forward is ready
->
 > You will need the information in the next section to login / use Grafana
 
 - Once `make all` completes successfully
@@ -49,7 +94,6 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ### Build and deploy a local version of LodeRunner
 
-- Leave the Grafan tab open
 - Switch back to your Codespaces tab
 
 ```bash
@@ -79,6 +123,9 @@ http localhost:30088/version
 # change to the loderunner repo
 cd ../loderunner
 
+# run a complete test
+dotnet run -- -s http://localhost:30080 -f benchmark.json
+
 # run a baseline test
 # this test will generate errors in the grafana dashboard by design
 
@@ -93,49 +140,3 @@ dotnet run -- -s http://localhost:30080 -f baseline.json
 - As the test completes
   - The metric will go back to green (1.0)
   - The request graph will return to normal
-
-### Service endpoints
-
-> All endpoints are usable in your browser via clicking on the `Ports (4)` tab
-
-```bash
-
-# Prometheus
-http localhost:30000
-
-# Grafana
-http localhost:32000
-
-# LodeRunner
-# note the / url will fail by design
-http localhost:30088/version
-http localhost:30088/metrics
-
-# NGSA-App
-
-# swagger
-http localhost:30080
-
-# version, metrics health
-http localhost:30080/version
-http localhost:30080/metrics
-http localhost:30080/healthz
-http localhost:30080/healthz/ietf
-
-# actors API
-http localhost:30080/api/actors
-http localhost:30080/api/actors/nm0000206
-http localhost:30080/api/actors?q=keanu
-
-# genres api
-http localhost:30080/api/genres
-
-# movies api
-http localhost:30080/api/movies
-http localhost:30080/api/movies/tt0133093
-http localhost:30080/api/movies?q=matrix
-http localhost:30080/api/movies?genre=action
-http localhost:30080/api/movies?year=1999
-http localhost:30080/api/movies?rating=8.0
-
-```
