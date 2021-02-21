@@ -35,11 +35,11 @@ Output from `make all` should resemble this
 
 ```text
 
-default              fluentb                                      1/1     Running   0          31s
-default              loderunner                                   1/1     Running   0          31s
-default              ngsa-memory                                  1/1     Running   0          33s
-monitoring           grafana-64f7dbcf96-cfmtd                     1/1     Running   0          32s
-monitoring           prometheus-deployment-67cbf97f84-tjxm7       1/1     Running   0          32s
+default      fluentb                                   1/1   Running   0   31s
+default      loderunner                                1/1   Running   0   31s
+default      ngsa-memory                               1/1   Running   0   33s
+monitoring   grafana-64f7dbcf96-cfmtd                  1/1   Running   0   32s
+monitoring   prometheus-deployment-67cbf97f84-tjxm7    1/1   Running   0   32s
 
 ```
 
