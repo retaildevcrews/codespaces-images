@@ -32,6 +32,7 @@ deploy :
 	kubectl apply -f deploy/fluentbit/stdout-config.yaml
 	kubectl apply -f deploy/fluentbit/fluentbit-pod.yaml
 
+	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
 	kubectl apply -f deploy/loderunner
 
 	kubectl wait pod -n monitoring --for condition=ready --all --timeout=30s
@@ -49,8 +50,16 @@ clean :
 app :
 	docker build ../ngsa-app -t ngsa-app:local
 	kind load docker-image ngsa-app:local
+
+	kubectl delete -f deploy/loderunner-local/loderunner.yaml
 	kubectl delete -f deploy/ngsa-local/ngsa-memory.yaml
+
 	kubectl apply -f deploy/ngsa-local/ngsa-memory.yaml
+
+	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
+	kubectl apply -f deploy/loderunner-local/loderunner.yaml
+	kubectl wait pod loderunner --for condition=ready --timeout=30s
+
 	kubectl get po
 
 loderunner :
