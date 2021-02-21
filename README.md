@@ -57,6 +57,13 @@ monitoring    prometheus-deployment-67cbf97f84-zhkm9   1/1     Running
 
 ```
 
+### Validate deployment with k9s
+
+- From the Codespace terminal window, start `k9s`
+  - Type `k9s` and press enter
+
+> TODO - k9s instructions / screen shot
+
 ### Service endpoints
 
 - All endpoints are usable in your browser via clicking on the `Ports (4)` tab
