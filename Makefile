@@ -76,15 +76,11 @@ loderunner :
 	http localhost:30088/version
 
 load-test :
-	# run a complete test
-	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f benchmark.json
+	# run a single test
+	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f baseline.json
 
-	# run a baseline test
-	# this test will generate errors in the grafana dashboard by design
-	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f baseline.json -r -l 1 --duration 10
-
-	# run a 30 second test
-	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f benchmark.json -r -l 1 --duration 30
+	# run a 60 second test
+	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f baseline.json benchmark.json -r -l 1 --duration 60
 
 reset-prometheus :
 	sudo rm -rf /prometheus
