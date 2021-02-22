@@ -63,6 +63,10 @@ monitoring   prometheus-deployment-67cbf97f84-tjxm7    1/1   Running   0   32s
 
 ```bash
 
+# check endpoints
+make check
+
+# Other interesting endpoints
 # NGSA-App
 
 # swagger
@@ -94,12 +98,6 @@ http localhost:30080/api/movies?rating=8.0
 # note the / url will fail by design
 http localhost:30088/version
 http localhost:30088/metrics
-
-# Prometheus
-http localhost:30000
-
-# Grafana
-http localhost:32000
 
 ```
 

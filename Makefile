@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy clean app loderunner load-test reset-prometheus reset-grafana
+.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana
 
 help :
 	@echo "Usage:"
@@ -6,6 +6,7 @@ help :
 	@echo "   make create           - create a kind cluster"
 	@echo "   make delete           - delete the kind cluster"
 	@echo "   make deploy           - deploy the apps to the cluster"
+	@echo "   make check            - check the endpoints with curl"
 	@echo "   make clean            - delete the apps from the cluster"
 	@echo "   make app              - build and deploy a local app docker image"
 	@echo "   make loderunner       - build and deploy a local LodeRunner docker image"
@@ -49,11 +50,21 @@ deploy :
 	# display pod status
 	kubectl get po -A | grep "default\|monitoring"
 
+check :
+	@curl localhost:30080/version
+	@echo "\n"
+	@curl localhost:30088/version
+	@echo "\n"
+	@curl localhost:30000
+	@curl localhost:32000
+
 clean :
 	# delete the deployment
 	kubectl delete -f deploy/loderunner
 	kubectl delete -f deploy/ngsa-memory
 	kubectl delete ns monitoring
+	kubectl delete -f deploy/fluentbit/fluentbit-pod.yaml
+	kubectl delete secret log-secrets
 
 	# show running pods
 	kubectl get po -A
@@ -64,18 +75,18 @@ app :
 	kind load docker-image ngsa-app:local
 
 	# delete LodeRunner
-	kubectl delete -f deploy/loderunner/loderunner.yaml
+	kubectl delete -f deploy/loderunner
 
 	# display the app version
 	http localhost:30080/version
 
 	# delete/deploy the app
-	kubectl delete -f deploy/ngsa-local/ngsa-memory.yaml
-	kubectl apply -f deploy/ngsa-local/ngsa-memory.yaml
+	kubectl delete -f deploy/ngsa-memory
+	kubectl apply -f deploy/ngsa-local
 
 	# deploy LodeRunner after app starts
 	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
-	kubectl apply -f deploy/loderunner/loderunner.yaml
+	kubectl apply -f deploy/loderunner
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 
 	kubectl get po
@@ -92,8 +103,8 @@ loderunner :
 	http localhost:30088/version
 
 	# delete / create LodeRunner
-	kubectl delete -f deploy/loderunner-local/loderunner.yaml
-	kubectl apply -f deploy/loderunner-local/loderunner.yaml
+	kubectl delete -f deploy/loderunner
+	kubectl apply -f deploy/loderunner-local
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 	kubectl get po
 
