@@ -64,18 +64,18 @@ app :
 	kind load docker-image ngsa-app:local
 
 	# delete LodeRunner
-	kubectl delete -f deploy/loderunner/loderunner.yaml
+	kubectl delete -f deploy/loderunner
 
 	# display the app version
 	http localhost:30080/version
 
 	# delete/deploy the app
-	kubectl delete -f deploy/ngsa-local/ngsa-memory.yaml
-	kubectl apply -f deploy/ngsa-local/ngsa-memory.yaml
+	kubectl delete -f deploy/ngsa-memory
+	kubectl apply -f deploy/ngsa-local
 
 	# deploy LodeRunner after app starts
 	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
-	kubectl apply -f deploy/loderunner/loderunner.yaml
+	kubectl apply -f deploy/loderunner
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 
 	kubectl get po
@@ -92,8 +92,8 @@ loderunner :
 	http localhost:30088/version
 
 	# delete / create LodeRunner
-	kubectl delete -f deploy/loderunner-local/loderunner.yaml
-	kubectl apply -f deploy/loderunner-local/loderunner.yaml
+	kubectl delete -f deploy/loderunner
+	kubectl apply -f deploy/loderunner-local
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 	kubectl get po
 
