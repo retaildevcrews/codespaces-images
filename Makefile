@@ -25,6 +25,7 @@ create :
 	# this will fail harmlessly if the cluster exists
 	# default cluster name is kind
 	@kind create cluster --config .devcontainer/kind.yaml
+	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s
 
 deploy :
