@@ -66,7 +66,11 @@ monitoring   prometheus-deployment-67cbf97f84-tjxm7    1/1   Running   0   32s
 # check endpoints
 make check
 
-# Other interesting endpoints
+```
+
+### Other interesting endpoints
+
+```bash
 # NGSA-App
 
 # swagger
