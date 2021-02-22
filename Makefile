@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy clean app loderunner load-test reset-prometheus reset-grafana
+.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana
 
 help :
 	@echo "Usage:"
@@ -6,6 +6,7 @@ help :
 	@echo "   make create           - create a kind cluster"
 	@echo "   make delete           - delete the kind cluster"
 	@echo "   make deploy           - deploy the apps to the cluster"
+	@echo "   make check            - check the endpoints with curl"
 	@echo "   make clean            - delete the apps from the cluster"
 	@echo "   make app              - build and deploy a local app docker image"
 	@echo "   make loderunner       - build and deploy a local LodeRunner docker image"
@@ -48,6 +49,14 @@ deploy :
 
 	# display pod status
 	kubectl get po -A | grep "default\|monitoring"
+
+check :
+	@curl localhost:30080/version
+	@echo "\n"
+	@curl localhost:30088/version
+	@echo "\n"
+	@curl localhost:30000
+	@curl localhost:32000
 
 clean :
 	# delete the deployment
