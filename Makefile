@@ -51,6 +51,7 @@ deploy :
 	kubectl get po -A | grep "default\|monitoring"
 
 check :
+	# curl all of the endpoints
 	@curl localhost:30080/version
 	@echo "\n"
 	@curl localhost:30088/version
