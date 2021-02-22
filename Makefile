@@ -14,7 +14,7 @@ help :
 	@echo "   make reset-prometheus - reset the Prometheus volume (existing data is deleted)"
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
 
-all : delete create deploy
+all : delete create deploy check
 
 create :
 	kind create cluster --config .devcontainer/kind.yaml
