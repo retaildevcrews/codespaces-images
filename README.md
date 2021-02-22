@@ -51,6 +51,7 @@ monitoring   prometheus-deployment-67cbf97f84-tjxm7    1/1   Running   0   32s
 > TODO - add k9s instructions
 
 - Press `0` to select all namespaces
+- To exit - `:q <enter>`
 
 ![k9s](./images/k9s.jpg)
 
@@ -132,7 +133,7 @@ http localhost:32000
 # from Codespaces terminal
 
 # change to the loderunner repo
-cd ../loderunner
+pushd ../loderunner
 
 # run a complete test
 dotnet run -- -s http://localhost:30080 -f benchmark.json
@@ -140,7 +141,12 @@ dotnet run -- -s http://localhost:30080 -f benchmark.json
 # run a baseline test
 # this test will generate errors in the grafana dashboard by design
 
-dotnet run -- -s http://localhost:30080 -f baseline.json
+dotnet run -- -s http://localhost:30080 -f baseline.json -r -l 1 --duration 10
+
+# run a 30 second test
+dotnet run -- -s http://localhost:30080 -f benchmark.json -r -l 1 --duration 30
+
+popd
 
 ```
 
@@ -180,14 +186,8 @@ dotnet run -- -s http://localhost:30080 -f baseline.json
 
 # from Codespaces terminal
 
-# check the current verion of LodeRunner
-http localhost:30088/version
-
 # make and deploy a local version of LodeRunner to k8s
 make loderunner
-
-# check the new verion of LodeRunner
-http localhost:30088/version
 
 ```
 
@@ -199,14 +199,8 @@ http localhost:30088/version
 
 # from Codespaces terminal
 
-# check the current verion of ngsa-memory
-http localhost:30080/version
-
 # make and deploy a local version of ngsa-memory to k8s
 make app
-
-# check the new verion of ngsa-memory
-http localhost:30080/version
 
 ```
 
