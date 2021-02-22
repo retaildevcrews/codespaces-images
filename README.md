@@ -201,4 +201,4 @@ make app
 
 ## Next Steps
 
-> [Makefile](./Makefile) is a good place to start exporing
+> [Makefile](./Makefile) is a good place to start exploring
