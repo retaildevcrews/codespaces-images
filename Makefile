@@ -54,6 +54,8 @@ clean :
 	kubectl delete -f deploy/loderunner
 	kubectl delete -f deploy/ngsa-memory
 	kubectl delete ns monitoring
+	kubectl delete -f deploy/fluentbit/fluentbit-pod.yaml
+	kubectl delete secret log-secrets
 
 	# show running pods
 	kubectl get po -A
