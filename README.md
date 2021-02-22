@@ -126,7 +126,7 @@ http localhost:32000
 
 ![Grafana](./images/Grafana.jpg)
 
-### Run a local test
+### Run a load test
 
 ```bash
 
@@ -142,6 +142,8 @@ make load-test
 - As the test completes
   - The metric will go back to green (1.0)
   - The request graph will return to normal
+
+![Load Test](./images/LoadTest.jpg)
 
 ### View Prometheus Dashboard
 
