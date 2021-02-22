@@ -131,22 +131,7 @@ http localhost:32000
 ```bash
 
 # from Codespaces terminal
-
-# change to the loderunner repo
-pushd ../loderunner
-
-# run a complete test
-dotnet run -- -s http://localhost:30080 -f benchmark.json
-
-# run a baseline test
-# this test will generate errors in the grafana dashboard by design
-
-dotnet run -- -s http://localhost:30080 -f baseline.json -r -l 1 --duration 10
-
-# run a 30 second test
-dotnet run -- -s http://localhost:30080 -f benchmark.json -r -l 1 --duration 30
-
-popd
+make load-test
 
 ```
 
