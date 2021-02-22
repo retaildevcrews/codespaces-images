@@ -51,23 +51,29 @@ app :
 	docker build ../ngsa-app -t ngsa-app:local
 	kind load docker-image ngsa-app:local
 
-	kubectl delete -f deploy/loderunner-local/loderunner.yaml
+	kubectl delete -f deploy/loderunner/loderunner.yaml
+
+	http localhost:30080/version
 	kubectl delete -f deploy/ngsa-local/ngsa-memory.yaml
 
 	kubectl apply -f deploy/ngsa-local/ngsa-memory.yaml
 
 	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
-	kubectl apply -f deploy/loderunner-local/loderunner.yaml
+	kubectl apply -f deploy/loderunner/loderunner.yaml
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 
 	kubectl get po
+	http localhost:30080/version
 
 loderunner :
 	docker build ../loderunner -t ngsa-lr:local
 	kind load docker-image ngsa-lr:local
+	http localhost:30088/version
 	kubectl delete -f deploy/loderunner-local/loderunner.yaml
 	kubectl apply -f deploy/loderunner-local/loderunner.yaml
+	kubectl wait pod loderunner --for condition=ready --timeout=30s
 	kubectl get po
+	http localhost:30088/version
 
 reset-prometheus :
 	sudo rm -rf /prometheus
