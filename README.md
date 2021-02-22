@@ -46,6 +46,7 @@ monitoring   prometheus-deployment-67cbf97f84-tjxm7    1/1   Running   0   32s
 - From the Codespace terminal window, start `k9s`
   - Type `k9s` and press enter
   - Press `0` to select all namespaces
+  - Wait for all pods to be in the `Running` state (look for the `STATUS` column)
   - Use the arrow key to select `nsga-memory` then press the `l` key to view logs from the pod
   - To go back, press the `esc` key
   - To view other deployed resources - press `shift + :` followed by the deployment type (e.g. `secret`, `services`, `deployment`, etc).
