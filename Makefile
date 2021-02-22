@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy clean app loderunner reset-prometheus reset-grafana
+.PHONY: help all create delete deploy clean app loderunner lode-test reset-prometheus reset-grafana
 
 help :
 	@echo "Usage:"
@@ -74,6 +74,17 @@ loderunner :
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 	kubectl get po
 	http localhost:30088/version
+
+load-test :
+	# run a complete test
+	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f benchmark.json
+
+	# run a baseline test
+	# this test will generate errors in the grafana dashboard by design
+	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f baseline.json -r -l 1 --duration 10
+
+	# run a 30 second test
+	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f benchmark.json -r -l 1 --duration 30
 
 reset-prometheus :
 	sudo rm -rf /prometheus
