@@ -4,9 +4,7 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-## Setup
-
-### Open with Codespaces
+## Open with Codespaces
 
 - Click the `Code` button on this repo
 - Click `Open with Codespaces`
@@ -14,7 +12,7 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ![Create Codespace](./images/OpenWithCodespaces.jpg)
 
-### Open Workspace
+## Open Workspace
 
 - Click on the `hamburger` menu in upper left
 - Choose `File`
@@ -22,14 +20,14 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 - Click on `..` in selector
 - Click on `akdc.code-workspace`
 
-### Build and Deploy Cluster
+## Build and Deploy Cluster
 
 - From the Codespaces terminal
   - `make all`
 
 ![Running Codespace](./images/RunningCodespace.jpg)
 
-### Validate Deployment
+## Validate Deployment
 
 Output from `make all` should resemble this
 
@@ -43,7 +41,7 @@ monitoring   prometheus-deployment-67cbf97f84-tjxm7    1/1   Running   0   32s
 
 ```
 
-### Validate deployment with k9s
+## Validate deployment with k9s
 
 - From the Codespace terminal window, start `k9s`
   - Type `k9s` and press enter
@@ -55,7 +53,7 @@ monitoring   prometheus-deployment-67cbf97f84-tjxm7    1/1   Running   0   32s
 
 ![k9s](./images/k9s.jpg)
 
-### Service endpoints
+## Service endpoints
 
 - All endpoints are usable in your browser via clicking on the `Ports (4)` tab
   - Select the `open in browser icon` on the far right
@@ -104,9 +102,11 @@ http localhost:32000
 
 ```
 
-### View Grafana Dashboard
+## Launch Grafana Dashboard
 
-> You will need the information in the next section to login / use Grafana
+- Grafana login info
+  - admin
+  - Ngsa512
 
 - Once `make all` completes successfully
   - Click on the `ports` tab of the terminal window
@@ -115,18 +115,14 @@ http localhost:32000
 
 ![Codespace Ports](./images/CodespacePorts.jpg)
 
-### Login to Grafana
-
-- From the Grafana dashboard
-  - admin
-  - Ngsa512
+## View Grafana Dashboard
 
 - Click on `Home` at the top of the page
 - From the dashboards page, click on `NGSA`
 
 ![Grafana](./images/Grafana.jpg)
 
-### Run a load test
+## Run a load test
 
 ```bash
 
@@ -145,7 +141,7 @@ make load-test
 
 ![Load Test](./images/LoadTest.jpg)
 
-### View Prometheus Dashboard
+## View Prometheus Dashboard
 
 - Click on the `ports` tab of the terminal window
 - Click on the `open in browser icon` on the Prometheus port (30000)
@@ -156,7 +152,7 @@ make load-test
   - Click `Execute`
   - This will display the `histogram` that Grafana uses for the charts
 
-### View Fluent Bit Logs
+## View Fluent Bit Logs
 
 - Start `k9s` from the Codespace terminal
 - Select `fluentb` and press `enter`
@@ -165,7 +161,7 @@ make load-test
 - Press `w` to Toggle Wrap
 - Review logs that will be sent to Log Analytics when configured
 
-### Build and deploy a local version of LodeRunner
+## Build and deploy a local version of LodeRunner
 
 - Switch back to your Codespaces tab
 
@@ -178,7 +174,7 @@ make loderunner
 
 ```
 
-### Build and deploy a local version of ngsa-memory
+## Build and deploy a local version of ngsa-memory
 
 - Switch back to your Codespaces tab
 
