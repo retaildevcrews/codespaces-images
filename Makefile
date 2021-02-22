@@ -23,57 +23,81 @@ delete :
 	kind delete cluster
 
 deploy :
+	# deploy the app
 	kubectl apply -f deploy/ngsa-memory
+
+	# deploy prometheus and grafana
 	kubectl apply -f deploy/prometheus
 	kubectl apply -f deploy/grafana
 
+	# deploy fluent bit
 	kubectl create secret generic log-secrets --from-literal=WorkspaceId=dev --from-literal=SharedKey=dev
 	kubectl apply -f deploy/fluentbit/account.yaml
 	kubectl apply -f deploy/fluentbit/log.yaml
 	kubectl apply -f deploy/fluentbit/stdout-config.yaml
 	kubectl apply -f deploy/fluentbit/fluentbit-pod.yaml
 
+	# deploy LodeRunner after the app starts
 	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
 	kubectl apply -f deploy/loderunner
 
+	# wait for the pods to start
 	kubectl wait pod -n monitoring --for condition=ready --all --timeout=30s
 	kubectl wait pod fluentb --for condition=ready --timeout=30s
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 
+	# display pod status
 	kubectl get po -A | grep "default\|monitoring"
 
 clean :
+	# delete the deployment
 	kubectl delete -f deploy/loderunner
 	kubectl delete -f deploy/ngsa-memory
 	kubectl delete ns monitoring
+
+	# show running pods
 	kubectl get po -A
 
 app :
+	# build the local image and load into kind
 	docker build ../ngsa-app -t ngsa-app:local
 	kind load docker-image ngsa-app:local
 
+	# delete LodeRunner
 	kubectl delete -f deploy/loderunner/loderunner.yaml
 
+	# display the app version
 	http localhost:30080/version
-	kubectl delete -f deploy/ngsa-local/ngsa-memory.yaml
 
+	# delete/deploy the app
+	kubectl delete -f deploy/ngsa-local/ngsa-memory.yaml
 	kubectl apply -f deploy/ngsa-local/ngsa-memory.yaml
 
+	# deploy LodeRunner after app starts
 	kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
 	kubectl apply -f deploy/loderunner/loderunner.yaml
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 
 	kubectl get po
+
+	# display the app version
 	http localhost:30080/version
 
 loderunner :
+	# build the local image and load into kind
 	docker build ../loderunner -t ngsa-lr:local
 	kind load docker-image ngsa-lr:local
+
+	# display current version
 	http localhost:30088/version
+
+	# delete / create LodeRunner
 	kubectl delete -f deploy/loderunner-local/loderunner.yaml
 	kubectl apply -f deploy/loderunner-local/loderunner.yaml
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 	kubectl get po
+
+	# display the current version
 	http localhost:30088/version
 
 load-test :
@@ -84,11 +108,13 @@ load-test :
 	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f baseline.json benchmark.json -r -l 1 --duration 60
 
 reset-prometheus :
+	# remove and create the /prometheus volume
 	sudo rm -rf /prometheus
 	sudo mkdir -p /prometheus
 	sudo chown -R 65534:65534 /prometheus
 
 reset-grafana :
+	# remove and copy the data to /grafana volume
 	sudo rm -rf /grafana
 	sudo mkdir -p /grafana
 	sudo cp -R deploy/grafanadata/grafana.db /grafana
