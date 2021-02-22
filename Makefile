@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy clean app loderunner lode-test reset-prometheus reset-grafana
+.PHONY: help all create delete deploy clean app loderunner load-test reset-prometheus reset-grafana
 
 help :
 	@echo "Usage:"
@@ -6,9 +6,10 @@ help :
 	@echo "   make create           - create a kind cluster"
 	@echo "   make delete           - delete the kind cluster"
 	@echo "   make deploy           - deploy the apps to the cluster"
+	@echo "   make clean            - delete the apps from the cluster"
 	@echo "   make app              - build and deploy a local app docker image"
 	@echo "   make loderunner       - build and deploy a local LodeRunner docker image"
-	@echo "   make clean            - delete the apps from the cluster"
+	@echo "   make load-test        - run a 60 second load test"
 	@echo "   make reset-prometheus - reset the Prometheus volume (existing data is deleted)"
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
 
