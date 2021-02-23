@@ -37,6 +37,7 @@ cp .devcontainer/workspace ../akdc.code-workspace
 
 # clone repos
 pushd ..
+sudo chown vscode:root .
 git clone https://github.com/retaildevcrews/ngsa
 git clone https://github.com/retaildevcrews/ngsa-app
 git clone https://github.com/retaildevcrews/loderunner
