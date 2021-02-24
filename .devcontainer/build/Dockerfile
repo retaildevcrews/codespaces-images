@@ -82,4 +82,5 @@ RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && \
     chmod 700 get_helm.sh && \
     ./get_helm.sh && \
-    chmod +x /usr/local/bin/helm
+    chmod +x /usr/local/bin/helm && \
+    rm get_helm.sh
