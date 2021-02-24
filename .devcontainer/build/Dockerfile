@@ -70,11 +70,11 @@ RUN apt-get autoremove -y && \
 # install kind, k9s, jp (jmespath), helm
 RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
     chmod +x ./kind && \
-    mv ./kind /usr/bin/kind && \
+    mv ./kind /usr/local/bin/kind && \
     curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/k9s_Linux_x86_64.tar.gz && \
     mkdir k9s && \
     tar xvzf k9s.tar.gz -C ./k9s && \
-    mv ./k9s/k9s /usr/bin/k9s && \
+    mv ./k9s/k9s /usr/local/bin/k9s && \
     rm -rf k9s.tar.gz k9s && \
     VERSION=$(curl -i https://github.com/jmespath/jp/releases/latest | grep "location: https://github.com/" | rev | cut -f 1 -d / | rev | sed 's/\r//') && \
     wget https://github.com/jmespath/jp/releases/download/$VERSION/jp-linux-amd64 -O /usr/local/bin/jp && \
