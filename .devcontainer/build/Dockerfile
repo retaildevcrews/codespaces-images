@@ -32,7 +32,7 @@ RUN /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME
     && /bin/bash /tmp/library-scripts/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}" "${USE_MOBY}" \
     # Clean up
     && rm -rf /tmp/library-scripts/
-    
+
 VOLUME [ "/var/lib/docker" ]
 
 # Setting the ENTRYPOINT to docker-init.sh will start up the Docker Engine 
@@ -71,6 +71,8 @@ RUN apt-get autoremove -y && \
 RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
     chmod +x ./kind && \
     mv ./kind /usr/local/bin/kind && \
+    wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash && \
+    wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | bash && \
     curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/k9s_Linux_x86_64.tar.gz && \
     mkdir k9s && \
     tar xvzf k9s.tar.gz -C ./k9s && \

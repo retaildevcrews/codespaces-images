@@ -3,8 +3,12 @@
 help :
 	@echo "Usage:"
 	@echo "   make all              - create a cluster and deploy the apps"
+	@echo "   make allk3d           - create a cluster with k3d and deploy the apps"
 	@echo "   make create           - create a kind cluster"
+	@echo "   make createk3d        - create a k3d cluster"
 	@echo "   make delete           - delete the kind cluster"
+	@echo "   make deletek3d        - delete the kind cluster"
+	@echo "   make initdaprk8s      - inits dapr in the configured cluster"
 	@echo "   make deploy           - deploy the apps to the cluster"
 	@echo "   make check            - check the endpoints with curl"
 	@echo "   make clean            - delete the apps from the cluster"
@@ -15,10 +19,18 @@ help :
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
 
 all : delete create deploy check
+allk3d : delete createk3d deploy check
 
 delete :
 	# delete the cluster (if exists)
 	@kind delete cluster
+
+deletek3d :
+	# delete the cluster (if exists)
+	@k3d cluster delete myclyster
+
+initdaprk8s:
+	@darp init --kubernetes
 
 create :
 	# create the cluster and wait for ready
@@ -27,6 +39,17 @@ create :
 	@kind create cluster --config .devcontainer/kind.yaml
 	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s
+
+createk3d :
+	# create the cluster and wait for ready
+	# this will fail harmlessly if the cluster exists
+	# default cluster name is kind
+	@k3d cluster create mycluster --api-port 6443 --servers 1 --volume /prometheus:/prometheus --volume /grafana:/grafana --port 30088:30088@server[0] --port 30081:30081@server[0] --port 30080:30080@server[0] --port 32000:32000@server[0] --port 30000:30000@server[0]
+	@k3d kubeconfig merge mycluster --kubeconfig-switch-context
+	# wait for cluster to be ready
+	@kubectl wait node --for condition=ready --all --timeout=60s
+	@sleep 10
+	@kubectl wait pod -n kube-system --for condition=ready --all --timeout=60s
 
 deploy :
 	# deploy the app
