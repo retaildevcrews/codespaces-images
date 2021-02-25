@@ -32,9 +32,6 @@ popd
 ### Application specific configuration
 ### Delete if reusing for other projects
 
-
-cp .devcontainer/workspace ../akdc.code-workspace
-
 # clone repos
 pushd ..
 sudo chown vscode:root .
@@ -43,6 +40,9 @@ git clone https://github.com/retaildevcrews/ngsa-app
 git clone https://github.com/retaildevcrews/loderunner
 
 popd
+
+cp .devcontainer/workspace ../akdc.code-workspace
+
 mkdir -p deploy
 cd deploy
 cp -R ../../ngsa/IaC/DevCluster/. .
