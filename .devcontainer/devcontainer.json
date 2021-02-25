@@ -1,6 +1,8 @@
 {
 	"name": "kind-cluster",
-	"dockerFile": "./build/Dockerfile",
+	"build": {
+		"dockerfile": "./build/"
+	},
 	// "image": "ghcr.io/retaildevcrews/kind",
 	"runArgs": [
 		"--init",
