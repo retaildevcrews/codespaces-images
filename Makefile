@@ -30,7 +30,7 @@ deletek3d :
 	@k3d cluster delete myclyster
 
 initdaprk8s:
-	@darp init --kubernetes
+	@dapr init --kubernetes
 
 create :
 	# create the cluster and wait for ready
