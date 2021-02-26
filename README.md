@@ -202,3 +202,13 @@ make app
 ## Next Steps
 
 > [Makefile](./Makefile) is a good place to start exploring
+
+## FAQ
+
+**Question:** Why don't we use helm to deploy Kubernetes manifests?
+
+**Answer:** The purpose of this repository is to get developers up and running, with all dependencies install and deployed, so they can focus on writing code. The target audience for this repository is the app developers who do not necessary care about how their app is deployed.
+
+Leaving the manifests as is rather than converting them to helm has the added benefit of readability so if a developer did want to see how their app is deployed or if they need to make modifications to the deployment, it is a lot easier to do so.
+
+In saying that, we do have helm installed inside the `.devcontainer` to make it easy to deploy additional dependencies to the cluster in future.
