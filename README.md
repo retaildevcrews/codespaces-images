@@ -79,40 +79,15 @@ make check
 
 ### Other interesting endpoints
 
-```bash
-# NGSA-App
+See [curl.http](./curl.http).
 
-# swagger
-http localhost:30080
+**Note**: `curl.http` is used in conjuction with the Visual Studio Code extension [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client). If this extension installed, when you open [curl.http](./curl.http), you should see a clickable `Send Request` text above each of the cURL requestions like so:
 
-# version, metrics health
-http localhost:30080/version
-http localhost:30080/metrics
-http localhost:30080/healthz
-http localhost:30080/healthz/ietf
+![REST Client example](./images/RESTClient.png)
 
-# actors API
-http localhost:30080/api/actors
-http localhost:30080/api/actors/nm0000206
-http localhost:30080/api/actors?q=keanu
+Clicking on `Send Request` should open a new panel in Visual Studio Code with the response from that request like so:
 
-# genres api
-http localhost:30080/api/genres
-
-# movies api
-http localhost:30080/api/movies
-http localhost:30080/api/movies/tt0133093
-http localhost:30080/api/movies?q=matrix
-http localhost:30080/api/movies?genre=action
-http localhost:30080/api/movies?year=1999
-http localhost:30080/api/movies?rating=8.0
-
-# LodeRunner
-# note the / url will fail by design
-http localhost:30088/version
-http localhost:30088/metrics
-
-```
+![REST Client example response](./images/RESTClientResponse.png)
 
 ## Launch Grafana Dashboard
 
