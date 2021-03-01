@@ -22,15 +22,15 @@ delete :
 
 create :
 	# create the cluster and wait for ready
-	# this will fail harmlessly if the cluster exists
-	# default cluster name is kind
+	@# this will fail harmlessly if the cluster exists
+	@# default cluster name is kind
 	@kind create cluster --config .devcontainer/kind.yaml
 	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s
 
 deploy :
 	# deploy the app
-	# continue on most errors
+	@# continue on most errors
 	-kubectl apply -f deploy/ngsa-memory
 
 	# deploy prometheus and grafana
@@ -67,7 +67,7 @@ check :
 
 clean :
 	# delete the deployment
-	# continue on error
+	@# continue on error
 	-kubectl delete -f deploy/loderunner
 	-kubectl delete -f deploy/ngsa-memory
 	-kubectl delete ns monitoring
