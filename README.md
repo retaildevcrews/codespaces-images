@@ -79,9 +79,11 @@ make check
 
 ### Other interesting endpoints
 
-See [curl.http](./curl.http).
+Open [curl.http](./curl.http)
 
-**Note**: `curl.http` is used in conjuction with the Visual Studio Code extension [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client). If this extension installed, when you open [curl.http](./curl.http), you should see a clickable `Send Request` text above each of the cURL requestions like so:
+> [curl.http](./curl.http) is used in conjuction with the Visual Studio Code [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension.
+>
+> When you open [curl.http](./curl.http), you should see a clickable `Send Request` text above each of the URLs
 
 ![REST Client example](./images/RESTClient.png)
 
