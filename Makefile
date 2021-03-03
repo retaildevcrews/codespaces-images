@@ -69,11 +69,11 @@ check :
 clean :
 	# delete the deployment
 	@# continue on error
-	-kubectl delete -f deploy/loderunner
-	-kubectl delete -f deploy/ngsa-memory
-	-kubectl delete ns monitoring
-	-kubectl delete -f deploy/fluentbit/fluentbit-pod.yaml
-	-kubectl delete secret log-secrets
+	-kubectl delete -f deploy/loderunner --ignore-not-found=true
+	-kubectl delete -f deploy/ngsa-memory --ignore-not-found=true
+	-kubectl delete ns monitoring --ignore-not-found=true
+	-kubectl delete -f deploy/fluentbit/fluentbit-pod.yaml --ignore-not-found=true
+	-kubectl delete secret log-secrets --ignore-not-found=true
 
 	# show running pods
 	@kubectl get po -A
@@ -84,13 +84,13 @@ app :
 	kind load docker-image ngsa-app:local
 
 	# delete LodeRunner
-	-kubectl delete -f deploy/loderunner
+	-kubectl delete -f deploy/loderunner --ignore-not-found=true
 
 	# display the app version
 	-http localhost:30080/version
 
 	# delete/deploy the app
-	-kubectl delete -f deploy/ngsa-memory
+	-kubectl delete -f deploy/ngsa-memory --ignore-not-found=true
 	kubectl apply -f deploy/ngsa-local
 
 	# deploy LodeRunner after app starts
@@ -112,7 +112,7 @@ loderunner :
 	-http localhost:30088/version
 
 	# delete / create LodeRunner
-	-kubectl delete -f deploy/loderunner
+	-kubectl delete -f deploy/loderunner --ignore-not-found=true
 	kubectl apply -f deploy/loderunner-local
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 	@kubectl get po
@@ -142,7 +142,7 @@ reset-grafana :
 
 jumpbox :
 	@# start a jumpbox pod
-	@-kubectl delete pod jumpbox
+	@-kubectl delete pod jumpbox --ignore-not-found=true
 
 	@kubectl run jumpbox --image=alpine --restart=Never -- /bin/sh -c "trap : TERM INT; sleep 9999999999d & wait"
 	@kubectl wait pod jumpbox --for condition=ready --timeout=30s
