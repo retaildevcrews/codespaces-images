@@ -34,6 +34,7 @@ Output from `make all` should resemble this
 ```text
 
 default      fluentb                                   1/1   Running   0   31s
+default      jumpbox                                   1/1   Running   0   25s
 default      loderunner                                1/1   Running   0   31s
 default      ngsa-memory                               1/1   Running   0   33s
 monitoring   grafana-64f7dbcf96-cfmtd                  1/1   Running   0   32s
@@ -90,6 +91,20 @@ Open [curl.http](./curl.http)
 Clicking on `Send Request` should open a new panel in Visual Studio Code with the response from that request like so:
 
 ![REST Client example response](./images/RESTClientResponse.png)
+
+## Jump Box
+
+A `jump box` pod is created so that you can execute commands `in the cluster`
+
+- use the `kje` alias
+  - `kubectl exec -it jumpbox --`
+- examples
+  - run http against the ClusterIP
+    - `kje http ngsa-memory:8080/version`
+  - run an interactive shell
+    - `kje bash -l`
+      - note: -l causes a login and processes `.profile`
+      - note: `sh -l` will work, but the results will not be displayed in the terminal
 
 ## Launch Grafana Dashboard
 
