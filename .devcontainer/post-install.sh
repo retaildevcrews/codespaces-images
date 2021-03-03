@@ -17,7 +17,7 @@ echo "alias kdelf='kubectl delete -f'" >> .bashrc
 echo "alias kl='kubectl logs'" >> .bashrc
 echo "alias kccc='kubectl config current-context'" >> .bashrc
 echo "alias kcgc='kubectl config get-contexts'" >> .bashrc
-echo "alias kjb='kubectl exec -it jumpbox -- '" >> .bashrc
+echo "alias kje='kubectl exec -it jumpbox -- '" >> .bashrc
 
 echo "export GO111MODULE=on" >> .bashrc
 echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> .bashrc

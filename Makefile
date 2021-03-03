@@ -13,9 +13,9 @@ help :
 	@echo "   make load-test        - run a 60 second load test"
 	@echo "   make reset-prometheus - reset the Prometheus volume (existing data is deleted)"
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
-	@echo "   make debug            - deploy a 'debug' pod"
+	@echo "   make jumpbox          - deploy a 'jumpbox' pod"
 
-all : delete create deploy check
+all : delete create deploy check jumpbox
 
 delete :
 	# delete the cluster (if exists)
@@ -150,7 +150,7 @@ jumpbox :
 	@kubectl exec jumpbox -- /bin/sh -c "echo \"alias ls='ls --color=auto'\" >> /root/.profile && echo \"alias ll='ls -lF'\" >> /root/.profile && echo \"alias la='ls -alF'\" >> /root/.profile && echo 'cd /root' >> /root/.profile" > /dev/null
 
 	# 
-	# use kjb <command>
-	# kjb http ngsa-memory:8080/version
-	# kjb bash -l
+	# use kje <command>
+	# kje http ngsa-memory:8080/version
+	# kje bash -l
 	
