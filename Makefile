@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana
+.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana debug
 
 help :
 	@echo "Usage:"
@@ -13,6 +13,7 @@ help :
 	@echo "   make load-test        - run a 60 second load test"
 	@echo "   make reset-prometheus - reset the Prometheus volume (existing data is deleted)"
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
+	@echo "   make debug            - deploy a 'debug' pod"
 
 all : delete create deploy check
 
@@ -138,3 +139,18 @@ reset-grafana :
 	@sudo mkdir -p /grafana
 	@sudo cp -R deploy/grafanadata/grafana.db /grafana
 	@sudo chown -R 472:472 /grafana
+
+debug :
+	@# start a debug pod
+	@-kubectl delete pod debug
+
+	@kubectl run debug --image=alpine --restart=Never -- /bin/sh -c "trap : TERM INT; sleep 9999999999d & wait"
+	@kubectl wait pod debug --for condition=ready --timeout=30s
+	@kubectl exec debug -- /bin/sh -c "apk update && apk add bash curl httpie" > /dev/null
+	@kubectl exec debug -- /bin/sh -c "echo \"alias ls='ls --color=auto'\" >> /root/.profile && echo \"alias ll='ls -lF'\" >> /root/.profile && echo \"alias la='ls -alF'\" >> /root/.profile && echo 'cd /root' >> /root/.profile" > /dev/null
+
+	# 
+	# use kdbg <command>
+	# kdbg http ngsa-memory:8080/version
+	# kdbg bash -l
+	
