@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana debug
+.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana jumpbox
 
 help :
 	@echo "Usage:"
@@ -140,17 +140,17 @@ reset-grafana :
 	@sudo cp -R deploy/grafanadata/grafana.db /grafana
 	@sudo chown -R 472:472 /grafana
 
-debug :
-	@# start a debug pod
-	@-kubectl delete pod debug
+jumpbox :
+	@# start a jumpbox pod
+	@-kubectl delete pod jumpbox
 
-	@kubectl run debug --image=alpine --restart=Never -- /bin/sh -c "trap : TERM INT; sleep 9999999999d & wait"
-	@kubectl wait pod debug --for condition=ready --timeout=30s
-	@kubectl exec debug -- /bin/sh -c "apk update && apk add bash curl httpie" > /dev/null
-	@kubectl exec debug -- /bin/sh -c "echo \"alias ls='ls --color=auto'\" >> /root/.profile && echo \"alias ll='ls -lF'\" >> /root/.profile && echo \"alias la='ls -alF'\" >> /root/.profile && echo 'cd /root' >> /root/.profile" > /dev/null
+	@kubectl run jumpbox --image=alpine --restart=Never -- /bin/sh -c "trap : TERM INT; sleep 9999999999d & wait"
+	@kubectl wait pod jumpbox --for condition=ready --timeout=30s
+	@kubectl exec jumpbox -- /bin/sh -c "apk update && apk add bash curl httpie" > /dev/null
+	@kubectl exec jumpbox -- /bin/sh -c "echo \"alias ls='ls --color=auto'\" >> /root/.profile && echo \"alias ll='ls -lF'\" >> /root/.profile && echo \"alias la='ls -alF'\" >> /root/.profile && echo 'cd /root' >> /root/.profile" > /dev/null
 
 	# 
-	# use kdbg <command>
-	# kdbg http ngsa-memory:8080/version
-	# kdbg bash -l
+	# use kjb <command>
+	# kjb http ngsa-memory:8080/version
+	# kjb bash -l
 	
