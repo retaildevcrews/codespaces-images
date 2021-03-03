@@ -153,4 +153,3 @@ jumpbox :
 	# use kje <command>
 	# kje http ngsa-memory:8080/version
 	# kje bash -l
-	
