@@ -42,8 +42,7 @@ createk3d :
 	# create the cluster and wait for ready
 	# this will fail harmlessly if the cluster exists
 	# default cluster name is kind
-	@k3d cluster create mycluster --api-port 6443 --servers 1 --volume /prometheus:/prometheus --volume /grafana:/grafana --port 30088:30088@server[0] --port 30081:30081@server[0] --port 30080:30080@server[0] --port 32000:32000@server[0] --port 30000:30000@server[0] --wait
-	@k3d kubeconfig merge mycluster --kubeconfig-switch-context
+	@k3d cluster --config .devcontainer/k3d.yaml
 	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s
 	@sleep 10

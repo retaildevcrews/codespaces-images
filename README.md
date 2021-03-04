@@ -1,6 +1,6 @@
 # Kind Dev Cluster on Codespaces
 
-This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespaces`
+This will setup a Kubernetes developer cluster using `Kind`/`k3d` and `GitHub Codespaces`
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
@@ -23,13 +23,13 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 ## Build and Deploy Cluster
 
 - From the Codespaces terminal
-  - `make all`
+  - `make all` or `make allk3d`
 
 ![Running Codespace](./images/RunningCodespace.jpg)
 
 ## Validate Deployment
 
-Output from `make all` should resemble this
+Output from `make all` or `make allk3d` should resemble this
 
 ```text
 
