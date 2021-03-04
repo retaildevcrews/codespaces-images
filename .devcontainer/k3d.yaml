@@ -1,6 +1,5 @@
 apiVersion: k3d.io/v1alpha2
 kind: Simple
-name: mycluster
 servers: 1
 kubeAPI:
   hostIP: "0.0.0.0"

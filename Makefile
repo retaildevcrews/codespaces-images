@@ -28,7 +28,7 @@ delete :
 
 deletek3d :
 	# delete the cluster (if exists)
-	@k3d cluster delete myclustmyclusterer
+	@k3d cluster delete
 
 create :
 	# create the cluster and wait for ready
