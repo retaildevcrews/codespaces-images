@@ -12,7 +12,9 @@ help :
 	@echo "   make check            - check the endpoints with curl"
 	@echo "   make clean            - delete the apps from the cluster"
 	@echo "   make app              - build and deploy a local app docker image"
+	@echo "   make appk3d           - build and deploy a local app docker image"
 	@echo "   make loderunner       - build and deploy a local LodeRunner docker image"
+	@echo "   make loderunnerk3d    - build and deploy a local LodeRunner docker image"
 	@echo "   make load-test        - run a 60 second load test"
 	@echo "   make reset-prometheus - reset the Prometheus volume (existing data is deleted)"
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
@@ -28,7 +30,7 @@ delete :
 
 deletek3d :
 	# delete the cluster (if exists)
-	@k3d cluster delete myclustmyclusterer
+	@k3d cluster delete k3d
 
 create :
 	# create the cluster and wait for ready
@@ -40,8 +42,8 @@ create :
 
 createk3d :
 	# create the cluster and wait for ready
-	# this will fail harmlessly if the cluster exists
-	# default cluster name is kind
+	@# this will fail harmlessly if the cluster exists
+	@# default cluster name is k3d
 	@k3d cluster create --config .devcontainer/k3d.yaml
 	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s
@@ -126,10 +128,52 @@ app :
 	# display the app version
 	@http localhost:30080/version
 
+appk3d :
+	# build the local image and load into k3d
+	docker build ../ngsa-app -t ngsa-app:local
+	k3d image import -c k3d ngsa-app:local
+
+	# delete LodeRunner
+	-kubectl delete -f deploy/loderunner --ignore-not-found=true
+
+	# display the app version
+	-http localhost:30080/version
+
+	# delete/deploy the app
+	-kubectl delete -f deploy/ngsa-memory --ignore-not-found=true
+	kubectl apply -f deploy/ngsa-local
+
+	# deploy LodeRunner after app starts
+	@kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
+	kubectl apply -f deploy/loderunner
+	@kubectl wait pod loderunner --for condition=ready --timeout=30s
+
+	@kubectl get po
+
+	# display the app version
+	@http localhost:30080/version
+
 loderunner :
 	# build the local image and load into kind
 	docker build ../loderunner -t ngsa-lr:local
 	kind load docker-image ngsa-lr:local
+
+	# display current version
+	-http localhost:30088/version
+
+	# delete / create LodeRunner
+	-kubectl delete -f deploy/loderunner --ignore-not-found=true
+	kubectl apply -f deploy/loderunner-local
+	kubectl wait pod loderunner --for condition=ready --timeout=30s
+	@kubectl get po
+
+	# display the current version
+	@http localhost:30088/version
+
+loderunnerk3d :
+	# build the local image and load into k3d
+	docker build ../loderunner -t ngsa-lr:local
+	k3d image import -c k3d ngsa-lr:local
 
 	# display current version
 	-http localhost:30088/version
