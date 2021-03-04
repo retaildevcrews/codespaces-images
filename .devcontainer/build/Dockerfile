@@ -25,7 +25,7 @@ RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificat
 RUN apt-get -y install --no-install-recommends curl git
 RUN apt-get -y install --no-install-recommends software-properties-common make
 
-COPY build/library-scripts/*.sh /tmp/library-scripts/
+COPY library-scripts/*.sh /tmp/library-scripts/
 
 RUN /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
     # Use Docker script from script library to set things up
