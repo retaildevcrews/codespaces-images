@@ -25,7 +25,7 @@ RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificat
 RUN apt-get -y install --no-install-recommends curl git
 RUN apt-get -y install --no-install-recommends software-properties-common make
 
-COPY build/library-scripts/*.sh /tmp/library-scripts/
+COPY library-scripts/*.sh /tmp/library-scripts/
 
 RUN /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
     # Use Docker script from script library to set things up
@@ -72,7 +72,6 @@ RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
     chmod +x ./kind && \
     mv ./kind /usr/local/bin/kind && \
     wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash && \
-    wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | bash && \
     curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/v0.24.2/k9s_Linux_x86_64.tar.gz && \
     mkdir k9s && \
     tar xvzf k9s.tar.gz -C ./k9s && \

@@ -8,7 +8,6 @@ help :
 	@echo "   make createk3d        - create a k3d cluster"
 	@echo "   make delete           - delete the kind cluster"
 	@echo "   make deletek3d        - delete the kind cluster"
-	@echo "   make initdaprk8s      - inits dapr in the configured cluster"
 	@echo "   make deploy           - deploy the apps to the cluster"
 	@echo "   make check            - check the endpoints with curl"
 	@echo "   make clean            - delete the apps from the cluster"
@@ -27,10 +26,7 @@ delete :
 
 deletek3d :
 	# delete the cluster (if exists)
-	@k3d cluster delete myclyster
-
-initdaprk8s:
-	@dapr init --kubernetes
+	@k3d cluster delete myclustmyclusterer
 
 create :
 	# create the cluster and wait for ready
