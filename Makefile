@@ -20,7 +20,7 @@ help :
 
 
 all : delete create deploy check jumpbox
-allk3d : delete createk3d deploy check
+allk3d : deletek3d createk3d deploy check jumpbox
 
 delete :
 	# delete the cluster (if exists)
@@ -42,7 +42,7 @@ createk3d :
 	# create the cluster and wait for ready
 	# this will fail harmlessly if the cluster exists
 	# default cluster name is kind
-	@k3d cluster create mycluster --api-port 6443 --servers 1 --volume /prometheus:/prometheus --volume /grafana:/grafana --port 30088:30088@server[0] --port 30081:30081@server[0] --port 30080:30080@server[0] --port 32000:32000@server[0] --port 30000:30000@server[0]
+	@k3d cluster create mycluster --api-port 6443 --servers 1 --volume /prometheus:/prometheus --volume /grafana:/grafana --port 30088:30088@server[0] --port 30081:30081@server[0] --port 30080:30080@server[0] --port 32000:32000@server[0] --port 30000:30000@server[0] --wait
 	@k3d kubeconfig merge mycluster --kubeconfig-switch-context
 	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s

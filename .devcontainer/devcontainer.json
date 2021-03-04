@@ -1,6 +1,9 @@
 {
 	"name": "kind-cluster",
-	"image": "ghcr.io/retaildevcrews/kind",
+	"build": {
+		"dockerfile": "build/Dockerfile"
+	},
+	// "image": "ghcr.io/retaildevcrews/kind",
 	"runArgs": [
 		"--init",
 		"--privileged"
@@ -22,6 +25,7 @@
 		"davidanson.vscode-markdownlint",
 		"gruntfuggly.todo-tree",
 		"ms-azuretools.vscode-docker",
+		"mutantdino.resourcemonitor",
 		"humao.rest-client"
 	],
 	// Run Bash script in .devcontainer directory
