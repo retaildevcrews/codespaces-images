@@ -1,11 +1,10 @@
 apiVersion: k3d.io/v1alpha2
 kind: Simple
-name: mycluster3
+name: mycluster
 servers: 1
 kubeAPI:
   hostIP: "0.0.0.0"
   hostPort: "6443"
-image: rancher/k3s:latest
 volumes:
   - volume: /prometheus:/prometheus
     nodeFilters:
@@ -34,8 +33,6 @@ options:
   k3d:
     wait: true
     timeout: "60s"
-    disableLoadbalancer: false
-    disableImageVolume: false
   k3s:
     extraServerArgs:
       - --tls-san=127.0.0.1
