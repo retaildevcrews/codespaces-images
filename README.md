@@ -34,6 +34,7 @@ Output from `make all` should resemble this
 ```text
 
 default      fluentb                                   1/1   Running   0   31s
+default      jumpbox                                   1/1   Running   0   25s
 default      loderunner                                1/1   Running   0   31s
 default      ngsa-memory                               1/1   Running   0   33s
 monitoring   grafana-64f7dbcf96-cfmtd                  1/1   Running   0   32s
@@ -79,40 +80,31 @@ make check
 
 ### Other interesting endpoints
 
-```bash
-# NGSA-App
+Open [curl.http](./curl.http)
 
-# swagger
-http localhost:30080
+> [curl.http](./curl.http) is used in conjuction with the Visual Studio Code [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension.
+>
+> When you open [curl.http](./curl.http), you should see a clickable `Send Request` text above each of the URLs
 
-# version, metrics health
-http localhost:30080/version
-http localhost:30080/metrics
-http localhost:30080/healthz
-http localhost:30080/healthz/ietf
+![REST Client example](./images/RESTClient.png)
 
-# actors API
-http localhost:30080/api/actors
-http localhost:30080/api/actors/nm0000206
-http localhost:30080/api/actors?q=keanu
+Clicking on `Send Request` should open a new panel in Visual Studio Code with the response from that request like so:
 
-# genres api
-http localhost:30080/api/genres
+![REST Client example response](./images/RESTClientResponse.png)
 
-# movies api
-http localhost:30080/api/movies
-http localhost:30080/api/movies/tt0133093
-http localhost:30080/api/movies?q=matrix
-http localhost:30080/api/movies?genre=action
-http localhost:30080/api/movies?year=1999
-http localhost:30080/api/movies?rating=8.0
+## Jump Box
 
-# LodeRunner
-# note the / url will fail by design
-http localhost:30088/version
-http localhost:30088/metrics
+A `jump box` pod is created so that you can execute commands `in the cluster`
 
-```
+- use the `kje` alias
+  - `kubectl exec -it jumpbox --`
+- examples
+  - run http against the ClusterIP
+    - `kje http ngsa-memory:8080/version`
+  - run an interactive shell
+    - `kje bash -l`
+      - note: -l causes a login and processes `.profile`
+      - note: `sh -l` will work, but the results will not be displayed in the terminal
 
 ## Launch Grafana Dashboard
 
@@ -202,3 +194,13 @@ make app
 ## Next Steps
 
 > [Makefile](./Makefile) is a good place to start exploring
+
+## FAQ
+
+**Question:** Why don't we use helm to deploy Kubernetes manifests?
+
+**Answer:** The purpose of this repository is to get developers up and running, with all dependencies install and deployed, so they can focus on writing code. The target audience for this repository is the app developers who do not necessary care about how their app is deployed.
+
+Leaving the manifests as is rather than converting them to helm has the added benefit of readability so if a developer did want to see how their app is deployed or if they need to make modifications to the deployment, it is a lot easier to do so.
+
+In saying that, we do have helm installed inside the `.devcontainer` to make it easy to deploy additional dependencies to the cluster in future.

@@ -17,6 +17,7 @@ echo "alias kdelf='kubectl delete -f'" >> .bashrc
 echo "alias kl='kubectl logs'" >> .bashrc
 echo "alias kccc='kubectl config current-context'" >> .bashrc
 echo "alias kcgc='kubectl config get-contexts'" >> .bashrc
+echo "alias kje='kubectl exec -it jumpbox -- '" >> .bashrc
 
 echo "export GO111MODULE=on" >> .bashrc
 echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> .bashrc
@@ -32,9 +33,6 @@ popd
 ### Application specific configuration
 ### Delete if reusing for other projects
 
-
-cp .devcontainer/workspace ../akdc.code-workspace
-
 # clone repos
 pushd ..
 sudo chown vscode:root .
@@ -43,6 +41,9 @@ git clone https://github.com/retaildevcrews/ngsa-app
 git clone https://github.com/retaildevcrews/loderunner
 
 popd
+
+cp .devcontainer/workspace ../akdc.code-workspace
+
 mkdir -p deploy
 cd deploy
 cp -R ../../ngsa/IaC/DevCluster/. .
