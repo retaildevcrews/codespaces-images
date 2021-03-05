@@ -83,7 +83,7 @@ clean :
 	@kubectl get po -A
 
 app :
-	# build the local image and load into k3d
+	# build the local image and load into ${K8S}
 	docker build ../ngsa-app -t ngsa-app:local
 
 	$(MAKE) target TARGET=app
@@ -109,7 +109,7 @@ app :
 	@http localhost:30080/version
 
 loderunner :
-	# build the local image and load into kind
+	# build the local image and load into ${K8S}
 	docker build ../loderunner -t ngsa-lr:local
 	
 	$(MAKE) target TARGET=loderunner
