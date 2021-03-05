@@ -22,14 +22,21 @@ This will setup a Kubernetes developer cluster using `Kind`/`k3d` and `GitHub Co
 
 ## Build and Deploy Cluster
 
+> by default the solution will spin up a Kind cluster. If you want to give it a try with [k3d](https://k3d.io/) include the following environment variable before running `make` commands:
+  
+  ```bash
+  # set makefile to run options for k3d 
+  export K8S=k3d
+  ```
+
 - From the Codespaces terminal
-  - `make all` or `make allk3d`
+  - `make all`
 
 ![Running Codespace](./images/RunningCodespace.jpg)
 
 ## Validate Deployment
 
-Output from `make all` or `make allk3d` should resemble this
+Output from `make all` should resemble this
 
 ```text
 

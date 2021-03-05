@@ -21,7 +21,7 @@ create :
 app :
 	# build the local image and load into k3d
 	docker build ../ngsa-app -t ngsa-app:local
-	k3d image import -c k3d ngsa-app:local
+	k3d image import ngsa-app:local
 
 	# delete LodeRunner
 	-kubectl delete -f deploy/loderunner --ignore-not-found=true
