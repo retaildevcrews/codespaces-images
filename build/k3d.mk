@@ -8,7 +8,9 @@ create :
 	@# create the cluster and wait for ready
 	@# this will fail harmlessly if the cluster exists
 	@# default cluster name is kind
+
 	@k3d cluster create --config build/k3d.yaml
+
 	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s
 	@kubectl wait job helm-install-traefik -n kube-system --for condition=complete --timeout=60s

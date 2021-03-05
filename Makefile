@@ -17,7 +17,7 @@ help :
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
 	@echo "   make jumpbox          - deploy a 'jumpbox' pod"
 
-target : 
+target :
 ifeq (${K8S}, k3d)
 	$(MAKE) -f build/k3d.mk $(TARGET)
 else
@@ -155,7 +155,7 @@ jumpbox :
 	@kubectl exec jumpbox -- /bin/sh -c "apk update && apk add bash curl httpie" > /dev/null
 	@kubectl exec jumpbox -- /bin/sh -c "echo \"alias ls='ls --color=auto'\" >> /root/.profile && echo \"alias ll='ls -lF'\" >> /root/.profile && echo \"alias la='ls -alF'\" >> /root/.profile && echo 'cd /root' >> /root/.profile" > /dev/null
 
-	# 
+	#
 	# use kje <command>
 	# kje http ngsa-memory:8080/version
 	# kje bash -l
