@@ -173,7 +173,7 @@ loderunner :
 loderunnerk3d :
 	# build the local image and load into k3d
 	docker build ../loderunner -t ngsa-lr:local
-	k3d image import -c k3d ngsa-lr:local
+	k3d image import ngsa-lr:local
 
 	# display current version
 	-http localhost:30088/version
