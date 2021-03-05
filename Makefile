@@ -1,13 +1,12 @@
 .PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana jumpbox
 
+K8S ?= "kind"
+
 help :
 	@echo "Usage:"
 	@echo "   make all              - create a cluster and deploy the apps"
-	@echo "   make allk3d           - create a cluster with k3d and deploy the apps"
 	@echo "   make create           - create a kind cluster"
-	@echo "   make createk3d        - create a k3d cluster"
 	@echo "   make delete           - delete the kind cluster"
-	@echo "   make deletek3d        - delete the kind cluster"
 	@echo "   make deploy           - deploy the apps to the cluster"
 	@echo "   make check            - check the endpoints with curl"
 	@echo "   make clean            - delete the apps from the cluster"
@@ -18,39 +17,21 @@ help :
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
 	@echo "   make jumpbox          - deploy a 'jumpbox' pod"
 
+all : TARGET=delete create
+all : --target deploy check jumpbox
 
-all : delete create deploy check jumpbox
-allk3d : deletek3d createk3d deploy check jumpbox
+delete : TARGET=delete
+delete : --target
 
-delete :
-	# delete the cluster (if exists)
-	@kind delete cluster
+create : TARGET=create
+create : --target
 
-deletek3d :
-	# delete the cluster (if exists)
-	@k3d cluster delete
-
-create :
-	# create the cluster and wait for ready
-	@# this will fail harmlessly if the cluster exists
-	@# default cluster name is kind
-	@kind create cluster --config .devcontainer/kind.yaml
-	# wait for cluster to be ready
-	@kubectl wait node --for condition=ready --all --timeout=60s
-
-createk3d :
-	# create the cluster and wait for ready
-	# this will fail harmlessly if the cluster exists
-	# default cluster name is kind
-	@k3d cluster create --config .devcontainer/k3d.yaml
-	# wait for cluster to be ready
-	@kubectl wait node --for condition=ready --all --timeout=60s
-	@kubectl wait job helm-install-traefik -n kube-system --for condition=complete --timeout=60s
-	@kubectl wait pod -n kube-system --for condition=ready -l app=local-path-provisioner  --timeout=60s
-	@kubectl wait pod -n kube-system --for condition=ready -l k8s-app=metrics-server  --timeout=60s
-	@kubectl wait pod -n kube-system --for condition=ready -l k8s-app=kube-dns  --timeout=60s
-	@kubectl wait pod -n kube-system --for condition=ready -l app=svclb-traefik  --timeout=60s
-	@kubectl wait pod -n kube-system --for condition=ready -l app=traefik  --timeout=60s
+--target : 
+ifeq (${K8S}, k3d)
+	make -f build/k3d.mk $(TARGET)
+else
+	make -f build/kind.mk $(TARGET)
+endif
 
 deploy :
 	# deploy the app
