@@ -30,7 +30,7 @@ delete :
 
 deletek3d :
 	# delete the cluster (if exists)
-	@k3d cluster delete k3d
+	@k3d cluster delete
 
 create :
 	# create the cluster and wait for ready
