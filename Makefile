@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana jumpbox
+.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana jumpbox target
 
 K8S ?= "kind"
 
@@ -17,27 +17,21 @@ help :
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
 	@echo "   make jumpbox          - deploy a 'jumpbox' pod"
 
+target : 
+ifeq (${K8S}, k3d)
+	$(MAKE) -f build/k3d.mk $(TARGET)
+else
+	$(MAKE) -f build/kind.mk $(TARGET)
+endif
+
 all : TARGET=delete create
-all : --target deploy check jumpbox
+all : target deploy check jumpbox
 
 delete : TARGET=delete
-delete : --target
+delete : target
 
 create : TARGET=create
-create : --target
-
-app : TARGET=app
-app : --target
-
-loderunner : TARGET=loderunner
-loderunner : --target
-
---target : 
-ifeq (${K8S}, k3d)
-	make -f build/k3d.mk $(TARGET)
-else
-	make -f build/kind.mk $(TARGET)
-endif
+create : target
 
 deploy :
 	# deploy the app
@@ -87,6 +81,50 @@ clean :
 
 	# show running pods
 	@kubectl get po -A
+
+app :
+	# build the local image and load into k3d
+	docker build ../ngsa-app -t ngsa-app:local
+
+	$(MAKE) target TARGET=app
+
+	# delete LodeRunner
+	-kubectl delete -f deploy/loderunner --ignore-not-found=true
+
+	# display the app version
+	-http localhost:30080/version
+
+	# delete/deploy the app
+	-kubectl delete -f deploy/ngsa-memory --ignore-not-found=true
+	kubectl apply -f deploy/ngsa-local
+
+	# deploy LodeRunner after app starts
+	@kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
+	kubectl apply -f deploy/loderunner
+	@kubectl wait pod loderunner --for condition=ready --timeout=30s
+
+	@kubectl get po
+
+	# display the app version
+	@http localhost:30080/version
+
+loderunner :
+	# build the local image and load into kind
+	docker build ../loderunner -t ngsa-lr:local
+	
+	$(MAKE) target TARGET=loderunner
+
+	# display current version
+	-http localhost:30088/version
+
+	# delete / create LodeRunner
+	-kubectl delete -f deploy/loderunner --ignore-not-found=true
+	kubectl apply -f deploy/loderunner-local
+	kubectl wait pod loderunner --for condition=ready --timeout=30s
+	@kubectl get po
+
+	# display the current version
+	@http localhost:30088/version
 
 load-test :
 	# run a single test
