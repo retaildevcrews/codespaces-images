@@ -1,4 +1,6 @@
-.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana jumpbox
+.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana jumpbox target
+
+K8S ?= "kind"
 
 help :
 	@echo "Usage:"
@@ -15,19 +17,21 @@ help :
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
 	@echo "   make jumpbox          - deploy a 'jumpbox' pod"
 
-all : delete create deploy check jumpbox
+target :
+ifeq (${K8S}, k3d)
+	$(MAKE) -f build/k3d.mk $(TARGET)
+else
+	$(MAKE) -f build/kind.mk $(TARGET)
+endif
 
-delete :
-	# delete the cluster (if exists)
-	@kind delete cluster
+all : TARGET=delete create
+all : target deploy check jumpbox
 
-create :
-	# create the cluster and wait for ready
-	@# this will fail harmlessly if the cluster exists
-	@# default cluster name is kind
-	@kind create cluster --config .devcontainer/kind.yaml
-	# wait for cluster to be ready
-	@kubectl wait node --for condition=ready --all --timeout=60s
+delete : TARGET=delete
+delete : target
+
+create : TARGET=create
+create : target
 
 deploy :
 	# deploy the app
@@ -79,9 +83,10 @@ clean :
 	@kubectl get po -A
 
 app :
-	# build the local image and load into kind
+	# build the local image and load into ${K8S}
 	docker build ../ngsa-app -t ngsa-app:local
-	kind load docker-image ngsa-app:local
+
+	$(MAKE) target TARGET=app
 
 	# delete LodeRunner
 	-kubectl delete -f deploy/loderunner --ignore-not-found=true
@@ -104,9 +109,10 @@ app :
 	@http localhost:30080/version
 
 loderunner :
-	# build the local image and load into kind
+	# build the local image and load into ${K8S}
 	docker build ../loderunner -t ngsa-lr:local
-	kind load docker-image ngsa-lr:local
+	
+	$(MAKE) target TARGET=loderunner
 
 	# display current version
 	-http localhost:30088/version
@@ -149,7 +155,7 @@ jumpbox :
 	@kubectl exec jumpbox -- /bin/sh -c "apk update && apk add bash curl httpie" > /dev/null
 	@kubectl exec jumpbox -- /bin/sh -c "echo \"alias ls='ls --color=auto'\" >> /root/.profile && echo \"alias ll='ls -lF'\" >> /root/.profile && echo \"alias la='ls -alF'\" >> /root/.profile && echo 'cd /root' >> /root/.profile" > /dev/null
 
-	# 
+	#
 	# use kje <command>
 	# kje http ngsa-memory:8080/version
 	# kje bash -l

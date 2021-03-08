@@ -1,6 +1,6 @@
 # Kind Dev Cluster on Codespaces
 
-This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespaces`
+This will setup a Kubernetes developer cluster using `kind`/`k3d` and `GitHub Codespaces`
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
@@ -17,6 +17,13 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 - When prompted, choose `Open Workspace`
 
 ## Build and Deploy Cluster
+
+> by default the solution will spin up a kind cluster. If you want to give it a try with [k3d](https://k3d.io/) include the following environment variable before running `make` commands:
+  
+  ```bash
+  # set makefile to run options for k3d
+  export K8S=k3d
+  ```
 
 - From the Codespaces terminal
   - ensure you are in the `~/workspaces/akdc-kind` directory
