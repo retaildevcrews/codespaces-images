@@ -42,8 +42,6 @@ git clone https://github.com/retaildevcrews/loderunner
 
 popd
 
-cp .devcontainer/workspace ../akdc.code-workspace
-
 mkdir -p deploy
 cd deploy
 cp -R ../../ngsa/IaC/DevCluster/. .

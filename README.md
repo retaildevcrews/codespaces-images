@@ -14,15 +14,12 @@ This will setup a Kubernetes developer cluster using `Kind` and `GitHub Codespac
 
 ## Open Workspace
 
-- Click on the `hamburger` menu in upper left
-- Choose `File`
-- Choose `Open workspace`
-- Click on `..` in selector
-- Click on `akdc.code-workspace`
+- When prompted, choose `Open Workspace`
 
 ## Build and Deploy Cluster
 
 - From the Codespaces terminal
+  - ensure you are in the `~/workspaces/akdc-kind` directory
   - `make all`
 
 ![Running Codespace](./images/RunningCodespace.jpg)
