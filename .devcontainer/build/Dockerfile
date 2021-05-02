@@ -11,8 +11,8 @@ ARG USE_MOBY="false"
 
 # Install needed packages and setup non-root user. Use a separate RUN statement to add your
 # own dependencies. A user of "automatic" attempts to reuse an user ID if one already exists.
-ARG USERNAME=automatic
-ARG USER_UID=1000
+ARG USERNAME=codespaces
+ARG USER_UID=1001
 ARG USER_GID=$USER_UID
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
@@ -58,7 +58,7 @@ RUN wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/package
     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list && \
     apt-get update
 
-RUN apt-get install -y --no-install-recommends dotnet-sdk-3.1
+RUN apt-get install -y --no-install-recommends dotnet-sdk-3.1 dotnet-sdk-5.0 bash-completion
 
 RUN apt-get -y install --no-install-recommends containerd.io kubelet kubernetes-cni
 
@@ -67,9 +67,8 @@ RUN apt-get -y install --no-install-recommends kubectl kubeadm
 RUN apt-get autoremove -y && \
     apt-get clean -y
 
-# install kind, k9s, jp (jmespath), helm, WebV
-RUN dotnet tool install -g webvalidate && \
-    curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
+# install kind, k9s, jp (jmespath), helm
+RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
     chmod +x ./kind && \
     mv ./kind /usr/local/bin/kind && \
     wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash && \
@@ -86,3 +85,37 @@ RUN dotnet tool install -g webvalidate && \
     ./get_helm.sh && \
     chmod +x /usr/local/bin/helm && \
     rm get_helm.sh
+
+# install other tools
+RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
+    mkdir -p /home/${USERNAME}/.ssh && \
+    mkdir -p /home/${USERNAME}/.kube && \
+    mkdir -p /home/${USERNAME}/bin && \
+    mkdir -p /home/${USERNAME}/.local/bin && \
+    mkdir -p /home/${USERNAME}/.k9s && \
+    mkdir -p /home/${USERNAME}/go/src && \
+    mkdir -p /home/${USERNAME}/.local && \
+    mkdir -p /home/${USERNAME}/.dotnet/tools && \
+    mkdir -p /etc/containerd && \
+    mkdir -p /etc/systemd/system/docker.service.d && \
+    mkdir -p /etc/docker && \
+    mkdir -p /prometheus && \
+    mkdir -p /grafana && \
+    chown -R 65534:65534 /prometheus && \
+    chown -R 472:472 /grafana && \
+    echo "" >> /home/${USERNAME}/.bashrc && \
+    echo "export PATH=$PATH:/home/$USERNAME/.local/bin:/home/$USERNAME/.dotnet/tools" >> /home/${USERNAME}/.bashrc && \
+    echo "alias k='kubectl'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kga='kubectl get all'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kgaa='kubectl get all --all-namespaces'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kaf='kubectl apply -f'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kdelf='kubectl delete -f'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kl='kubectl logs'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kccc='kubectl config current-context'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kcgc='kubectl config get-contexts'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kje='kubectl exec -it jumpbox -- '" >> /home/${USERNAME}/.bashrc && \
+    echo "export GO111MODULE=on" >> /home/${USERNAME}/.bashrc && \
+    echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> /home/${USERNAME}/.bashrc && \
+    echo 'export PIP=$(ipconfig | tail -n 1)' >> /home/${USERNAME}/.bashrc && \
+    echo 'complete -F __start_kubectl k' >> /home/${USERNAME}/.bashrc && \
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
