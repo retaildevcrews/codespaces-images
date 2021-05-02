@@ -24,12 +24,12 @@
 
 ## Build and Deploy Cluster
 
-By default the solution will create a `kind` cluster. If you want to use [k3d](https://k3d.io/) export the `K8S` environment variable
+By default the solution will create a `kind` cluster. If you want to use [k3d](https://k3d.io/) copy `k3d/Makefile` to the root of the repo
   
   ```bash
 
   # (optional) set makefile to use k3d
-  export K8S=k3d
+  cp k3d/Makefile .
 
   ```
 
@@ -209,10 +209,6 @@ make app
 
 ## FAQ
 
-**Question:** Why don't we use helm to deploy Kubernetes manifests?
-
-**Answer:** The purpose of this repository is to get developers up and running, with all dependencies install and deployed, so they can focus on writing code. The target audience for this repository is the app developers who do not necessary care about how their app is deployed.
-
-Leaving the manifests as is rather than converting them to helm has the added benefit of readability so if a developer did want to see how their app is deployed or if they need to make modifications to the deployment, it is a lot easier to do so.
-
-In saying that, we do have helm installed inside the `.devcontainer` to make it easy to deploy additional dependencies to the cluster in future.
+- Why don't we use helm to deploy Kubernetes manifests?
+  - The target audience for this repository is app developers who are beginning their Kubernetes journey so we chose simplicity for the Developer Experience.
+  - In our daily work, we use Helm for deployments and it is installed in the `.devcontainer` should you want to use it.
