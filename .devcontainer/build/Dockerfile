@@ -113,6 +113,7 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
     echo "alias kl='kubectl logs'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kccc='kubectl config current-context'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kcgc='kubectl config get-contexts'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kj='kubectl exec -it jumpbox -- bash -l'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kje='kubectl exec -it jumpbox -- '" >> /home/${USERNAME}/.bashrc && \
     echo "export GO111MODULE=on" >> /home/${USERNAME}/.bashrc && \
     echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> /home/${USERNAME}/.bashrc && \
