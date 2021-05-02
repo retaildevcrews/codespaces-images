@@ -10,8 +10,10 @@
 	"settings": {
 		"terminal.integrated.shell.linux": "/bin/bash"
 	},
-	"remoteUser": "vscode",
+	"remoteUser": "akdc",
 	"forwardPorts": [
+		80,
+		443,
 		30000,
 		32000,
 		30080,
