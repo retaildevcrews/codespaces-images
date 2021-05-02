@@ -11,8 +11,8 @@ ARG USE_MOBY="false"
 
 # Install needed packages and setup non-root user. Use a separate RUN statement to add your
 # own dependencies. A user of "automatic" attempts to reuse an user ID if one already exists.
-ARG USERNAME=rdc
-ARG USER_UID=1001
+ARG USERNAME=akdc
+ARG USER_UID=4120
 ARG USER_GID=$USER_UID
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
