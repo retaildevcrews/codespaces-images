@@ -1,4 +1,3 @@
-# Note: You can use any Debian/Ubuntu based image you want. 
 FROM mcr.microsoft.com/vscode/devcontainers/base:focal
 
 # [Option] Install zsh
@@ -17,8 +16,9 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
-    apt-get upgrade -y
+    apt-get update
+
+RUN apt-get upgrade -y
 
 RUN apt-get -y install --no-install-recommends apt-utils dialog
 RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificates
@@ -67,8 +67,9 @@ RUN apt-get -y install --no-install-recommends kubectl kubeadm
 RUN apt-get autoremove -y && \
     apt-get clean -y
 
-# install kind, k9s, jp (jmespath), helm
-RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
+# install kind, k9s, jp (jmespath), helm, WebV
+RUN dotnet tool install -g webvalidate && \
+    curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
     chmod +x ./kind && \
     mv ./kind /usr/local/bin/kind && \
     wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash && \
