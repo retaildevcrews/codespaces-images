@@ -17,21 +17,22 @@ help :
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
 	@echo "   make jumpbox          - deploy a 'jumpbox' pod"
 
-target :
-ifeq (${K8S}, k3d)
-	$(MAKE) -f build/k3d.mk $(TARGET)
-else
-	$(MAKE) -f build/kind.mk $(TARGET)
-endif
+all : delete create deploy check jumpbox
 
-all : TARGET=delete create
-all : target deploy check jumpbox
+delete :
+	# delete the cluster (if exists)
+	@# this will fail harmlessly if the cluster does not exist
+	@kind delete cluster
 
-delete : TARGET=delete
-delete : target
+create :
+	# create the cluster and wait for ready
+	@# this will fail harmlessly if the cluster exists
+	@# default cluster name is kind
 
-create : TARGET=create
-create : target
+	@kind create cluster --config kind.yaml
+
+	# wait for cluster to be ready
+	@kubectl wait node --for condition=ready --all --timeout=60s
 
 deploy :
 	# deploy the app
@@ -86,7 +87,7 @@ app :
 	# build the local image and load into ${K8S}
 	docker build ../ngsa-app -t ngsa-app:local
 
-	$(MAKE) target TARGET=app
+	kind load docker-image ngsa-app:local
 
 	# delete LodeRunner
 	-kubectl delete -f deploy/loderunner --ignore-not-found=true
@@ -112,7 +113,7 @@ loderunner :
 	# build the local image and load into ${K8S}
 	docker build ../loderunner -t ngsa-lr:local
 	
-	$(MAKE) target TARGET=loderunner
+	kind load docker-image ngsa-lr:local
 
 	# display current version
 	-http localhost:30088/version
