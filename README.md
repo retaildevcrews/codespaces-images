@@ -28,7 +28,7 @@ By default the solution will create a `kind` cluster. If you want to use [k3d](h
   
   ```bash
 
-  # (optional) set makefile to use k3d
+  # (optional) use the k3d makefile
   cd k3d
 
   ```
