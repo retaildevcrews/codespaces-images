@@ -29,7 +29,7 @@ create :
 	@# this will fail harmlessly if the cluster exists
 	@# default cluster name is k3d
 
-	@k3d cluster create --config k3d.yaml
+	@k3d cluster create --config k3d/k3d.yaml
 
 	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s
