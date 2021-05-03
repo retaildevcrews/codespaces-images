@@ -29,7 +29,7 @@ create :
 	@# this will fail harmlessly if the cluster exists
 	@# default cluster name is k3d
 
-	@k3d cluster create --config k3d/k3d.yaml
+	@k3d cluster create --config k3d.yaml
 
 	# wait for cluster to be ready
 	@kubectl wait node --for condition=ready --all --timeout=60s
@@ -43,22 +43,22 @@ create :
 deploy :
 	# deploy the app
 	@# continue on most errors
-	-kubectl apply -f deploy/ngsa-memory
+	-kubectl apply -f ../deploy/ngsa-memory
 
 	# deploy prometheus and grafana
-	-kubectl apply -f deploy/prometheus
-	-kubectl apply -f deploy/grafana
+	-kubectl apply -f ../deploy/prometheus
+	-kubectl apply -f ../deploy/grafana
 
 	# deploy fluent bit
 	-kubectl create secret generic log-secrets --from-literal=WorkspaceId=dev --from-literal=SharedKey=dev
-	-kubectl apply -f deploy/fluentbit/account.yaml
-	-kubectl apply -f deploy/fluentbit/log.yaml
-	-kubectl apply -f deploy/fluentbit/stdout-config.yaml
-	-kubectl apply -f deploy/fluentbit/fluentbit-pod.yaml
+	-kubectl apply -f ../deploy/fluentbit/account.yaml
+	-kubectl apply -f ../deploy/fluentbit/log.yaml
+	-kubectl apply -f ../deploy/fluentbit/stdout-config.yaml
+	-kubectl apply -f ../deploy/fluentbit/fluentbit-pod.yaml
 
 	# deploy LodeRunner after the app starts
 	@kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
-	-kubectl apply -f deploy/loderunner
+	-kubectl apply -f ../deploy/loderunner
 
 	# wait for the pods to start
 	@kubectl wait pod -n monitoring --for condition=ready --all --timeout=30s
@@ -80,10 +80,10 @@ check :
 clean :
 	# delete the deployment
 	@# continue on error
-	-kubectl delete -f deploy/loderunner --ignore-not-found=true
-	-kubectl delete -f deploy/ngsa-memory --ignore-not-found=true
+	-kubectl delete -f ../deploy/loderunner --ignore-not-found=true
+	-kubectl delete -f ../deploy/ngsa-memory --ignore-not-found=true
 	-kubectl delete ns monitoring --ignore-not-found=true
-	-kubectl delete -f deploy/fluentbit/fluentbit-pod.yaml --ignore-not-found=true
+	-kubectl delete -f ../deploy/fluentbit/fluentbit-pod.yaml --ignore-not-found=true
 	-kubectl delete secret log-secrets --ignore-not-found=true
 
 	# show running pods
@@ -96,18 +96,18 @@ app :
 	k3d image import ngsa-app:local
 
 	# delete LodeRunner
-	-kubectl delete -f deploy/loderunner --ignore-not-found=true
+	-kubectl delete -f ../deploy/loderunner --ignore-not-found=true
 
 	# display the app version
 	-http localhost:30080/version
 
 	# delete/deploy the app
-	-kubectl delete -f deploy/ngsa-memory --ignore-not-found=true
-	kubectl apply -f deploy/ngsa-local
+	-kubectl delete -f ../deploy/ngsa-memory --ignore-not-found=true
+	kubectl apply -f ../deploy/ngsa-local
 
 	# deploy LodeRunner after app starts
 	@kubectl wait pod ngsa-memory --for condition=ready --timeout=30s
-	kubectl apply -f deploy/loderunner
+	kubectl apply -f ../deploy/loderunner
 	@kubectl wait pod loderunner --for condition=ready --timeout=30s
 
 	@kubectl get po
@@ -125,8 +125,8 @@ loderunner :
 	-http localhost:30088/version
 
 	# delete / create LodeRunner
-	-kubectl delete -f deploy/loderunner --ignore-not-found=true
-	kubectl apply -f deploy/loderunner-local
+	-kubectl delete -f ../deploy/loderunner --ignore-not-found=true
+	kubectl apply -f ../deploy/loderunner-local
 	kubectl wait pod loderunner --for condition=ready --timeout=30s
 	@kubectl get po
 
@@ -150,7 +150,7 @@ reset-grafana :
 	# remove and copy the data to /grafana volume
 	@sudo rm -rf /grafana
 	@sudo mkdir -p /grafana
-	@sudo cp -R deploy/grafanadata/grafana.db /grafana
+	@sudo cp -R ../deploy/grafanadata/grafana.db /grafana
 	@sudo chown -R 472:472 /grafana
 
 jumpbox :
