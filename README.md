@@ -24,12 +24,12 @@
 
 ## Build and Deploy Cluster
 
-By default the solution will create a `kind` cluster. If you want to use [k3d](https://k3d.io/) copy `k3d/Makefile` to the root of the repo
+By default the solution will create a `kind` cluster. If you want to use [k3d](https://k3d.io/), run the make commands from the `k3d` directory
   
   ```bash
 
   # (optional) set makefile to use k3d
-  cp k3d/Makefile .
+  cd k3d
 
   ```
 
