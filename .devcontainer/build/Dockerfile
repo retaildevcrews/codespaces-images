@@ -64,6 +64,8 @@ RUN apt-get -y install --no-install-recommends containerd.io kubelet kubernetes-
 
 RUN apt-get -y install --no-install-recommends kubectl kubeadm
 
+RUN apt-get -y install --no-install-recommends azure-cli
+
 RUN apt-get autoremove -y && \
     apt-get clean -y
 
