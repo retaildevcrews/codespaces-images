@@ -58,16 +58,15 @@ RUN wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/package
     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list && \
     apt-get update
 
-RUN apt-get install -y --no-install-recommends dotnet-sdk-3.1 dotnet-sdk-5.0 bash-completion
+RUN apt-get update
+
+RUN apt-get install -y --no-install-recommends dotnet-sdk-5.0 bash-completion
 
 RUN apt-get -y install --no-install-recommends containerd.io kubelet kubernetes-cni
 
 RUN apt-get -y install --no-install-recommends kubectl kubeadm
 
 RUN apt-get -y install --no-install-recommends azure-cli
-
-RUN apt-get autoremove -y && \
-    apt-get clean -y
 
 # install kind, k9s, jp (jmespath), helm
 RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
@@ -122,3 +121,14 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
     echo 'export PIP=$(ipconfig | tail -n 1)' >> /home/${USERNAME}/.bashrc && \
     echo 'complete -F __start_kubectl k' >> /home/${USERNAME}/.bashrc && \
     chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
+
+# install flux cli
+RUN curl -s https://fluxcd.io/install.sh | bash && \
+    chmod +x /usr/local/bin/flux && \
+    flux completion bash > /etc/bash_completion.d/flux
+
+RUN apt-get upgrade -y
+
+RUN apt-get autoremove -y && \
+    apt-get clean -y
+
