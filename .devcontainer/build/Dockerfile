@@ -127,6 +127,9 @@ RUN curl -s https://fluxcd.io/install.sh | bash && \
     chmod +x /usr/local/bin/flux && \
     flux completion bash > /etc/bash_completion.d/flux
 
+# install envsubst
+RUN apt-get -y install --no-install-recommends gettext
+
 RUN apt-get upgrade -y
 
 RUN apt-get autoremove -y && \
