@@ -116,16 +116,17 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
     echo "alias kcgc='kubectl config get-contexts'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kj='kubectl exec -it jumpbox -- bash -l'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kje='kubectl exec -it jumpbox -- '" >> /home/${USERNAME}/.bashrc && \
+    echo "export FLUX_FORWARD_NAMESPACE=flux-cd" >> /home/${USERNAME}/.bashrc && \
     echo "export GO111MODULE=on" >> /home/${USERNAME}/.bashrc && \
     echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> /home/${USERNAME}/.bashrc && \
     echo 'export PIP=$(ipconfig | tail -n 1)' >> /home/${USERNAME}/.bashrc && \
     echo 'complete -F __start_kubectl k' >> /home/${USERNAME}/.bashrc && \
     chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
-# install flux cli
-RUN curl -s https://fluxcd.io/install.sh | bash && \
-    chmod +x /usr/local/bin/flux && \
-    flux completion bash > /etc/bash_completion.d/flux
+# install fluxctl
+RUN curl -L https://github.com/fluxcd/flux/releases/download/1.14.2/fluxctl_linux_amd64 -o /usr/local/bin/fluxctl && \
+    chmod +x /usr/local/bin/fluxctl
+
 
 # install envsubst
 RUN apt-get -y install --no-install-recommends gettext
