@@ -23,5 +23,5 @@
 		"humao.rest-client"
 	],
 	// Run Bash script in .devcontainer directory
-	// "postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
+	"postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
 }
