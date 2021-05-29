@@ -1,21 +1,18 @@
 {
 	"name": "kind-cluster",
+	"remoteUser": "akdc",
 	"image": "ghcr.io/retaildevcrews/kind",
 	"runArgs": [
 		"--init",
 		"--privileged"
 	],
 	"overrideCommand": false,
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash"
-	},
-	"remoteUser": "akdc",
+	"settings": { },
 	"forwardPorts": [
 		30000,
 		30080,
-		30088
-		32000,
+		30088,
+		32000
 	],
 	// Install extensions
 	"extensions": [
