@@ -1,7 +1,7 @@
 {
-	"name": "kind-cluster",
+	"name": "akdc-kind",
 	"remoteUser": "akdc",
-	"image": "ghcr.io/retaildevcrews/kind",
+	"image": "ghcr.io/retaildevcrews/kind:latest",
 	"runArgs": [
 		"--init",
 		"--privileged"

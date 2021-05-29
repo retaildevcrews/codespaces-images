@@ -2,10 +2,8 @@
 
 # clone repos
 pushd ..
-git clone https://github.com/retaildevcrews/ngsa
 git clone https://github.com/retaildevcrews/ngsa-app
 git clone https://github.com/retaildevcrews/loderunner
-
 popd
 
 # copy grafana.db to /grafana

@@ -31,11 +31,10 @@ By default the solution will create a `kind` cluster. If you want to use [k3d](h
   # (optional) use the k3d makefile
   cd k3d
 
-  ```
+  # build the cluster
+  make all
 
-- From the Codespaces terminal
-  - ensure you are in the `~/workspaces/akdc-kind` directory
-  - `make all`
+  ```
 
 ![Running Codespace](./images/RunningCodespace.jpg)
 
@@ -108,15 +107,16 @@ Clicking on `Send Request` should open a new panel in Visual Studio Code with th
 
 A `jump box` pod is created so that you can execute commands `in the cluster`
 
+- use the `kj` alias
+  - `kubectl exec -it jumpbox -- bash -l`
+      - note: -l causes a login and processes `.profile`
+      - note: `sh -l` will work, but the results will not be displayed in the terminal due to a bug
+
 - use the `kje` alias
   - `kubectl exec -it jumpbox --`
-- examples
+- example
   - run http against the ClusterIP
     - `kje http ngsa-memory:8080/version`
-  - run an interactive shell
-    - `kje bash -l`
-      - note: -l causes a login and processes `.profile`
-      - note: `sh -l` will work, but the results will not be displayed in the terminal
 
 ## Launch Grafana Dashboard
 
