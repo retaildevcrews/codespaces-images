@@ -130,11 +130,11 @@ loderunner :
 
 test :
 	# run a single test
-	dotnet run -p ../loderunner/Ngsa.LodeRunner.csproj -- -s http://localhost:30080 -f baseline.json
+	webv -s http://localhost:30080 -f ../loderunner/baseline.json
 
 load-test :
 	# run a 60 second load test
-	dotnet run -p ../loderunner/Ngsa.LodeRunner.csproj -- -s http://localhost:30080 -f baseline.json benchmark.json -r -l 1 --duration 60
+	webv -s http://localhost:30080 -f ../loderunner/baseline.json benchmark.json -r -l 1 --duration 60
 
 reset-prometheus :
 	# remove and create the /prometheus volume
