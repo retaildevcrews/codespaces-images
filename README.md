@@ -122,7 +122,7 @@ A `jump box` pod is created so that you can execute commands `in the cluster`
 
 - Grafana login info
   - admin
-  - Ngsa512
+  - akdc-512
 
 - Once `make all` completes successfully
   - Click on the `ports` tab of the terminal window
@@ -143,6 +143,11 @@ A `jump box` pod is created so that you can execute commands `in the cluster`
 ```bash
 
 # from Codespaces terminal
+
+# run a baseline test (will generate warnings in Grafana)
+make test
+
+# run a 60 second load test
 make load-test
 
 ```

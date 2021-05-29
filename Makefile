@@ -1,4 +1,4 @@
-.PHONY: help all create delete deploy check clean app loderunner load-test reset-prometheus reset-grafana jumpbox target
+.PHONY: help all create delete deploy check clean app loderunner test load-test reset-prometheus reset-grafana jumpbox target
 
 K8S ?= "kind"
 
@@ -12,6 +12,7 @@ help :
 	@echo "   make clean            - delete the apps from the cluster"
 	@echo "   make app              - build and deploy a local app docker image"
 	@echo "   make loderunner       - build and deploy a local LodeRunner docker image"
+	@echo "   make test             - run a LodeRunner test (generates warnings)"
 	@echo "   make load-test        - run a 60 second load test"
 	@echo "   make reset-prometheus - reset the Prometheus volume (existing data is deleted)"
 	@echo "   make reset-grafana    - reset the Grafana volume (existing data is deleted)"
@@ -127,12 +128,13 @@ loderunner :
 	# display the current version
 	@http localhost:30088/version
 
-load-test :
+test :
 	# run a single test
-	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f baseline.json
+	webv -s http://localhost:30080 -f ../loderunner/baseline.json
 
-	# run a 60 second test
-	dotnet run -p ../loderunner/aspnetapp.csproj -- -s http://localhost:30080 -f baseline.json benchmark.json -r -l 1 --duration 60
+load-test :
+	# run a 60 second load test
+	webv -s http://localhost:30080 -f ../loderunner/baseline.json benchmark.json -r -l 1 --duration 60
 
 reset-prometheus :
 	# remove and create the /prometheus volume
