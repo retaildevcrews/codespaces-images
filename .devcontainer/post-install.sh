@@ -2,7 +2,6 @@
 
 # clone repos
 pushd ..
-sudo chown akdc:akdc .
 git clone https://github.com/retaildevcrews/ngsa
 git clone https://github.com/retaildevcrews/ngsa-app
 git clone https://github.com/retaildevcrews/loderunner
