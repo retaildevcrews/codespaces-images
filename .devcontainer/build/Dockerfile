@@ -25,13 +25,13 @@ RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificat
 RUN apt-get -y install --no-install-recommends curl git
 RUN apt-get -y install --no-install-recommends software-properties-common make
 
-COPY library-scripts/*.sh /tmp/library-scripts/
+COPY script-library/*.sh /tmp/script-library/
 
-RUN /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
+RUN /bin/bash /tmp/script-library/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
     # Use Docker script from script library to set things up
-    && /bin/bash /tmp/library-scripts/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}" "${USE_MOBY}" \
+    && /bin/bash /tmp/script-library/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}" "${USE_MOBY}" \
     # Clean up
-    && rm -rf /tmp/library-scripts/
+    && rm -rf /tmp/script-library/
 
 VOLUME [ "/var/lib/docker" ]
 
