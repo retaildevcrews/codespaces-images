@@ -23,7 +23,7 @@ RUN apt-get upgrade -y
 RUN apt-get -y install --no-install-recommends apt-utils dialog
 RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificates
 RUN apt-get -y install --no-install-recommends curl git
-RUN apt-get -y install --no-install-recommends software-properties-common make
+RUN apt-get -y install --no-install-recommends software-properties-common make build-essential
 
 COPY script-library/*.sh /tmp/script-library/
 
@@ -105,7 +105,7 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
     chown -R 65534:65534 /prometheus && \
     chown -R 472:472 /grafana && \
     echo "" >> /home/${USERNAME}/.bashrc && \
-    echo "export PATH=$PATH:/home/$USERNAME/.local/bin:/home/$USERNAME/.dotnet/tools" >> /home/${USERNAME}/.bashrc && \
+    echo "export PATH=$PATH:/home/$USERNAME/.local/bin:/home/$USERNAME/.dotnet/tools:/usr/local/cargo/bin" >> /home/${USERNAME}/.bashrc && \
     echo "alias k='kubectl'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kga='kubectl get all'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kgaa='kubectl get all --all-namespaces'" >> /home/${USERNAME}/.bashrc && \
@@ -127,6 +127,28 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
 RUN curl -L https://github.com/fluxcd/flux/releases/download/1.14.2/fluxctl_linux_amd64 -o /usr/local/bin/fluxctl && \
     chmod +x /usr/local/bin/fluxctl
 
+# install rust
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH \
+    RUST_VERSION=1.52.1
+
+RUN set -eux; \
+    dpkgArch="$(dpkg --print-architecture)"; \
+    case "${dpkgArch##*-}" in \
+        amd64) rustArch='x86_64-unknown-linux-gnu'; rustupSha256='fb3a7425e3f10d51f0480ac3cdb3e725977955b2ba21c9bdac35309563b115e8' ;; \
+        armhf) rustArch='armv7-unknown-linux-gnueabihf'; rustupSha256='f263e170da938888601a8e0bc822f8b40664ab067b390cf6c4fdb1d7c2d844e7' ;; \
+        arm64) rustArch='aarch64-unknown-linux-gnu'; rustupSha256='de1dddd8213644cba48803118c7c16387838b4d53b901059e01729387679dd2a' ;; \
+        i386) rustArch='i686-unknown-linux-gnu'; rustupSha256='66c03055119cecdfc20828c95429212ae5051372513f148342758bb5d0130997' ;; \
+        *) echo >&2 "unsupported architecture: ${dpkgArch}"; exit 1 ;; \
+    esac; \
+    url="https://static.rust-lang.org/rustup/archive/1.24.1/${rustArch}/rustup-init"; \
+    wget "$url"; \
+    echo "${rustupSha256} *rustup-init" | sha256sum -c -; \
+    chmod +x rustup-init; \
+    ./rustup-init -y --no-modify-path --profile minimal --default-toolchain $RUST_VERSION --default-host ${rustArch}; \
+    rm rustup-init; \
+    chmod -R a+w $RUSTUP_HOME $CARGO_HOME;
 
 # install envsubst
 RUN apt-get -y install --no-install-recommends gettext
