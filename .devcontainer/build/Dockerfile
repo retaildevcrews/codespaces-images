@@ -42,7 +42,6 @@ ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
 CMD [ "sleep", "infinity" ]
 
 RUN apt-get -y install --no-install-recommends httpie
-
 RUN apt-get -y install --no-install-recommends jq bash-completion
 
 RUN wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
@@ -52,15 +51,11 @@ RUN wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/package
     echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
-    curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.asc.gpg && \
-    echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/azure-cli.list && \
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list && \
     apt-get update
 
-RUN apt-get update
-
-RUN apt-get install -y --no-install-recommends dotnet-sdk-5.0 bash-completion
+RUN apt-get install -y --no-install-recommends dotnet-sdk-5.0
 
 RUN apt-get -y install --no-install-recommends containerd.io kubelet kubernetes-cni
 
@@ -151,7 +146,7 @@ RUN set -eux; \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME;
 
 # install envsubst
-RUN apt-get -y install --no-install-recommends gettext
+RUN apt-get -y install --no-install-recommends gettext iputils-ping
 
 RUN apt-get upgrade -y
 
