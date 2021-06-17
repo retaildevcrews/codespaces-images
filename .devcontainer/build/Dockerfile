@@ -23,7 +23,7 @@ RUN apt-get upgrade -y
 RUN apt-get -y install --no-install-recommends apt-utils dialog
 RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificates
 RUN apt-get -y install --no-install-recommends curl git
-RUN apt-get -y install --no-install-recommends software-properties-common make build-essential
+RUN apt-get -y install --no-install-recommends software-properties-common make build-essential iputils-ping
 
 COPY script-library/*.sh /tmp/script-library/
 
