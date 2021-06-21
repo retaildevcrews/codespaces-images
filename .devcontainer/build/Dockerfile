@@ -176,10 +176,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # Remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
     && apt-get purge -y imagemagick imagemagick-6-common \
     # Install common packages, non-root user, update yarn and install nvm
-    && bash /tmp/script-library/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
+    && /bin/bash /tmp/script-library/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
     # Install yarn, nvm
     && rm -rf /opt/yarn-* /usr/local/bin/yarn /usr/local/bin/yarnpkg \
-    && bash /tmp/script-library/node-debian.sh "${NVM_DIR}" "none" "${USERNAME}" \
+    && /bin/bash /tmp/script-library/node-debian.sh "${NVM_DIR}" "none" "${USERNAME}" \
     # Configure global npm install location, use group to adapt to UID/GID changes
     && if ! cat /etc/group | grep -e "^npm:" > /dev/null 2>&1; then groupadd -r npm; fi \
     && usermod -a -G npm ${USERNAME} \
