@@ -1,7 +1,14 @@
 {
 	"name": "akdc-kind",
 	"remoteUser": "akdc",
-	"image": "ghcr.io/retaildevcrews/kind:latest",
+	//"image": "ghcr.io/retaildevcrews/kind:latest",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": {
+			"VARIANT": "14"
+		}
+	},
 	"runArgs": [
 		"--init",
 		"--privileged"
