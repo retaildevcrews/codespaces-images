@@ -153,17 +153,18 @@ RUN apt-get upgrade -y
 RUN apt-get autoremove -y && \
     apt-get clean -y
 
-# install node
+# get install script and install node
 # [Choice] Node.js version: 16, 14, 12
 ARG VARIANT=14
-FROM node:${VARIANT}
+RUN curl -sL https://deb.nodesource.com/setup_${VARIANT}.x | sudo -E bash - && \
+    apt-get install -y nodejs
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"
 # [Option] Upgrade OS packages to their latest versions
 ARG UPGRADE_PACKAGES="false"
 
-# Install needed packages, yarn, nvm and setup non-root user. Use a separate RUN statement to add your own dependencies.
+# Install needed packages, nvm and setup non-root user. Use a separate RUN statement to add your own dependencies.
 ARG USERNAME=node
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -175,10 +176,9 @@ COPY script-library/*.sh script-library/*.env /tmp/script-library/
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # Remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
     && apt-get purge -y imagemagick imagemagick-6-common \
-    # Install common packages, non-root user, update yarn and install nvm
+    # Install common packages, non-root user, install nvm
     && /bin/bash /tmp/script-library/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
-    # Install yarn, nvm
-    && rm -rf /opt/yarn-* /usr/local/bin/yarn /usr/local/bin/yarnpkg \
+    # Install nvm
     && /bin/bash /tmp/script-library/node-debian.sh "${NVM_DIR}" "none" "${USERNAME}" \
     # Configure global npm install location, use group to adapt to UID/GID changes
     && if ! cat /etc/group | grep -e "^npm:" > /dev/null 2>&1; then groupadd -r npm; fi \
