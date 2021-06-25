@@ -15,6 +15,10 @@ ARG USERNAME=akdc
 ARG USER_UID=4120
 ARG USER_GID=$USER_UID
 
+###
+# We intentionally create multiple layers so that they pull in parallel which improves startup time
+###
+
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update
 
@@ -82,42 +86,6 @@ RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64 && \
     chmod +x /usr/local/bin/helm && \
     rm get_helm.sh
 
-# install other tools
-RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
-    mkdir -p /home/${USERNAME}/.ssh && \
-    mkdir -p /home/${USERNAME}/.kube && \
-    mkdir -p /home/${USERNAME}/bin && \
-    mkdir -p /home/${USERNAME}/.local/bin && \
-    mkdir -p /home/${USERNAME}/.k9s && \
-    mkdir -p /home/${USERNAME}/go/src && \
-    mkdir -p /home/${USERNAME}/.local && \
-    mkdir -p /home/${USERNAME}/.dotnet/tools && \
-    mkdir -p /etc/containerd && \
-    mkdir -p /etc/systemd/system/docker.service.d && \
-    mkdir -p /etc/docker && \
-    mkdir -p /prometheus && \
-    mkdir -p /grafana && \
-    chown -R 65534:65534 /prometheus && \
-    chown -R 472:472 /grafana && \
-    echo "" >> /home/${USERNAME}/.bashrc && \
-    echo "export PATH=$PATH:/home/$USERNAME/.local/bin:/home/$USERNAME/.dotnet/tools:/usr/local/cargo/bin" >> /home/${USERNAME}/.bashrc && \
-    echo "alias k='kubectl'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kga='kubectl get all'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kgaa='kubectl get all --all-namespaces'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kaf='kubectl apply -f'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kdelf='kubectl delete -f'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kl='kubectl logs'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kccc='kubectl config current-context'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kcgc='kubectl config get-contexts'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kj='kubectl exec -it jumpbox -- bash -l'" >> /home/${USERNAME}/.bashrc && \
-    echo "alias kje='kubectl exec -it jumpbox -- '" >> /home/${USERNAME}/.bashrc && \
-    echo "export FLUX_FORWARD_NAMESPACE=flux-cd" >> /home/${USERNAME}/.bashrc && \
-    echo "export GO111MODULE=on" >> /home/${USERNAME}/.bashrc && \
-    echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> /home/${USERNAME}/.bashrc && \
-    echo 'export PIP=$(ipconfig | tail -n 1)' >> /home/${USERNAME}/.bashrc && \
-    echo 'complete -F __start_kubectl k' >> /home/${USERNAME}/.bashrc && \
-    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
-
 # install fluxctl
 RUN curl -L https://github.com/fluxcd/flux/releases/download/1.14.2/fluxctl_linux_amd64 -o /usr/local/bin/fluxctl && \
     chmod +x /usr/local/bin/fluxctl
@@ -153,3 +121,46 @@ RUN apt-get upgrade -y
 RUN apt-get autoremove -y && \
     apt-get clean -y
 
+# install other tools
+RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
+    mkdir -p /home/${USERNAME}/.ssh && \
+    mkdir -p /home/${USERNAME}/.kube && \
+    mkdir -p /home/${USERNAME}/bin && \
+    mkdir -p /home/${USERNAME}/.local/bin && \
+    mkdir -p /home/${USERNAME}/.k9s && \
+    mkdir -p /home/${USERNAME}/go/src && \
+    mkdir -p /home/${USERNAME}/.local && \
+    mkdir -p /home/${USERNAME}/.dotnet/tools && \
+    mkdir -p /etc/containerd && \
+    mkdir -p /etc/systemd/system/docker.service.d && \
+    mkdir -p /etc/docker && \
+    mkdir -p /prometheus && \
+    mkdir -p /grafana && \
+    chown -R 65534:65534 /prometheus && \
+    chown -R 472:472 /grafana && \
+    rm -rf /home/${USERNAME}/.oh-my-bash && \
+    export OSH=/home/${USERNAME}/.oh-my-bash && \
+    git clone --depth=1 https://github.com/ohmybash/oh-my-bash.git $OSH && \
+    mv /home/${USERNAME}/.bashrc /home/${USERNAME}/.bashrc.pre-oh-my-bash && \
+    cp $OSH/templates/bashrc.osh-template /home/${USERNAME}/.bashrc && \
+    echo " " >> /home/${USERNAME}/.bashrc && \
+    echo 'export PATH=$PATH:~/.local/bin:~/.dotnet/tools:/usr/local/cargo/bin' >> /home/${USERNAME}/.bashrc && \
+    echo " " >> /home/${USERNAME}/.bashrc && \
+    echo "alias k='kubectl'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kga='kubectl get all'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kgaa='kubectl get all --all-namespaces'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kaf='kubectl apply -f'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kdelf='kubectl delete -f'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kl='kubectl logs'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kccc='kubectl config current-context'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kcgc='kubectl config get-contexts'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kj='kubectl exec -it jumpbox -- bash -l'" >> /home/${USERNAME}/.bashrc && \
+    echo "alias kje='kubectl exec -it jumpbox -- '" >> /home/${USERNAME}/.bashrc && \
+    echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> /home/${USERNAME}/.bashrc && \
+    echo " " >> /home/${USERNAME}/.bashrc && \
+    echo "export FLUX_FORWARD_NAMESPACE=flux-cd" >> /home/${USERNAME}/.bashrc && \
+    echo "export GO111MODULE=on" >> /home/${USERNAME}/.bashrc && \
+    echo 'export PIP=$(ipconfig | tail -n 1)' >> /home/${USERNAME}/.bashrc && \
+    echo 'complete -F __start_kubectl k' >> /home/${USERNAME}/.bashrc && \
+    echo " " >> /home/${USERNAME}/.bashrc && \
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
