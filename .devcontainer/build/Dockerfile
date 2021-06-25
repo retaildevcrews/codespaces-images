@@ -144,7 +144,7 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
     mv /home/${USERNAME}/.bashrc /home/${USERNAME}/.bashrc.pre-oh-my-bash && \
     cp $OSH/templates/bashrc.osh-template /home/${USERNAME}/.bashrc && \
     echo " " >> /home/${USERNAME}/.bashrc && \
-    echo 'export PATH=$PATH:~/.local/bin:~/.dotnet/tools:/usr/local/cargo/bin' >> /home/${USERNAME}/.bashrc && \
+    echo 'export PATH=$PATH:~/.dotnet/tools:/usr/local/cargo/bin' >> /home/${USERNAME}/.bashrc && \
     echo " " >> /home/${USERNAME}/.bashrc && \
     echo "alias k='kubectl'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kga='kubectl get all'" >> /home/${USERNAME}/.bashrc && \
