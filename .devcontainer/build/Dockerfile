@@ -143,9 +143,9 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
     git clone --depth=1 https://github.com/ohmybash/oh-my-bash.git $OSH && \
     mv /home/${USERNAME}/.bashrc /home/${USERNAME}/.bashrc.pre-oh-my-bash && \
     cp $OSH/templates/bashrc.osh-template /home/${USERNAME}/.bashrc && \
-    echo " " >> /home/${USERNAME}/.bashrc && \
-    echo 'export PATH=$PATH:~/.dotnet/tools:/usr/local/cargo/bin' >> /home/${USERNAME}/.bashrc && \
-    echo " " >> /home/${USERNAME}/.bashrc && \
+    echo >> /home/${USERNAME}/.bashrc && \
+    echo 'export PATH=$PATH:$HOME/.dotnet/tools:/usr/local/cargo/bin' >> /home/${USERNAME}/.bashrc && \
+    echo >> /home/${USERNAME}/.bashrc && \
     echo "alias k='kubectl'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kga='kubectl get all'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kgaa='kubectl get all --all-namespaces'" >> /home/${USERNAME}/.bashrc && \
@@ -157,10 +157,10 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
     echo "alias kj='kubectl exec -it jumpbox -- bash -l'" >> /home/${USERNAME}/.bashrc && \
     echo "alias kje='kubectl exec -it jumpbox -- '" >> /home/${USERNAME}/.bashrc && \
     echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> /home/${USERNAME}/.bashrc && \
-    echo " " >> /home/${USERNAME}/.bashrc && \
+    echo >> /home/${USERNAME}/.bashrc && \
     echo "export FLUX_FORWARD_NAMESPACE=flux-cd" >> /home/${USERNAME}/.bashrc && \
     echo "export GO111MODULE=on" >> /home/${USERNAME}/.bashrc && \
     echo 'export PIP=$(ipconfig | tail -n 1)' >> /home/${USERNAME}/.bashrc && \
     echo 'complete -F __start_kubectl k' >> /home/${USERNAME}/.bashrc && \
-    echo " " >> /home/${USERNAME}/.bashrc && \
+    echo >> /home/${USERNAME}/.bashrc && \
     chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
