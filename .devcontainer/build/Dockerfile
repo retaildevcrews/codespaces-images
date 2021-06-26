@@ -146,7 +146,7 @@ RUN kubectl completion bash > /etc/bash_completion.d/kubectl && \
     echo 'export PIP=$(ipconfig | tail -n 1)' >> /home/${USERNAME}/.bashrc && \
     echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /home/akdc/.bashrc && \
     echo "export ISTIO_HOME=$ISTIO_HOME" >> /home/akdc/.bashrc && \
-    echo 'export PATH=$ISTIO_HOME/bin:$PATH' >> /home/akdc/.bashrc
+    echo 'export PATH=$ISTIO_HOME/bin:$PATH' >> /home/akdc/.bashrc && \
     echo 'export PATH=$PATH:$HOME/.dotnet/tools:$ISTIO_HOME/bin' >> /home/${USERNAME}/.bashrc && \
     echo >> /home/${USERNAME}/.bashrc && \
     echo 'complete -F __start_kubectl k' >> /home/${USERNAME}/.bashrc && \
