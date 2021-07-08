@@ -146,6 +146,6 @@ RUN mkdir -p /etc/containerd && \
     chown -R 65534:65534 /prometheus && \
     chown -R 472:472 /grafana && \
     echo "export FLUX_FORWARD_NAMESPACE=flux-cd" >> /home/${USERNAME}/.bashrc && \
-    echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /home/akdc/.bashrc && \
-    echo "export ISTIO_HOME=$ISTIO_HOME" >> /home/akdc/.bashrc && \
-    echo 'export PATH=$ISTIO_HOME/bin:$PATH' >> /home/akdc/.bashrc
+    echo "export ISTIO_VERSION=$ISTIO_VERSION" >> /home/${USERNAME}/.bashrc && \
+    echo "export ISTIO_HOME=$ISTIO_HOME" >> /home/${USERNAME}/.bashrc && \
+    echo 'export PATH=$ISTIO_HOME/bin:$PATH' >> /home/${USERNAME}/.bashrc
