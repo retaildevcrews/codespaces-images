@@ -2,9 +2,10 @@
 
 help :
 	@echo "Usage:"
-	@echo "   make all              - build images images"
-	@echo "   make kind             - build Kind image"
-	@echo "   make create           - build Docker-in-Docker image (dind)"
+	@echo "   make all        - build images images"
+	@echo "   make scripts    - update scripts from vscode repo"
+	@echo "   make kind       - build Kind image"
+	@echo "   make dind       - build Docker-in-Docker image (dind)"
 
 
 all : scripts kind dind
