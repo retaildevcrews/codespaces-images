@@ -8,7 +8,7 @@ help :
 	@echo "   make dind       - build Docker-in-Docker image (dind)"
 
 
-all : scripts kind dind
+all : kind dind
 
 scripts :
 	# Download scripts
@@ -17,8 +17,8 @@ scripts :
 	@curl -o script-library/docker-in-docker-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-in-docker-debian.sh
 	@curl -o script-library/kubectl-helm-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/kubectl-helm-debian.sh
 
-kind :
-	@docker build . -t kind
+kind : scripts
+	@docker build . -t ghcr.io/retaildevcrews/kind:beta
 
-dind :
-	@docker build . -t dind --target dind
+dind : scripts
+	@docker build . --target dind -t ghcr.io/retaildevcrews/dind:latest
