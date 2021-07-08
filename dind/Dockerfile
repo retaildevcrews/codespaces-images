@@ -39,9 +39,10 @@ RUN /bin/bash /tmp/script-library/kubectl-helm-debian.sh
 RUN /bin/bash /tmp/script-library/azcli-debian.sh
 RUN rm -rf /tmp/script-library/
 
+# run local scripts
 COPY local-scripts/*.sh /tmp/script-library/
-RUN /bin/bash /tmp/script-library/dind-debian.sh
 RUN /bin/bash /tmp/script-library/oh-my-bash-debian.sh
+RUN /bin/bash /tmp/script-library/dind-debian.sh
 RUN /bin/bash /tmp/script-library/dotnet-debian.sh
 RUN rm -rf /tmp/script-library/
 

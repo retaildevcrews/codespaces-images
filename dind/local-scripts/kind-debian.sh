@@ -29,18 +29,17 @@ if ! dpkg -s curl ca-certificates coreutils gnupg2 > /dev/null 2>&1; then
 fi
 
 ### TODO - do we need this?
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
-apt-get update
+#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add -
+#add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+#curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+#echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
+#apt-get update
 
 #apt-get -y install --no-install-recommends containerd.io kubelet kubernetes-cni kubeadm
 
 # install kind
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
-chmod +x ./kind
-mv ./kind /usr/local/bin/kind
+curl -Lo /usr/local/bin/kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
+chmod +x /usr/local/bin/kind
 
 # install k3d
 #wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
