@@ -9,20 +9,22 @@ help :
 	@echo "   make kind-rust  - build Kind-rust image"
 
 
-all : scripts kind-rust kind dind
+all : kind-rust kind dind
 
 scripts :
+	@docker pull mcr.microsoft.com/vscode/devcontainers/base:focal
+
 	# Download scripts
 	@curl -o script-library/azcli-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/azcli-debian.sh
 	@curl -o script-library/common-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
 	@curl -o script-library/docker-in-docker-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-in-docker-debian.sh
 	@curl -o script-library/kubectl-helm-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/kubectl-helm-debian.sh
 
-dind :
+dind : scripts
 	@docker build . --target dind -t ghcr.io/retaildevcrews/dind:latest
 
-kind :
+kind : scripts
 	@docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
 
-kind-rust :
+kind-rust : scripts
 	@docker build . -t ghcr.io/retaildevcrews/kind-rust:latest
