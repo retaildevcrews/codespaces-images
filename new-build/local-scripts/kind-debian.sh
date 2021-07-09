@@ -61,6 +61,8 @@ export ISTIO_HOME=/usr/local/istio
 
 curl -L https://istio.io/downloadIstio | sh -
 mv istio-$ISTIO_VERSION $ISTIO_HOME
+chmod +x $ISTIO_HOME
+chmod +x $ISTIO_HOME/bin
 
 # create directories
 mkdir -p /etc/containerd

@@ -53,9 +53,10 @@ echo "alias kccc='kubectl config current-context'" >> /home/${USERNAME}/.bashrc
 echo "alias kcgc='kubectl config get-contexts'" >> /home/${USERNAME}/.bashrc
 echo "alias kj='kubectl exec -it jumpbox -- bash -l'" >> /home/${USERNAME}/.bashrc
 echo "alias kje='kubectl exec -it jumpbox -- '" >> /home/${USERNAME}/.bashrc
-echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> /home$    echo "export GO111MODULE=on" >> /home/${USERNAME}/.bashrc
+echo "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" >> /home/${USERNAME}/.bashrc
 
 # set env vars
+echo "export GO111MODULE=on" >> /home/${USERNAME}/.bashrc
 echo 'export PIP=$(ipconfig | tail -n 1)' >> /home/${USERNAME}/.bashrc
 echo 'export PATH=$PATH:$HOME/.dotnet/tools' >> /home/${USERNAME}/.bashrc
 
