@@ -65,6 +65,8 @@ RUN apt-get autoremove -y && \
 
 FROM dind as kind
 
+ARG USERNAME=vscode
+
 COPY local-scripts/*.sh /tmp/script-library/
 RUN /bin/bash /tmp/script-library/kind-debian.sh && \
     rm -rf /tmp/script-library/
@@ -73,7 +75,7 @@ RUN /bin/bash /tmp/script-library/kind-debian.sh && \
 #######################
 ### Build kind-rust container from kind
 
-FROM kind
+FROM kind as kind-rust
 
 ARG USERNAME=vscode
 
