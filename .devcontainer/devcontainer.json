@@ -8,19 +8,13 @@
 	],
 	"overrideCommand": false,
 	"settings": { },
-	"forwardPorts": [
-		30000,
-		30080,
-		30088,
-		32000
-	],
+	"forwardPorts": [],
+
 	// Install extensions
 	"extensions": [
 		"davidanson.vscode-markdownlint",
 		"gruntfuggly.todo-tree",
-		"ms-azuretools.vscode-docker",
-		"mutantdino.resourcemonitor",
-		"humao.rest-client"
+		"ms-azuretools.vscode-docker"
 	],
 	// Run Bash script in .devcontainer directory
 	"postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
