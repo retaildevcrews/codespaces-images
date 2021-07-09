@@ -25,4 +25,4 @@ kind :
 	@docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
 
 kind-rust :
-	@docker build . -t ghcr.io/retaildevcrews/kind-rust:lastest
+	@docker build . -t ghcr.io/retaildevcrews/kind-rust:latest
