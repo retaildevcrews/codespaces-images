@@ -10,16 +10,15 @@ on:
       - main
 
     paths:
-    - '.devcontainer/build/**'
-    - '.github/workflows/build-kind.yaml'
+    - 'Dockerfile'
+    - 'local-scripts/**'
+    - 'script-library/**'
 
 jobs:
 
   build:
 
     runs-on: ubuntu-20.04
-    env:
-      DOCKER_REPO: ghcr.io/retaildevcrews/kind
 
     steps:
     - uses: actions/checkout@v2
@@ -31,16 +30,28 @@ jobs:
         username: ${{ secrets.GHCR_ID }}
         password: ${{ secrets.GHCR_PAT }}
 
+    - name: Docker Pull
+      run: |
+        	docker pull mcr.microsoft.com/vscode/devcontainers/base:focal
+
+          # Download scripts
+          curl -o script-library/azcli-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/azcli-debian.sh
+          curl -o script-library/common-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
+          curl -o script-library/docker-in-docker-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-in-docker-debian.sh
+          curl -o script-library/kubectl-helm-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/kubectl-helm-debian.sh
+
     - name: Docker Build
       run: |
-        cd .devcontainer/build
-        docker build . -t image
-        
+        ### don't change the kind:beta tag yet
+        ### it contains breaking changes!
+
+        docker build . -t ghcr.io/retaildevcrews/kind-rust:latest
+        docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
+        docker build . --target dind -t ghcr.io/retaildevcrews/dind:latest
+
     - name: Docker Tag and Push
       run: |
-        # tag the repo with :beta
-        docker tag image $DOCKER_REPO:latest
-
-        # Push to the repo
-        docker push $DOCKER_REPO
-
+        # Push to the repos
+        docker push ghcr.io/retaildevcrews/dind:latest
+        docker push ghcr.io/retaildevcrews/kind:beta
+        docker push ghcr.io/retaildevcrews/kind-rust:latest
