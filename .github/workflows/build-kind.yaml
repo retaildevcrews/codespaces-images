@@ -10,7 +10,7 @@ on:
       - main
 
     paths:
-    - '.github/workflows/build-kind.yaml
+    - '.github/workflows/build-kind.yaml'
     - 'Dockerfile'
     - 'local-scripts/**'
     - 'script-library/**'
