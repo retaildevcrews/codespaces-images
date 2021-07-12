@@ -1,0 +1,57 @@
+name: Build Codespace Container
+
+on:
+  schedule:
+    # Run on Sunday at 6:00 AM UTC
+    - cron: "0 6 * * 0"
+
+  push:
+    branches:
+      - main
+
+    paths:
+    - 'Dockerfile'
+    - 'local-scripts/**'
+    - 'script-library/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Login to Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GHCR_ID }}
+        password: ${{ secrets.GHCR_PAT }}
+
+    - name: Docker Pull
+      run: |
+        	docker pull mcr.microsoft.com/vscode/devcontainers/base:focal
+
+          # Download scripts
+          curl -o script-library/azcli-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/azcli-debian.sh
+          curl -o script-library/common-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
+          curl -o script-library/docker-in-docker-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-in-docker-debian.sh
+          curl -o script-library/kubectl-helm-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/kubectl-helm-debian.sh
+
+    - name: Docker Build
+      run: |
+        ### don't change the kind:beta tag yet
+        ### it contains breaking changes!
+
+        docker build . -t ghcr.io/retaildevcrews/kind-rust:latest
+        docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
+        docker build . --target dind -t ghcr.io/retaildevcrews/dind:latest
+
+    - name: Docker Tag and Push
+      run: |
+        # Push to the repos
+        docker push ghcr.io/retaildevcrews/dind:latest
+        docker push ghcr.io/retaildevcrews/kind:beta
+        docker push ghcr.io/retaildevcrews/kind-rust:latest
