@@ -32,7 +32,7 @@ jobs:
 
     - name: Docker Pull
       run: |
-        	docker pull mcr.microsoft.com/vscode/devcontainers/base:focal
+          docker pull mcr.microsoft.com/vscode/devcontainers/base:focal
 
           # Download scripts
           curl -o script-library/azcli-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/azcli-debian.sh
