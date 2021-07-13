@@ -90,7 +90,7 @@ RUN apt-get install -y cmake
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
-    RUST_VERSION=1.52.1 \
+    RUST_VERSION=stable \
     USER=${USERNAME}
 
 RUN set -eux; \
@@ -118,15 +118,18 @@ RUN apt-get autoremove -y && \
 WORKDIR /home/${USERNAME}
 USER ${USERNAME}
 
-# install cargo debug
-RUN cargo install cargo-debug
+# update rust
+RUN rustup self update
 RUN rustup update
+
+# install additional components
+RUN cargo install cargo-debug
 RUN rustup component add rust-analysis && \
     rustup component add rust-src && \
     rustup component add rls
-RUN rustup target add wasm32-unknown-unknown
 
-#RUN curl -sL https://run.solo.io/wasme/install | sh
+# install WebAssembly target
+RUN rustup target add wasm32-unknown-unknown
 
 # install webv
 RUN dotnet tool install -g webvalidate
