@@ -12,10 +12,12 @@
 
 	// Install extensions
 	"extensions": [
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "ms-vscode.azurecli",
 		"davidanson.vscode-markdownlint",
 		"gruntfuggly.todo-tree",
 		"ms-azuretools.vscode-docker"
 	],
 	// Run Bash script in .devcontainer directory
-	"postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
+	"onCreateCommand": "/bin/bash ./.devcontainer/on-create.sh"
 }
