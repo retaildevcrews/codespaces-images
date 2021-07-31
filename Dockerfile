@@ -128,6 +128,3 @@ RUN rustup component add rust-analysis && \
 
 # install WebAssembly target
 RUN rustup target add wasm32-unknown-unknown
-
-# install webv
-RUN dotnet tool install -g webvalidate
