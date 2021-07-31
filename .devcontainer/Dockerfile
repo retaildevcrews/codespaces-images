@@ -21,8 +21,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     # uncomment this line if you're using a base image that is not from vscode/devcontainers
     #&& /bin/bash /scripts/common-debian.sh \
     && /bin/bash /scripts/docker-in-docker-debian.sh \
-    && /bin/bash /scripts/kubectl-helm-debian.sh \
-    && /bin/bash /scripts/kind-k3d-debian.sh \
+    #&& /bin/bash /scripts/kubectl-helm-debian.sh \
+    #&& /bin/bash /scripts/kind-k3d-debian.sh \
     # Optional components
     # uncomment any you want to install
     #&& bash /scripts/azcli-debian.sh \
@@ -41,9 +41,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     #&& bash /scripts/sshd-debian.sh \
     #&& bash /scripts/terraform-debian.sh \
     # set welcome message
-    && echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "run 'make all' to build a kind cluster in Codespaces\n\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to AKDC-Kind image builder\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 # docker socket required for Docker in Docker
 VOLUME [ "/var/lib/docker" ]
@@ -53,13 +51,3 @@ VOLUME [ "/var/lib/docker" ]
 # The script will also execute CMD if you need to alter startup behaviors.
 ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
 CMD [ "sleep", "infinity" ]
-
-# [Optional] Uncomment this section to install additional OS packages.
-# alternatively, you can add commands to on-create.sh and/or post-create.sh
-# on-create runs before the Codespaces UI appears
-# post-create runs in the background after the UI appears
-# RUN apt-get -y install --no-install-recommends <your-package-list-here>
-
-# upgrade packages
-# you can improve startup time by runing in post-create.sh
-# RUN apt upgrade -y
