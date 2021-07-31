@@ -4,10 +4,10 @@
 # Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
 #-------------------------------------------------------------------------------------------------------------
 #
-# Docs: https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/azcli.md
+# Docs: https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/powershell.md
 # Maintainer: The VS Code and Codespaces Teams
 #
-# Syntax: ./azcli-debian.sh
+# Syntax: ./powershell-debian.sh
 
 set -e
 
@@ -55,13 +55,20 @@ check_packages() {
 export DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
-check_packages apt-transport-https curl ca-certificates lsb-release gnupg2
+check_packages apt-transport-https curl ca-certificates gnupg2 
 
-# Import key safely (new 'signed-by' method rather than deprecated apt-key approach) and install
+ARCHITECTURE="$(uname -m)"
+if [ "${ARCHITECTURE}" != "amd64" ] && [ "${ARCHITECTURE}" != "x86_64" ]; then
+    echo "(!) Architecture $ARCHITECTURE unsupported"
+    exit 1
+fi
+
+# Source /etc/os-release to get OS info
 . /etc/os-release
+# Import key safely (new 'signed-by' method rather than deprecated apt-key approach) and install
 get_common_setting MICROSOFT_GPG_KEYS_URI
 curl -sSL ${MICROSOFT_GPG_KEYS_URI} | gpg --dearmor > /usr/share/keyrings/microsoft-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/azure-cli/ ${VERSION_CODENAME} main" > /etc/apt/sources.list.d/azure-cli.list
-apt-get update
-apt-get install -y azure-cli
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/microsoft-${ID}-${VERSION_CODENAME}-prod ${VERSION_CODENAME} main" > /etc/apt/sources.list.d/microsoft.list
+apt-get update -yq
+apt-get install -yq powershell
 echo "Done!"
