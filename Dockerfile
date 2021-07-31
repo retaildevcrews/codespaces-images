@@ -9,7 +9,7 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 # copy the stup scripts to the container
-COPY library-scripts/*.sh /scripts/
+COPY scripts-library/*.sh /scripts/
 COPY local-scripts/*.sh /scripts/
 
 ###
@@ -27,13 +27,13 @@ RUN apt-get -y install --no-install-recommends gettext iputils-ping
 RUN apt-get -y install --no-install-recommends httpie
 
 # use scripts from: https://github.com/microsoft/vscode-dev-containers/tree/main/script-library
-RUN /bin/bash /tmp/script-library/common-debian.sh
-RUN /bin/bash /tmp/script-library/docker-in-docker-debian.sh
-RUN /bin/bash /tmp/script-library/kubectl-helm-debian.sh
-RUN /bin/bash /tmp/script-library/azcli-debian.sh
+RUN /bin/bash /scripts/common-debian.sh
+RUN /bin/bash /scripts/docker-in-docker-debian.sh
+RUN /bin/bash /scripts/kubectl-helm-debian.sh
+RUN /bin/bash /scripts/azcli-debian.sh
 
 # run local scripts
-RUN /bin/bash /tmp/script-library/dind-debian.sh
+RUN /bin/bash /scripts/dind-debian.sh
 
 VOLUME [ "/var/lib/docker" ]
 
