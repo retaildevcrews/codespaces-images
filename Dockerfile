@@ -9,8 +9,8 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 # copy the stup scripts to the container
-COPY scripts-library/*.sh /scripts/
-COPY local-scripts/*.sh /scripts/
+COPY .devcontainer/library-scripts/*.sh /scripts/
+COPY .devcontainer/local-scripts/*.sh /scripts/
 
 ###
 # We intentionally create multiple layers so that they pull in parallel which improves startup time
