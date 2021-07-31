@@ -1,8 +1,8 @@
 {
 	"name": "akdc-kind",
 	"remoteUser": "vscode",
-	"dockerFile": "Dockerfile",
-	// "image": "ghcr.io/retaildevcrews/kind:beta",
+	//"dockerFile": "Dockerfile",
+	"image": "ghcr.io/retaildevcrews/dind",
 	"runArgs": [
 		"--init",
 		"--privileged"
