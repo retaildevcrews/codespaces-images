@@ -1,23 +1,34 @@
 {
 	"name": "akdc-kind",
 	"remoteUser": "vscode",
-	"image": "ghcr.io/retaildevcrews/kind:beta",
+	"dockerFile": "Dockerfile",
+	// "image": "ghcr.io/retaildevcrews/kind:beta",
 	"runArgs": [
 		"--init",
 		"--privileged"
 	],
 	"overrideCommand": false,
-	"settings": { },
 	"forwardPorts": [],
 
+	// Set container specific settings
+	"settings": {
+		"terminal.integrated.defaultProfile.linux": "zsh"
+	},
 	// Install extensions
 	"extensions": [
-    "ms-kubernetes-tools.vscode-kubernetes-tools",
-    "ms-vscode.azurecli",
+		"ms-kubernetes-tools.vscode-kubernetes-tools",
+		"ms-vscode.azurecli",
 		"davidanson.vscode-markdownlint",
 		"gruntfuggly.todo-tree",
 		"ms-azuretools.vscode-docker"
 	],
-	// Run Bash script in .devcontainer directory
-	"onCreateCommand": "/bin/bash ./.devcontainer/on-create.sh"
+
+	// Use 'onCreateCommand' to run commands as part of container creation.
+	"onCreateCommand": "/bin/bash -c .devcontainer/on-create.sh",
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "/bin/bash -c .devcontainer/post-create.sh",
+
+	// Use 'postStartCommand' to run commands after the container starts.
+	"postStartCommand": "/bin/bash -c .devcontainer/post-start.sh"
 }
