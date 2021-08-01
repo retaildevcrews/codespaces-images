@@ -24,7 +24,6 @@ RUN apt-get -y install --no-install-recommends curl git wget
 RUN apt-get -y install --no-install-recommends software-properties-common make build-essential
 RUN apt-get -y install --no-install-recommends jq bash-completion
 RUN apt-get -y install --no-install-recommends gettext iputils-ping
-RUN apt-get -y install --no-install-recommends httpie
 
 # use scripts from: https://github.com/microsoft/vscode-dev-containers/tree/main/script-library
 RUN /bin/bash /scripts/common-debian.sh
@@ -34,6 +33,10 @@ RUN /bin/bash /scripts/azcli-debian.sh
 
 # run local scripts
 RUN /bin/bash /scripts/dind-debian.sh
+
+RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "👋 Welcome to the Docker-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 VOLUME [ "/var/lib/docker" ]
 
@@ -48,6 +51,12 @@ RUN apt-get upgrade -y
 RUN apt-get autoremove -y && \
     apt-get clean -y
 
+WORKDIR /home/${USERNAME}
+USER ${USERNAME}
+
+# install webv
+RUN dotnet tool install -g webvalidate
+
 
 #######################
 ### Build kind container from Docker-in-Docker
@@ -60,13 +69,8 @@ RUN /bin/bash /scripts/kind-k3d-debian.sh
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "run 'make all' to build a kind cluster in Codespaces\n\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to the Kind-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
-WORKDIR /home/${USERNAME}
-USER ${USERNAME}
-
-# install webv
-RUN dotnet tool install -g webvalidate
 
 #######################
 ### Build kind-rust container from kind
@@ -128,3 +132,7 @@ RUN rustup component add rust-analysis && \
 
 # install WebAssembly target
 RUN rustup target add wasm32-unknown-unknown
+
+RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "👋 Welcome to the Kind-and-Rust-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt

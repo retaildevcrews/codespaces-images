@@ -116,25 +116,8 @@ curl -Lo /usr/local/bin/jp https://github.com/jmespath/jp/releases/download/${JP
 chmod +x /usr/local/bin/jp
 
 echo "Updating config ..."
-echo -e 'export PATH=$PATH:$HOME/.dotnet/tools:/usr/local/istio/bin' | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-
-echo -e "alias k='kubectl'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kga='kubectl get all'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kgaa='kubectl get all --all-namespaces'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kaf='kubectl apply -f'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kdelf='kubectl delete -f'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kl='kubectl logs'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kccc='kubectl config current-context'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kcgc='kubectl config get-contexts'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kj='kubectl exec -it jumpbox -- bash -l'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias kje='kubectl exec -it jumpbox -- '" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "alias ipconfig='ip -4 a show eth0 | grep inet | sed \"s/inet//g\" | sed \"s/ //g\" | cut -d / -f 1'" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
+echo -e 'export PATH=$PATH:/usr/local/istio/bin' | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
 echo -e "export FLUX_FORWARD_NAMESPACE=flux-cd" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e "export GO111MODULE=on" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-echo -e 'export PIP=$(ipconfig | tail -n 1)' | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
-
-# bash only
-echo -e "complete -F __start_kubectl k" >> /etc/bash.bashrc
 
 if ! type docker > /dev/null 2>&1; then
     echo -e '\n(*) Warning: The docker command was not found.\n\nYou can use one of the following scripts to install it:\n\nhttps://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker-in-docker.md\n\nor\n\nhttps://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md'
