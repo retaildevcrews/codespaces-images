@@ -34,10 +34,10 @@ scripts :
 	@curl -o library-scripts/terraform-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/terraform-debian.sh
 
 dind : scripts
-	@docker build . --target dind -t ghcr.io/retaildevcrews/dind:latest
+	@docker build . --target dind -t ghcr.io/retaildevcrews/dind:beta
 
 kind : scripts
-	@docker build . --target kind -t ghcr.io/retaildevcrews/kind:latest
+	@docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
 
 kind-rust : scripts
-	@docker build . -t ghcr.io/retaildevcrews/kind-rust:latest
+	@docker build . -t ghcr.io/retaildevcrews/kind-rust:beta
