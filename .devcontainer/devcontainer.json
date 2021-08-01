@@ -1,23 +1,21 @@
 {
 	"name": "akdc-kind",
 	"remoteUser": "vscode",
-	"image": "ghcr.io/retaildevcrews/kind:beta",
+	"image": "ghcr.io/retaildevcrews/dind",
 	"runArgs": [
 		"--init",
 		"--privileged"
 	],
 	"overrideCommand": false,
-	"settings": { },
 	"forwardPorts": [],
 
+	// Set container specific settings
+	"settings": {
+		"terminal.integrated.defaultProfile.linux": "zsh"
+	},
 	// Install extensions
 	"extensions": [
-    "ms-kubernetes-tools.vscode-kubernetes-tools",
-    "ms-vscode.azurecli",
 		"davidanson.vscode-markdownlint",
-		"gruntfuggly.todo-tree",
 		"ms-azuretools.vscode-docker"
-	],
-	// Run Bash script in .devcontainer directory
-	"onCreateCommand": "/bin/bash ./.devcontainer/on-create.sh"
+	]
 }

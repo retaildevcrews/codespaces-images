@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-- Build the following docker images
+- `make all` will build the following docker images
   - ghcr.io/retaildevcrews/dind
   - ghcr.io/retaildevcrews/kind
   - ghcr.io/retaildevcrews/kind-rust
