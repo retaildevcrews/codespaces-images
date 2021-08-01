@@ -57,6 +57,7 @@ USER ${USERNAME}
 # install webv
 RUN dotnet tool install -g webvalidate
 
+USER root
 
 #######################
 ### Build kind container from Docker-in-Docker
@@ -76,8 +77,6 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
 ### Build kind-rust container from kind
 
 FROM kind as kind-rust
-
-USER root
 
 ARG USERNAME=vscode
 
@@ -132,6 +131,8 @@ RUN rustup component add rust-analysis && \
 
 # install WebAssembly target
 RUN rustup target add wasm32-unknown-unknown
+
+USER root
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
