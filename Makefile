@@ -41,7 +41,7 @@ kind : scripts
 	@docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
 
 kind-rust : scripts
-	@docker build . -t ghcr.io/retaildevcrews/kind-rust:beta
+	@docker build . --target kind-rust -t ghcr.io/retaildevcrews/kind-rust:beta
 
 java : scripts
 	@docker build . --target kind -t  ghcr.io/retaildevcrews/ngsa-java-codespaces:beta
