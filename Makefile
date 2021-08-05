@@ -1,4 +1,4 @@
-.PHONY: help all scripts dind kind kind-rust
+.PHONY: help all scripts dind kind kind-rust java
 
 help :
 	@echo "Usage:"
@@ -7,9 +7,10 @@ help :
 	@echo "   make dind       - build Docker-in-Docker image (dind)"
 	@echo "   make kind       - build Kind image"
 	@echo "   make kind-rust  - build Kind-rust image"
+	@echo "   make java       - build java Codespaces image"
 
 
-all : kind-rust kind dind
+all : kind-rust kind dind java
 
 scripts :
 	@docker pull mcr.microsoft.com/vscode/devcontainers/dotnet
@@ -41,3 +42,6 @@ kind : scripts
 
 kind-rust : scripts
 	@docker build . -t ghcr.io/retaildevcrews/kind-rust:beta
+
+java : scripts
+	@docker build . --target kind -t  ghcr.io/retaildevcrews/ngsa-java-codespaces:beta

@@ -23,7 +23,7 @@ RUN apt-get -y install --no-install-recommends apt-transport-https ca-certificat
 RUN apt-get -y install --no-install-recommends curl git wget
 RUN apt-get -y install --no-install-recommends software-properties-common make build-essential
 RUN apt-get -y install --no-install-recommends jq bash-completion
-RUN apt-get -y install --no-install-recommends gettext iputils-ping
+RUN apt-get -y install --no-install-recommends gettext iputils-ping dnsutils 
 
 # use scripts from: https://github.com/microsoft/vscode-dev-containers/tree/main/script-library
 RUN /bin/bash /scripts/common-debian.sh
@@ -137,3 +137,38 @@ USER root
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "👋 Welcome to the Kind-and-Rust-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+
+#######################
+### Build ngsa-java container from Docker-in-Docker
+
+FROM dind as ngsa-java
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG USERNAME="vscode"
+ARG JAVA_VERSION="11"
+ARG MAVEN_VERSION="3.6.3"
+ARG ZULU_VERSION="1.0.0-2"
+
+RUN apt-get update && \
+    apt-get -y install --no-install-recommends libssl-dev gnupg-agent && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9 && \
+    curl -O https://cdn.azul.com/zulu/bin/zulu-repo_${ZULU_VERSION}_all.deb && \
+    apt-get install ./zulu-repo_${ZULU_VERSION}_all.deb && \
+    apt-get update && \
+    apt-get -y install zulu${JAVA_VERSION}-jdk
+
+COPY library-scripts /tmp/library-scripts/
+
+RUN bash /tmp/library-scripts/maven-debian.sh
+
+ENV PATH=/apache-maven/bin:${PATH}:~/.dotnet/tools
+
+RUN apt-get upgrade -y
+
+RUN apt-get autoremove -y && \
+    apt-get clean -y
+
+RUN apt-get upgrade -y
+
+USER $USERNAME

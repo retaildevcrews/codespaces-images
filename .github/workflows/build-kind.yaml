@@ -59,6 +59,7 @@ jobs:
         docker build . -t ghcr.io/retaildevcrews/kind-rust:latest
         docker build . --target kind -t ghcr.io/retaildevcrews/kind:latest
         docker build . --target dind -t ghcr.io/retaildevcrews/dind:latest
+        docker build . --target kind -t ghcr.io/retaildevcrews/ngsa-java-codespaces:latest
 
     - name: Docker Tag and Push
       run: |
@@ -66,3 +67,4 @@ jobs:
         docker push -a ghcr.io/retaildevcrews/dind
         docker push -a ghcr.io/retaildevcrews/kind
         docker push -a ghcr.io/retaildevcrews/kind-rust
+        docker push -a ghcr.io/retaildevcrews/ngsa-java-codespaces
