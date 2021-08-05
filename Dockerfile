@@ -46,8 +46,8 @@ VOLUME [ "/var/lib/docker" ]
 ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
 CMD [ "sleep", "infinity" ]
 
+RUN apt-get update -y
 RUN apt-get upgrade -y
-
 RUN apt-get autoremove -y && \
     apt-get clean -y
 
@@ -71,6 +71,11 @@ RUN /bin/bash /scripts/kind-k3d-debian.sh
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "👋 Welcome to the Kind-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get autoremove -y && \
+    apt-get clean -y
 
 
 #######################
@@ -111,8 +116,8 @@ RUN set -eux; \
     rm rustup-init; \
     chmod -R a+w $RUSTUP_HOME $CARGO_HOME;
 
+RUN apt-get update -y
 RUN apt-get upgrade -y
-
 RUN apt-get autoremove -y && \
     apt-get clean -y
 
@@ -143,32 +148,27 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
 
 FROM dind as ngsa-java
 
-ENV DEBIAN_FRONTEND=noninteractive
-
 ARG USERNAME="vscode"
 ARG JAVA_VERSION="11"
 ARG MAVEN_VERSION="3.6.3"
 ARG ZULU_VERSION="1.0.0-2"
 
-RUN apt-get update && \
-    apt-get -y install --no-install-recommends libssl-dev gnupg-agent && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9 && \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update
+
+RUN apt-get -y install --no-install-recommends libssl-dev gnupg-agent
+
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9 && \
     curl -O https://cdn.azul.com/zulu/bin/zulu-repo_${ZULU_VERSION}_all.deb && \
     apt-get install ./zulu-repo_${ZULU_VERSION}_all.deb && \
     apt-get update && \
     apt-get -y install zulu${JAVA_VERSION}-jdk
 
-COPY library-scripts /tmp/library-scripts/
+RUN /bin/bash /scripts/maven-debian.sh
 
-RUN bash /tmp/library-scripts/maven-debian.sh
+ENV PATH=/apache-maven/bin:${PATH}
 
-ENV PATH=/apache-maven/bin:${PATH}:~/.dotnet/tools
-
+RUN apt-get update -y
 RUN apt-get upgrade -y
-
 RUN apt-get autoremove -y && \
     apt-get clean -y
-
-RUN apt-get upgrade -y
-
-USER $USERNAME
