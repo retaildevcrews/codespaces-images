@@ -15,7 +15,7 @@ all : kind-rust kind dind java
 scripts :
 	@docker pull mcr.microsoft.com/vscode/devcontainers/dotnet
 
-	# Download scripts
+	# Download scripts from vscode-dev-containers repo
 	@curl -o library-scripts/common-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
 	@curl -o library-scripts/docker-in-docker-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-in-docker-debian.sh
 	@curl -o library-scripts/kubectl-helm-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/kubectl-helm-debian.sh
@@ -41,7 +41,7 @@ kind : scripts
 	@docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
 
 kind-rust : scripts
-	@docker build . -t ghcr.io/retaildevcrews/kind-rust:beta
+	@docker build . --target kind-rust -t ghcr.io/retaildevcrews/kind-rust:beta
 
 java : scripts
 	@docker build . --target kind -t  ghcr.io/retaildevcrews/ngsa-java-codespaces:beta
