@@ -103,18 +103,6 @@ chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
 mv istio /usr/local
 
-echo "Installing httpie ..."
-
-apt-get -y install --no-install-recommends python3 python3-pip
-
-pip3 install --upgrade pip setuptools httpie
-
-echo "Installing jmespath ..."
-
-JP_VERSION=$(basename "$(curl -fsSL -o /dev/null -w "%{url_effective}" https://github.com/jmespath/jp/releases/latest)")
-curl -Lo /usr/local/bin/jp https://github.com/jmespath/jp/releases/download/${JP_VERSION}/jp-linux-${ARCHITECTURE}
-chmod +x /usr/local/bin/jp
-
 echo "Creating directories ..."
 mkdir -p /grafana
 chown -R 472:472 /grafana

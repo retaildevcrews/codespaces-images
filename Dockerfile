@@ -26,7 +26,8 @@ RUN apt-get -y install --no-install-recommends jq bash-completion
 RUN apt-get -y install --no-install-recommends gettext iputils-ping dnsutils 
 
 # use scripts from: https://github.com/microsoft/vscode-dev-containers/tree/main/script-library
-RUN /bin/bash /scripts/common-debian.sh
+# uncomment this if you use a base image other than a Codespaces image
+# RUN /bin/bash /scripts/common-debian.sh
 RUN /bin/bash /scripts/docker-in-docker-debian.sh
 RUN /bin/bash /scripts/kubectl-helm-debian.sh
 RUN /bin/bash /scripts/azcli-debian.sh
