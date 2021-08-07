@@ -10,7 +10,7 @@ help :
 	@echo "   make java       - build java Codespaces image"
 
 
-all : kind-rust kind dind java
+all : kind-rust kind-wasm kind dind java
 
 scripts :
 	@docker pull mcr.microsoft.com/vscode/devcontainers/dotnet
@@ -42,6 +42,9 @@ kind : scripts
 
 kind-rust : scripts
 	@docker build . --target kind-rust -t ghcr.io/retaildevcrews/kind-rust:beta
+
+kind-wasm : scripts
+	@docker build . --target kind-wasm -t ghcr.io/retaildevcrews/kind-wasm:beta
 
 java : scripts
 	@docker build . --target ngsa-java -t  ghcr.io/retaildevcrews/ngsa-java-codespaces:beta

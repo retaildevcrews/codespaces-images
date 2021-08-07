@@ -88,10 +88,12 @@ ARG USERNAME=vscode
 
 RUN export DEBIAN_FRONTEND=noninteractive && apt-get update
 
-RUN apt-get install -y pkg-config libssl-dev
-RUN apt-get install -y python
-RUN apt-get install -y clang
-RUN apt-get install -y cmake
+RUN apt-get install -y --no-install-recommends pkg-config libssl-dev
+RUN apt-get install -y --no-install-recommends gcc libc6-dev
+RUN apt-get install -y --no-install-recommends lldb python3-minimal libpython3.?
+RUN apt-get install -y --no-install-recommends python
+RUN apt-get install -y --no-install-recommends clang
+RUN apt-get install -y --no-install-recommends cmake
 
 # install rust
 ENV RUSTUP_HOME=/usr/local/rustup \
@@ -131,18 +133,52 @@ RUN rustup update
 
 # install additional components
 RUN cargo install cargo-debug
-RUN rustup component add rust-analysis && \
-    rustup component add rust-src && \
-    rustup component add rls
-
-# install WebAssembly target
-RUN rustup target add wasm32-unknown-unknown
+RUN rustup component add rust-analysis rust-src rls rustfmt clippy
 
 USER root
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "👋 Welcome to the Kind-and-Rust-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+
+#######################
+### Build kind-wasm container from kind-rust
+
+FROM kind-rust as kind-wasm
+
+ARG USERNAME=vscode
+
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get update
+
+WORKDIR /home/${USERNAME}
+USER ${USERNAME}
+
+# update rust
+RUN rustup self update
+RUN rustup update
+
+# install WebAssembly target
+RUN rustup target add wasm32-unknown-unknown
+
+# install wasm-pack
+RUN curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh && \
+    cargo install wasm-bindgen-cli 
+
+USER root
+
+# install node
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends nodejs
+
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get autoremove -y && \
+    apt-get clean -y
+
+RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "👋 Welcome to the Kind-Rust-WebAssembly-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
 ### Build ngsa-java container from Docker-in-Docker
