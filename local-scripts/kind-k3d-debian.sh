@@ -34,8 +34,9 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-# Install required packages
 apt-get update
+
+echo "Installing required packages ..."
 apt-get -y install --no-install-recommends apt-utils dialog
 apt-get -y install --no-install-recommends coreutils gnupg2 ca-certificates apt-transport-https
 apt-get -y install --no-install-recommends software-properties-common make build-essential
@@ -50,7 +51,6 @@ case $ARCHITECTURE in
     *) echo "(!) Architecture $ARCHITECTURE unsupported"; exit 1 ;;
 esac
 
-# Install Kind
 if [ "${INSTALL_KIND}" == "true" ]; then
     echo "Installing Kind ..."
 
@@ -60,7 +60,6 @@ if [ "${INSTALL_KIND}" == "true" ]; then
     chmod 0755 /usr/local/bin/kind
 fi
 
-# install k3d
 if [ "${INSTALL_K3D}" == "true" ]; then
     echo "Installing K3d ..."
 
@@ -68,7 +67,6 @@ if [ "${INSTALL_K3D}" == "true" ]; then
 fi
 
 echo "Installing K9s ..."
-
 mkdir -p /home/${USERNAME}/.k9s
 K9S_VERSION=$(basename "$(curl -fsSL -o /dev/null -w "%{url_effective}" https://github.com/derailed/k9s/releases/latest)")
 curl -Lo ./k9s.tar.gz https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_x86_64.tar.gz
@@ -79,14 +77,21 @@ mv ./k9s/k9s /usr/local/bin/k9s
 rm -rf k9s.tar.gz k9s
 
 echo "Installing FluxCD ..."
-
 FLUX_VERSION=$(basename "$(curl -fsSL -o /dev/null -w "%{url_effective}" https://github.com/fluxcd/flux/releases/latest)")
-
 curl -Lo /usr/local/bin/fluxctl https://github.com/fluxcd/flux/releases/download/${FLUX_VERSION}/fluxctl_linux_${ARCHITECTURE}
 chmod 755 /usr/local/bin/fluxctl
 
-echo "Installing Istio ..."
+echo "Installing linkerd ..."
+rm -f /usr/bin/linkerd
+curl -sL https://run.linkerd.io/install | sh
+pushd /root/.linkerd2/bin
+rm linkerd
+mv linkerd* linkerd
+mv linkerd /usr/bin
+popd
+rm -rf /root/.linkerd2
 
+echo "Installing Istio ..."
 # remove istio directories
 rm -rf istio*
 rm -rf /usr/local/istio
@@ -94,13 +99,10 @@ rm -rf /usr/local/istio
 # install istio
 curl -L https://istio.io/downloadIstio | sh -
 mv istio* istio
-
 chmod -R 755 istio
 cp istio/tools/_istioctl /home/$USERNAME/.oh-my-zsh/completions
 cp istio/tools/istioctl.bash /etc/bash_completion.d
-
 chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
-
 mv istio /usr/local
 
 echo "Creating directories ..."
