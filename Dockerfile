@@ -67,6 +67,10 @@ FROM dind as kind
 
 ARG USERNAME=vscode
 
+# install dapr
+RUN /bin/bash /scripts/dapr-debian.sh
+
+# install kind / k3d
 RUN /bin/bash /scripts/kind-k3d-debian.sh
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
