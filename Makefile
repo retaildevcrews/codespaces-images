@@ -33,6 +33,7 @@ scripts :
 	@curl -o library-scripts/rust-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/rust-debian.sh
 	@curl -o library-scripts/sshd-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/sshd-debian.sh
 	@curl -o library-scripts/terraform-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/terraform-debian.sh
+	@curl -o library-scripts/dapr-debian.sh -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh
 
 dind : scripts
 	@docker build . --target dind -t ghcr.io/retaildevcrews/dind:beta
