@@ -1,5 +1,4 @@
 ###### Build Docker-in-Docker container
-
 FROM mcr.microsoft.com/vscode/devcontainers/dotnet as dind
 
 # user args
@@ -31,6 +30,7 @@ RUN apt-get -y install --no-install-recommends gettext iputils-ping dnsutils
 RUN /bin/bash /scripts/docker-in-docker-debian.sh
 RUN /bin/bash /scripts/kubectl-helm-debian.sh
 RUN /bin/bash /scripts/azcli-debian.sh
+RUN /bin/bash /scripts/dapr-debian.sh
 
 # run local scripts
 RUN /bin/bash /scripts/dind-debian.sh
@@ -55,20 +55,16 @@ RUN apt-get autoremove -y && \
 WORKDIR /home/${USERNAME}
 USER ${USERNAME}
 
-# install webv
+# install https://aka.ms/webv
 RUN dotnet tool install -g webvalidate
 
 USER root
 
 #######################
 ### Build kind container from Docker-in-Docker
-
 FROM dind as kind
 
 ARG USERNAME=vscode
-
-# install dapr
-RUN /bin/bash /scripts/dapr-debian.sh
 
 # install kind / k3d
 RUN /bin/bash /scripts/kind-k3d-debian.sh
@@ -85,7 +81,6 @@ RUN apt-get autoremove -y && \
 
 #######################
 ### Build kind-rust container from kind
-
 FROM kind as kind-rust
 
 ARG USERNAME=vscode
@@ -147,7 +142,6 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
 
 #######################
 ### Build kind-wasm container from kind-rust
-
 FROM kind-rust as kind-wasm
 
 ARG USERNAME=vscode
@@ -186,7 +180,6 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
 
 #######################
 ### Build ngsa-java container from Docker-in-Docker
-
 FROM dind as ngsa-java
 
 ARG USERNAME="vscode"
