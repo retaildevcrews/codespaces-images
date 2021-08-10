@@ -213,3 +213,7 @@ RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get autoremove -y && \
     apt-get clean -y
+
+RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "👋 Welcome to the NGSA-Java image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
