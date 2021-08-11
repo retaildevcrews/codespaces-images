@@ -1,4 +1,4 @@
-.PHONY: help all scripts dind kind kind-rust java
+.PHONY: help all scripts dind kind kind-rust kind-wasm java
 
 help :
 	@echo "Usage:"
@@ -7,6 +7,7 @@ help :
 	@echo "   make dind       - build Docker-in-Docker image (dind)"
 	@echo "   make kind       - build Kind image"
 	@echo "   make kind-rust  - build Kind-rust image"
+	@echo "   make kind-wasm  - build Kind-wasm image"
 	@echo "   make java       - build java Codespaces image"
 
 
