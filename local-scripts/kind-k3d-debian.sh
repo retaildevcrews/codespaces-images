@@ -112,7 +112,7 @@ mkdir -p /prometheus
 chown -R 65534:65534 /prometheus
 
 echo "Updating config ..."
-echo -e 'export PATH=$PATH:/usr/local/istio/bin:/$HOME/.dapr/bin' | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
+echo -e 'export PATH=$PATH:/usr/local/istio/bin:$HOME/.dapr/bin' | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
 echo -e "export FLUX_FORWARD_NAMESPACE=flux-cd" | tee -a /etc/zsh/zshrc >> /etc/bash.bashrc
 
 if ! type docker > /dev/null 2>&1; then
