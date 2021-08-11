@@ -93,6 +93,7 @@ RUN apt-get install -y --no-install-recommends lldb python3-minimal libpython3.?
 RUN apt-get install -y --no-install-recommends python
 RUN apt-get install -y --no-install-recommends clang
 RUN apt-get install -y --no-install-recommends cmake
+RUN apt-get install -y --no-install-recommends musl-tools
 
 # install rust
 ENV RUSTUP_HOME=/usr/local/rustup \
@@ -133,6 +134,7 @@ RUN rustup update
 # install additional components
 RUN cargo install cargo-debug
 RUN rustup component add rust-analysis rust-src rls rustfmt clippy
+RUN rustup target add x86_64-unknown-linux-musl
 
 USER root
 
