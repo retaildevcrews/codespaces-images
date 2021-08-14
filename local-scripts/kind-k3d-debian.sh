@@ -107,7 +107,7 @@ mv istio /usr/local
 
 echo "Creating directories ..."
 mkdir -p /grafana
-chown -R 472:472 /grafana
+chown -R 472:0 /grafana
 mkdir -p /prometheus
 chown -R 65534:65534 /prometheus
 
