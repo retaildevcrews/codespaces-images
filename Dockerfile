@@ -80,17 +80,8 @@ RUN apt-get autoremove -y && \
 
 
 #######################
-### Build kind container from k3d
-### TODO - retire this image
-FROM k3d as kind
-
-RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "👋 Welcome to the Kind-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
-
-#######################
-### Build kind-rust container from kind
-FROM k3d as kind-rust
+### Build k3d-rust container from ked
+FROM k3d as k3d-rust
 
 ARG USERNAME=vscode
 
@@ -149,11 +140,11 @@ USER root
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "👋 Welcome to the Kind-and-Rust-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to the K3d-and-Rust-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
-### Build kind-wasm container from kind-rust
-FROM kind-rust as kind-wasm
+### Build k3d-wasm container from k3d-rust
+FROM k3d-rust as k3d-wasm
 
 ARG USERNAME=vscode
 
@@ -187,7 +178,7 @@ RUN apt-get autoremove -y && \
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "👋 Welcome to the Kind-Rust-WebAssembly-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to the K3d-Rust-WebAssembly-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
 ### Build ngsa-java container from Docker-in-Docker
@@ -221,3 +212,31 @@ RUN apt-get autoremove -y && \
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "👋 Welcome to the NGSA-Java image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+
+#######################
+### Build kind container from k3d
+### TODO - retire this image
+FROM k3d as kind
+
+RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "👋 Welcome to the Kind-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+
+#######################
+### Build kind container from k3d
+### TODO - retire this image
+FROM k3d-rust as kind-rust
+
+RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "👋 Welcome to the Kind-and-Rust-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+
+#######################
+### Build kind container from k3d
+### TODO - retire this image
+FROM k3d-wasm as kind-wasm
+
+RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "👋 Welcome to the Kind-Rust-WebAssembly-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+
