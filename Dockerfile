@@ -61,8 +61,8 @@ RUN dotnet tool install -g webvalidate
 USER root
 
 #######################
-### Build kind container from Docker-in-Docker
-FROM dind as kind
+### Build k3d container from Docker-in-Docker
+FROM dind as k3d
 
 ARG USERNAME=vscode
 
@@ -71,7 +71,7 @@ RUN /bin/bash /scripts/kind-k3d-debian.sh
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "👋 Welcome to the Kind-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to the K3d-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
@@ -80,8 +80,17 @@ RUN apt-get autoremove -y && \
 
 
 #######################
+### Build kind container from k3d
+### TODO - retire this image
+FROM k3d as kind
+
+RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
+    && echo "👋 Welcome to the Kind-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+
+#######################
 ### Build kind-rust container from kind
-FROM kind as kind-rust
+FROM k3d as kind-rust
 
 ARG USERNAME=vscode
 
@@ -140,7 +149,7 @@ USER root
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "👋 Welcome to the Kind-and-Rust-in-Docker image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to the Kind-and-Rust-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
 ### Build kind-wasm container from kind-rust

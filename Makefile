@@ -1,11 +1,11 @@
-.PHONY: help all scripts dind kind kind-rust kind-wasm java
+.PHONY: help all scripts dind k3d kind-rust kind-wasm java
 
 help :
 	@echo "Usage:"
 	@echo "   make all        - build images images"
 	@echo "   make scripts    - update scripts from vscode repo"
 	@echo "   make dind       - build Docker-in-Docker image (dind)"
-	@echo "   make kind       - build Kind image"
+	@echo "   make k3d        - build K3d image"
 	@echo "   make kind-rust  - build Kind-rust image"
 	@echo "   make kind-wasm  - build Kind-wasm image"
 	@echo "   make java       - build java Codespaces image"
@@ -39,7 +39,8 @@ scripts :
 dind : scripts
 	@docker build . --target dind -t ghcr.io/retaildevcrews/dind:beta
 
-kind : scripts
+k3d : scripts
+	@docker build . --target k3d -t ghcr.io/retaildevcrews/k3d:beta
 	@docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
 
 kind-rust : scripts
