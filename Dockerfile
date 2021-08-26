@@ -71,7 +71,7 @@ RUN /bin/bash /scripts/kind-k3d-debian.sh
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "👋 Welcome to the K3d-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to the k3d Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
@@ -140,7 +140,7 @@ USER root
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "👋 Welcome to the K3d-and-Rust-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to the k3d and Rust Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
 ### Build k3d-wasm container from k3d-rust
@@ -178,7 +178,7 @@ RUN apt-get autoremove -y && \
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
-    && echo "👋 Welcome to the K3d-Rust-WebAssembly-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
+    && echo "👋 Welcome to the k3d Rust WebAssembly Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
 ### Build ngsa-java container from Docker-in-Docker

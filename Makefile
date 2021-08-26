@@ -5,9 +5,9 @@ help :
 	@echo "   make all        - build images images"
 	@echo "   make scripts    - update scripts from vscode repo"
 	@echo "   make dind       - build Docker-in-Docker image (dind)"
-	@echo "   make k3d        - build K3d image"
-	@echo "   make k3d-rust   - build K3d Rust image"
-	@echo "   make k3d-wasm   - build K3d WebAssembly image"
+	@echo "   make k3d        - build k3d image"
+	@echo "   make k3d-rust   - build k3d Rust image"
+	@echo "   make k3d-wasm   - build k3d WebAssembly image"
 	@echo "   make java       - build java Codespaces image"
 
 

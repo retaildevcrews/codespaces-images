@@ -27,7 +27,7 @@ if ! type kubectl > /dev/null 2>&1; then
 fi
 
 if [ "${INSTALL_KIND}" != "true" ] && [ "${INSTALL_K3D}" != "true" ]; then
-    echo 'Invalid Parameters: You must install either Kind or K3d'
+    echo 'Invalid Parameters: You must install either Kind or k3d'
     echo "(!) $0 failed!"
     exit 1
 fi
@@ -61,7 +61,7 @@ if [ "${INSTALL_KIND}" == "true" ]; then
 fi
 
 if [ "${INSTALL_K3D}" == "true" ]; then
-    echo "Installing K3d ..."
+    echo "Installing k3d ..."
 
     wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 fi
