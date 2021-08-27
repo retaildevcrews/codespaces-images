@@ -1,7 +1,7 @@
 {
-	"name": "akdc-kind",
+	"name": "codespaces-images",
 	"remoteUser": "vscode",
-	"image": "ghcr.io/retaildevcrews/dind",
+	"dockerFile": "Dockerfile",
 	"runArgs": [
 		"--init",
 		"--privileged"

@@ -1,17 +1,17 @@
-.PHONY: help all scripts dind kind kind-rust kind-wasm java
+.PHONY: help all scripts dind k3d k3d-rust k3d-wasm java
 
 help :
 	@echo "Usage:"
 	@echo "   make all        - build images images"
 	@echo "   make scripts    - update scripts from vscode repo"
 	@echo "   make dind       - build Docker-in-Docker image (dind)"
-	@echo "   make kind       - build Kind image"
-	@echo "   make kind-rust  - build Kind-rust image"
-	@echo "   make kind-wasm  - build Kind-wasm image"
+	@echo "   make k3d        - build k3d image"
+	@echo "   make k3d-rust   - build k3d Rust image"
+	@echo "   make k3d-wasm   - build k3d WebAssembly image"
 	@echo "   make java       - build java Codespaces image"
 
 
-all : kind-rust kind-wasm kind dind java
+all : k3d-rust k3d-wasm k3d dind java
 
 scripts :
 	@docker pull mcr.microsoft.com/vscode/devcontainers/dotnet
@@ -39,14 +39,18 @@ scripts :
 dind : scripts
 	@docker build . --target dind -t ghcr.io/retaildevcrews/dind:beta
 
-kind : scripts
+k3d : scripts
+	@docker build . --target k3d -t ghcr.io/retaildevcrews/k3d:beta
 	@docker build . --target kind -t ghcr.io/retaildevcrews/kind:beta
 
-kind-rust : scripts
+k3d-rust : scripts
+	@docker build . --target k3d-rust -t ghcr.io/retaildevcrews/k3d-rust:beta
 	@docker build . --target kind-rust -t ghcr.io/retaildevcrews/kind-rust:beta
 
-kind-wasm : scripts
+k3d-wasm : scripts
+	@docker build . --target k3d-wasm -t ghcr.io/retaildevcrews/k3d-wasm:beta
 	@docker build . --target kind-wasm -t ghcr.io/retaildevcrews/kind-wasm:beta
 
 java : scripts
 	@docker build . --target ngsa-java -t  ghcr.io/retaildevcrews/ngsa-java-codespaces:beta
+d
