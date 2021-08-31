@@ -1,4 +1,17 @@
-###### Build Docker-in-Docker container
+###### Build jumpbox image
+FROM alpine as jumpbox
+
+WORKDIR /root
+
+CMD [ "/bin/sh", "-c", "trap : TERM INT; sleep 9999999999d & wait" ]
+
+RUN apk update && apk add bash curl nano jq py-pip && \
+    pip3 install --upgrade pip setuptools httpie && \
+    echo "alias ls='ls --color=auto'" >> /root/.profile && \
+    echo "alias ll='ls -lF'" >> /root/.profile && \
+    echo "alias la='ls -alF'" >> /root/.profile
+
+###### Build Docker-in-Docker image
 FROM mcr.microsoft.com/vscode/devcontainers/dotnet as dind
 
 # user args
@@ -7,7 +20,7 @@ ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-# copy the stup scripts to the container
+# copy the stup scripts to the image
 COPY library-scripts/*.sh /scripts/
 COPY local-scripts/*.sh /scripts/
 
@@ -61,7 +74,7 @@ RUN dotnet tool install -g webvalidate
 USER root
 
 #######################
-### Build k3d container from Docker-in-Docker
+### Build k3d image from Docker-in-Docker
 FROM dind as k3d
 
 ARG USERNAME=vscode
@@ -80,7 +93,7 @@ RUN apt-get autoremove -y && \
 
 
 #######################
-### Build k3d-rust container from ked
+### Build k3d-rust image from k3d
 FROM k3d as k3d-rust
 
 ARG USERNAME=vscode
@@ -143,7 +156,7 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
     && echo "👋 Welcome to the k3d and Rust Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
-### Build k3d-wasm container from k3d-rust
+### Build k3d-wasm image from k3d-rust
 FROM k3d-rust as k3d-wasm
 
 ARG USERNAME=vscode
@@ -181,7 +194,7 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
     && echo "👋 Welcome to the k3d Rust WebAssembly Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
-### Build ngsa-java container from Docker-in-Docker
+### Build ngsa-java image from Docker-in-Docker
 FROM dind as ngsa-java
 
 ARG USERNAME="vscode"
@@ -214,7 +227,7 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
     && echo "👋 Welcome to the NGSA-Java image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
-### Build kind container from k3d
+### Build kind image from k3d
 ### TODO - retire this image
 FROM k3d as kind
 
@@ -223,7 +236,7 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
     && echo "👋 Welcome to the Kind-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
-### Build kind container from k3d
+### Build kind-rust image from k3d-rust
 ### TODO - retire this image
 FROM k3d-rust as kind-rust
 
@@ -232,11 +245,10 @@ RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your 
     && echo "👋 Welcome to the Kind-and-Rust-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
 
 #######################
-### Build kind container from k3d
+### Build kind-wasm image from k3d-wasm
 ### TODO - retire this image
 FROM k3d-wasm as kind-wasm
 
 RUN echo "👋 Welcome to Codespaces! You are on a custom image defined in your devcontainer.json file.\n" > /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P)\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt \
     && echo "👋 Welcome to the Kind-Rust-WebAssembly-in-Codespaces image\n" >> /usr/local/etc/vscode-dev-containers/first-run-notice.txt
-

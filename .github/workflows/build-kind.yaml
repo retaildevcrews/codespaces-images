@@ -34,6 +34,7 @@ jobs:
     - name: Docker Pull
       run: |
           docker pull mcr.microsoft.com/vscode/devcontainers/dotnet
+          docker pull alpine
 
           # Download scripts
           curl -o library-scripts/common-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
@@ -62,6 +63,7 @@ jobs:
         docker build . --target k3d -t ghcr.io/retaildevcrews/k3d:latest
         docker build . --target dind -t ghcr.io/retaildevcrews/dind:latest
         docker build . --target ngsa-java -t ghcr.io/retaildevcrews/ngsa-java-codespaces:latest
+        docker build . --target jumpbox -t ghcr.io/retaildevcrews/jumpbox:latest
 
         # TODO - retire these images
         docker build . --target kind-wasm -t ghcr.io/retaildevcrews/kind-wasm:latest
@@ -76,6 +78,7 @@ jobs:
         docker push -a ghcr.io/retaildevcrews/k3d-rust
         docker push -a ghcr.io/retaildevcrews/k3d-wasm
         docker push -a ghcr.io/retaildevcrews/ngsa-java-codespaces
+        docker push -a ghcr.io/retaildevcrews/jumpbox:latest
 
         # TODO - retire these images
         docker push -a ghcr.io/retaildevcrews/kind
