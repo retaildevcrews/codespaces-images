@@ -7,9 +7,9 @@ CMD [ "/bin/sh", "-c", "trap : TERM INT; sleep 9999999999d & wait" ]
 
 RUN apk update && apk add bash curl nano jq py-pip && \
     pip3 install --upgrade pip setuptools httpie && \
-    echo \"alias ls='ls --color=auto'\" >> /root/.profile && \
-    echo \"alias ll='ls -lF'\" >> /root/.profile && \
-    echo \"alias la='ls -alF'\" >> /root/.profile
+    echo "alias ls='ls --color=auto'" >> /root/.profile && \
+    echo "alias ll='ls -lF'" >> /root/.profile && \
+    echo "alias la='ls -alF'" >> /root/.profile
 
 ###### Build Docker-in-Docker image
 FROM mcr.microsoft.com/vscode/devcontainers/dotnet as dind
