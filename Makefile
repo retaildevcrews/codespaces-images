@@ -9,12 +9,14 @@ help :
 	@echo "   make k3d-rust   - build k3d Rust image"
 	@echo "   make k3d-wasm   - build k3d WebAssembly image"
 	@echo "   make java       - build java Codespaces image"
+	@echo "   make jumpbox    - build jumpbox k8s image"
 
 
-all : k3d-rust k3d-wasm k3d dind java
+all : jumpbox k3d-rust k3d-wasm k3d dind java
 
 scripts :
 	@docker pull mcr.microsoft.com/vscode/devcontainers/dotnet
+	@docker pull alpine
 
 	# Download scripts from vscode-dev-containers repo
 	@curl -o library-scripts/common-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
@@ -53,4 +55,6 @@ k3d-wasm : scripts
 
 java : scripts
 	@docker build . --target ngsa-java -t  ghcr.io/retaildevcrews/ngsa-java-codespaces:beta
-d
+
+jumpbox :
+	@docker build . --target jumpbox -t ghcr.io/retaildevcrews/jumpbox:latest
