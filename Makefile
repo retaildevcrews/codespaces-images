@@ -11,7 +11,6 @@ all : java
 
 scripts :
 	@docker pull mcr.microsoft.com/vscode/devcontainers/dotnet
-	@docker pull alpine
 
 	# Download scripts from vscode-dev-containers repo
 	@curl -o library-scripts/common-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
