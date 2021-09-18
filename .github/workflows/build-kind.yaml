@@ -58,29 +58,9 @@ jobs:
 
     - name: Docker Build
       run: |
-        docker build . --target k3d-wasm -t ghcr.io/retaildevcrews/k3d-wasm:latest
-        docker build . --target k3d-rust -t ghcr.io/retaildevcrews/k3d-rust:latest
-        docker build . --target k3d -t ghcr.io/retaildevcrews/k3d:latest
-        docker build . --target dind -t ghcr.io/retaildevcrews/dind:latest
         docker build . --target ngsa-java -t ghcr.io/retaildevcrews/ngsa-java-codespaces:latest
-        docker build . --target jumpbox -t ghcr.io/retaildevcrews/jumpbox:latest
-
-        # TODO - retire these images
-        docker build . --target kind-wasm -t ghcr.io/retaildevcrews/kind-wasm:latest
-        docker build . --target kind-rust -t ghcr.io/retaildevcrews/kind-rust:latest
-        docker build . --target kind -t ghcr.io/retaildevcrews/kind:latest
 
     - name: Docker Tag and Push
       run: |
         # Push to the repos
-        docker push -a ghcr.io/retaildevcrews/dind
-        docker push -a ghcr.io/retaildevcrews/k3d
-        docker push -a ghcr.io/retaildevcrews/k3d-rust
-        docker push -a ghcr.io/retaildevcrews/k3d-wasm
         docker push -a ghcr.io/retaildevcrews/ngsa-java-codespaces
-        docker push -a ghcr.io/retaildevcrews/jumpbox:latest
-
-        # TODO - retire these images
-        docker push -a ghcr.io/retaildevcrews/kind
-        docker push -a ghcr.io/retaildevcrews/kind-rust
-        docker push -a ghcr.io/retaildevcrews/kind-wasm
