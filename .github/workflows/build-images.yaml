@@ -1,4 +1,4 @@
-name: Build Codespace Containers
+name: Build GitHub Codespaces Images
 
 on:
   schedule:
@@ -10,7 +10,7 @@ on:
       - main
 
     paths:
-    - '.github/workflows/build-kind.yaml'
+    - '.github/workflows/build-images.yaml'
     - 'Dockerfile'
     - 'local-scripts/**'
     - 'library-scripts/**'
@@ -36,7 +36,7 @@ jobs:
           docker pull mcr.microsoft.com/vscode/devcontainers/dotnet
           docker pull alpine
 
-          # Download scripts
+          # Download latest scripts
           curl -o library-scripts/common-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/common-debian.sh
           curl -o library-scripts/docker-in-docker-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/docker-in-docker-debian.sh
           curl -o library-scripts/kubectl-helm-debian.sh -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/main/script-library/kubectl-helm-debian.sh
